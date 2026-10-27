@@ -20,11 +20,17 @@ export function parsePlainText(text: string): Segment[] {
     .map((t) => ({ text: t, formatHint: "p" }));
 }
 
+// Body first, then footnotes, endnotes, headers and footers — export walks the same order.
+export const DOCX_PART = /^word\/(document|footnotes|endnotes|header\d*|footer\d*)\.xml$/;
+export function docxTextParts(files: Record<string, unknown>): string[] {
+  const rank = (n: string) => ["document", "footnotes", "endnotes", "header", "footer"].findIndex((k) => n.startsWith(`word/${k}`));
+  return Object.keys(files).filter((n) => DOCX_PART.test(n)).sort((a, b) => rank(a) - rank(b) || a.localeCompare(b, undefined, { numeric: true }));
+}
+
 export function parseDocx(buf: Uint8Array): Segment[] {
-  const files = unzipSync(buf, { filter: (f) => f.name === "word/document.xml" });
-  const xml = files["word/document.xml"];
-  if (!xml) return [];
-  const doc = strFromU8(xml);
+  const files = unzipSync(buf, { filter: (f) => DOCX_PART.test(f.name) });
+  if (!files["word/document.xml"]) return [];
+  const doc = docxTextParts(files).map((n) => strFromU8(files[n])).join("\n");
   const out: Segment[] = [];
   for (const m of doc.matchAll(/<w:p[ >][\s\S]*?<\/w:p>/g)) {
     const p = m[0];

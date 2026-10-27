@@ -5,6 +5,7 @@
 //  - PDF: a real PDF (pdf-lib) with the translated text re-flowed on A4 pages; Arabic and
 //    Hebrew are shaped and right-aligned. The original PDF's page layout cannot be rebuilt.
 import { unzipSync, zipSync, strFromU8, strToU8 } from "fflate";
+import { docxTextParts } from "@/lib/doc-parse.server";
 
 export type Pair = { source: string; target: string; hint: string };
 
@@ -54,11 +55,11 @@ function docxParagraph(p: string, target: string, rtl: boolean): string {
 
 export function translateDocx(original: Uint8Array, pairs: Pair[], rtl: boolean): { bytes: Uint8Array; matched: number } {
   const files = unzipSync(original);
-  const xml = files["word/document.xml"];
-  if (!xml) throw new Error("Not a Word document");
+  if (!files["word/document.xml"]) throw new Error("Not a Word document");
   const match = makeMatcher(pairs);
   let matched = 0;
-  const doc = strFromU8(xml).replace(/<w:p[ >][\s\S]*?<\/w:p>/g, (p) => {
+  for (const part of docxTextParts(files)) {
+  const doc = strFromU8(files[part]).replace(/<w:p[ >][\s\S]*?<\/w:p>/g, (p) => {
     const text = decodeXml(
       [...p.matchAll(/<w:t(?: [^>]*)?>([\s\S]*?)<\/w:t>|<w:tab\/>/g)].map((t) => (t[1] === undefined ? " " : t[1])).join(""),
     );
@@ -67,7 +68,12 @@ export function translateDocx(original: Uint8Array, pairs: Pair[], rtl: boolean)
     matched++;
     return docxParagraph(p, target, rtl);
   });
-  files["word/document.xml"] = strToU8(doc);
+  files[part] = strToU8(doc);
+  }
+  if (rtl && files["word/document.xml"]) {
+    // Section-level RTL so page numbers, columns and table order flip too.
+    files["word/document.xml"] = strToU8(strFromU8(files["word/document.xml"]).replace(/<w:sectPr( [^>]*)?>(?![\s\S]*?<w:bidi\/>)/g, (m) => `${m}<w:bidi/>`));
+  }
   return { bytes: zipSync(files), matched };
 }
 
