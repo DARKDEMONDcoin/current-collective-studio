@@ -676,6 +676,41 @@ export type Database = {
           },
         ]
       }
+      ct_favorite_linguists: {
+        Row: {
+          created_at: string
+          customer_id: string
+          id: string
+          linguist_id: string
+          notes: string | null
+          organization_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          id?: string
+          linguist_id: string
+          notes?: string | null
+          organization_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          id?: string
+          linguist_id?: string
+          notes?: string | null
+          organization_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_favorite_linguists_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ct_in_app_notifications: {
         Row: {
           body: string
@@ -776,6 +811,41 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "ct_projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_join_requests: {
+        Row: {
+          created_at: string
+          id: string
+          message: string | null
+          organization_id: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          organization_id: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          organization_id?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_join_requests_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
             referencedColumns: ["id"]
           },
         ]
@@ -1225,6 +1295,50 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "ct_resource_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_segments: {
+        Row: {
+          created_at: string
+          document_id: string
+          format_hint: string
+          id: string
+          segment_index: number
+          source_text: string
+          status: string
+          target_text: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          document_id: string
+          format_hint?: string
+          id?: string
+          segment_index: number
+          source_text: string
+          status?: string
+          target_text?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          document_id?: string
+          format_hint?: string
+          id?: string
+          segment_index?: number
+          source_text?: string
+          status?: string
+          target_text?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_segments_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "ct_documents"
             referencedColumns: ["id"]
           },
         ]
@@ -2186,6 +2300,10 @@ export type Database = {
       can_edit_campaign: { Args: { _c: string }; Returns: boolean }
       can_edit_org: { Args: { _org: string }; Returns: boolean }
       create_workspace: { Args: { _name: string }; Returns: string }
+      ct_create_project: {
+        Args: { _org: string; _user: string; p: Json }
+        Returns: Json
+      }
       ct_has_role: {
         Args: {
           _role: Database["public"]["Enums"]["ct_role"]
