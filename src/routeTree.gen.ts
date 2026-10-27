@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LocaleRouteImport } from './routes/$locale'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as ContactSalesRouteImport } from './routes/contact-sales'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
@@ -29,6 +30,14 @@ import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
 import { Route as LocalePricingRouteImport } from './routes/$locale.pricing'
 import { Route as LocaleQualityRouteImport } from './routes/$locale.quality'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminSplatRouteImport } from './routes/admin.$'
+import { Route as AdminAuditRouteImport } from './routes/admin.audit'
+import { Route as AdminCreditPackagesRouteImport } from './routes/admin.credit-packages'
+import { Route as AdminCreditRatesRouteImport } from './routes/admin.credit-rates'
+import { Route as AdminFinanceRouteImport } from './routes/admin.finance'
+import { Route as AdminLinguistRatesRouteImport } from './routes/admin.linguist-rates'
+import { Route as AdminLinguistsRouteImport } from './routes/admin.linguists'
+import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as ApiApiConfigRouteImport } from './routes/api/api-config'
 import { Route as ApiClientAccountsRouteImport } from './routes/api/client-accounts'
@@ -152,6 +161,11 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactSalesRoute = ContactSalesRouteImport.update({
   id: '/contact-sales',
   path: '/contact-sales',
@@ -233,9 +247,49 @@ const LocaleQualityRoute = LocaleQualityRouteImport.update({
   getParentRoute: () => LocaleRoute,
 } as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
-  id: '/admin/',
-  path: '/admin/',
-  getParentRoute: () => rootRouteImport,
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSplatRoute = AdminSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAuditRoute = AdminAuditRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCreditPackagesRoute = AdminCreditPackagesRouteImport.update({
+  id: '/credit-packages',
+  path: '/credit-packages',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminCreditRatesRoute = AdminCreditRatesRouteImport.update({
+  id: '/credit-rates',
+  path: '/credit-rates',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminFinanceRoute = AdminFinanceRouteImport.update({
+  id: '/finance',
+  path: '/finance',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLinguistRatesRoute = AdminLinguistRatesRouteImport.update({
+  id: '/linguist-rates',
+  path: '/linguist-rates',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLinguistsRoute = AdminLinguistsRouteImport.update({
+  id: '/linguists',
+  path: '/linguists',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminUsersRoute = AdminUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin_/login',
@@ -793,6 +847,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contact-sales': typeof ContactSalesRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
@@ -808,6 +863,14 @@ export interface FileRoutesByFullPath {
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
+  '/admin/$': typeof AdminSplatRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/credit-packages': typeof AdminCreditPackagesRoute
+  '/admin/credit-rates': typeof AdminCreditRatesRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/linguist-rates': typeof AdminLinguistRatesRoute
+  '/admin/linguists': typeof AdminLinguistsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/api-config': typeof ApiApiConfigRouteWithChildren
   '/api/client-accounts': typeof ApiClientAccountsRouteWithChildren
@@ -933,6 +996,14 @@ export interface FileRoutesByTo {
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
+  '/admin/$': typeof AdminSplatRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/credit-packages': typeof AdminCreditPackagesRoute
+  '/admin/credit-rates': typeof AdminCreditRatesRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/linguist-rates': typeof AdminLinguistRatesRoute
+  '/admin/linguists': typeof AdminLinguistsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/api-config': typeof ApiApiConfigRouteWithChildren
   '/api/client-accounts': typeof ApiClientAccountsRouteWithChildren
@@ -1048,6 +1119,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/$locale': typeof LocaleRouteWithChildren
   '/about': typeof AboutRoute
+  '/admin': typeof AdminRouteWithChildren
   '/contact-sales': typeof ContactSalesRoute
   '/dashboard': typeof DashboardRouteWithChildren
   '/forgot-password': typeof ForgotPasswordRoute
@@ -1063,6 +1135,14 @@ export interface FileRoutesById {
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
+  '/admin/$': typeof AdminSplatRoute
+  '/admin/audit': typeof AdminAuditRoute
+  '/admin/credit-packages': typeof AdminCreditPackagesRoute
+  '/admin/credit-rates': typeof AdminCreditRatesRoute
+  '/admin/finance': typeof AdminFinanceRoute
+  '/admin/linguist-rates': typeof AdminLinguistRatesRoute
+  '/admin/linguists': typeof AdminLinguistsRoute
+  '/admin/users': typeof AdminUsersRoute
   '/admin_/login': typeof AdminLoginRoute
   '/api/api-config': typeof ApiApiConfigRouteWithChildren
   '/api/client-accounts': typeof ApiClientAccountsRouteWithChildren
@@ -1179,6 +1259,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/about'
+    | '/admin'
     | '/contact-sales'
     | '/dashboard'
     | '/forgot-password'
@@ -1194,6 +1275,14 @@ export interface FileRouteTypes {
     | '/$locale/about'
     | '/$locale/pricing'
     | '/$locale/quality'
+    | '/admin/$'
+    | '/admin/audit'
+    | '/admin/credit-packages'
+    | '/admin/credit-rates'
+    | '/admin/finance'
+    | '/admin/linguist-rates'
+    | '/admin/linguists'
+    | '/admin/users'
     | '/admin/login'
     | '/api/api-config'
     | '/api/client-accounts'
@@ -1319,6 +1408,14 @@ export interface FileRouteTypes {
     | '/$locale/about'
     | '/$locale/pricing'
     | '/$locale/quality'
+    | '/admin/$'
+    | '/admin/audit'
+    | '/admin/credit-packages'
+    | '/admin/credit-rates'
+    | '/admin/finance'
+    | '/admin/linguist-rates'
+    | '/admin/linguists'
+    | '/admin/users'
     | '/admin/login'
     | '/api/api-config'
     | '/api/client-accounts'
@@ -1433,6 +1530,7 @@ export interface FileRouteTypes {
     | '/'
     | '/$locale'
     | '/about'
+    | '/admin'
     | '/contact-sales'
     | '/dashboard'
     | '/forgot-password'
@@ -1448,6 +1546,14 @@ export interface FileRouteTypes {
     | '/$locale/about'
     | '/$locale/pricing'
     | '/$locale/quality'
+    | '/admin/$'
+    | '/admin/audit'
+    | '/admin/credit-packages'
+    | '/admin/credit-rates'
+    | '/admin/finance'
+    | '/admin/linguist-rates'
+    | '/admin/linguists'
+    | '/admin/users'
     | '/admin_/login'
     | '/api/api-config'
     | '/api/client-accounts'
@@ -1563,6 +1669,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   LocaleRoute: typeof LocaleRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AdminRoute: typeof AdminRouteWithChildren
   ContactSalesRoute: typeof ContactSalesRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   ForgotPasswordRoute: typeof ForgotPasswordRoute
@@ -1594,7 +1701,6 @@ export interface RootRouteChildren {
   ServicesAiTrainingDataRoute: typeof ServicesAiTrainingDataRoute
   ServicesContentechHumanRoute: typeof ServicesContentechHumanRoute
   ServicesLocalizationEngineeringRoute: typeof ServicesLocalizationEngineeringRoute
-  AdminIndexRoute: typeof AdminIndexRoute
   ApiAuthCheckOrgRoute: typeof ApiAuthCheckOrgRoute
   ApiAuthRegisterRoute: typeof ApiAuthRegisterRoute
   ApiAuthRegisterLinguistRoute: typeof ApiAuthRegisterLinguistRoute
@@ -1635,6 +1741,13 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact-sales': {
@@ -1751,10 +1864,66 @@ declare module '@tanstack/react-router' {
     }
     '/admin/': {
       id: '/admin/'
-      path: '/admin'
+      path: '/'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/$': {
+      id: '/admin/$'
+      path: '/$'
+      fullPath: '/admin/$'
+      preLoaderRoute: typeof AdminSplatRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/audit': {
+      id: '/admin/audit'
+      path: '/audit'
+      fullPath: '/admin/audit'
+      preLoaderRoute: typeof AdminAuditRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/credit-packages': {
+      id: '/admin/credit-packages'
+      path: '/credit-packages'
+      fullPath: '/admin/credit-packages'
+      preLoaderRoute: typeof AdminCreditPackagesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/credit-rates': {
+      id: '/admin/credit-rates'
+      path: '/credit-rates'
+      fullPath: '/admin/credit-rates'
+      preLoaderRoute: typeof AdminCreditRatesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/finance': {
+      id: '/admin/finance'
+      path: '/finance'
+      fullPath: '/admin/finance'
+      preLoaderRoute: typeof AdminFinanceRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/linguist-rates': {
+      id: '/admin/linguist-rates'
+      path: '/linguist-rates'
+      fullPath: '/admin/linguist-rates'
+      preLoaderRoute: typeof AdminLinguistRatesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/linguists': {
+      id: '/admin/linguists'
+      path: '/linguists'
+      fullPath: '/admin/linguists'
+      preLoaderRoute: typeof AdminLinguistsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/users': {
+      id: '/admin/users'
+      path: '/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/admin_/login': {
       id: '/admin_/login'
@@ -2525,6 +2694,32 @@ const LocaleRouteChildren: LocaleRouteChildren = {
 const LocaleRouteWithChildren =
   LocaleRoute._addFileChildren(LocaleRouteChildren)
 
+interface AdminRouteChildren {
+  AdminSplatRoute: typeof AdminSplatRoute
+  AdminAuditRoute: typeof AdminAuditRoute
+  AdminCreditPackagesRoute: typeof AdminCreditPackagesRoute
+  AdminCreditRatesRoute: typeof AdminCreditRatesRoute
+  AdminFinanceRoute: typeof AdminFinanceRoute
+  AdminLinguistRatesRoute: typeof AdminLinguistRatesRoute
+  AdminLinguistsRoute: typeof AdminLinguistsRoute
+  AdminUsersRoute: typeof AdminUsersRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminSplatRoute: AdminSplatRoute,
+  AdminAuditRoute: AdminAuditRoute,
+  AdminCreditPackagesRoute: AdminCreditPackagesRoute,
+  AdminCreditRatesRoute: AdminCreditRatesRoute,
+  AdminFinanceRoute: AdminFinanceRoute,
+  AdminLinguistRatesRoute: AdminLinguistRatesRoute,
+  AdminLinguistsRoute: AdminLinguistsRoute,
+  AdminUsersRoute: AdminUsersRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
 interface DashboardRouteChildren {
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardClientsRoute: typeof DashboardClientsRoute
@@ -2877,6 +3072,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LocaleRoute: LocaleRouteWithChildren,
   AboutRoute: AboutRoute,
+  AdminRoute: AdminRouteWithChildren,
   ContactSalesRoute: ContactSalesRoute,
   DashboardRoute: DashboardRouteWithChildren,
   ForgotPasswordRoute: ForgotPasswordRoute,
@@ -2908,7 +3104,6 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesAiTrainingDataRoute: ServicesAiTrainingDataRoute,
   ServicesContentechHumanRoute: ServicesContentechHumanRoute,
   ServicesLocalizationEngineeringRoute: ServicesLocalizationEngineeringRoute,
-  AdminIndexRoute: AdminIndexRoute,
   ApiAuthCheckOrgRoute: ApiAuthCheckOrgRoute,
   ApiAuthRegisterRoute: ApiAuthRegisterRoute,
   ApiAuthRegisterLinguistRoute: ApiAuthRegisterLinguistRoute,
