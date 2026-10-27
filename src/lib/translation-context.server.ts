@@ -77,7 +77,7 @@ export const normNumber = (n: string) => {
   let int = parts[0], dec = "";
   for (let i = 1; i < parts.length; i++) {
     const isLast = i === parts.length - 1;
-    if (isLast && (parts[i].length !== 3 || (seps.length === 1 && /[.,]/.test(seps[0]) && seps[0] !== "," && seps[0] !== "." ? false : false)) && /[.,]/.test(seps[i - 1]) && parts[i].length !== 3) dec = parts[i];
+    if (isLast && /[.,]/.test(seps[i - 1]) && parts[i].length !== 3) dec = parts[i];
     else int += parts[i];
   }
   const v = dec ? `${int}.${dec}` : int;
