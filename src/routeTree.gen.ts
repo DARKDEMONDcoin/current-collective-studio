@@ -73,6 +73,7 @@ import { Route as ApiDeveloperKeysRouteImport } from './routes/api/developer.key
 import { Route as ApiDeveloperWebhooksRouteImport } from './routes/api/developer.webhooks'
 import { Route as ApiGlossaryIdRouteImport } from './routes/api/glossary.$id'
 import { Route as ApiIntegrationsCloudStatusRouteImport } from './routes/api/integrations.cloud-status'
+import { Route as ApiJobsIdRouteImport } from './routes/api/jobs.$id'
 import { Route as ApiNotificationsIndexRouteImport } from './routes/api/notifications/index'
 import { Route as ApiNotificationsReadAllRouteImport } from './routes/api/notifications/read-all'
 import { Route as ApiNotificationsUnreadCountRouteImport } from './routes/api/notifications/unread-count'
@@ -80,6 +81,7 @@ import { Route as ApiOcrRequestsIdRouteImport } from './routes/api/ocr-requests.
 import { Route as ApiOrganizationJoinRequestsRouteImport } from './routes/api/organization.join-requests'
 import { Route as ApiOrganizationLinguistsRouteImport } from './routes/api/organization.linguists'
 import { Route as ApiPublicProcessOrdersRouteImport } from './routes/api/public/process-orders'
+import { Route as ApiSegmentsIdRouteImport } from './routes/api/segments.$id'
 import { Route as ApiStyleGuidesIdRouteImport } from './routes/api/style-guides.$id'
 import { Route as ApiStyleGuidesGenerateRouteImport } from './routes/api/style-guides.generate'
 import { Route as ApiTmIdRouteImport } from './routes/api/tm.$id'
@@ -102,14 +104,26 @@ import { Route as ApiDeveloperKeysIdRouteImport } from './routes/api/developer.k
 import { Route as ApiDeveloperWebhooksIdRouteImport } from './routes/api/developer.webhooks.$id'
 import { Route as ApiGlossaryIdImportRouteImport } from './routes/api/glossary.$id.import'
 import { Route as ApiGlossaryIdTermsRouteImport } from './routes/api/glossary.$id.terms'
+import { Route as ApiJobsIdAcceptRouteImport } from './routes/api/jobs.$id.accept'
+import { Route as ApiJobsIdApproveRouteImport } from './routes/api/jobs.$id.approve'
+import { Route as ApiJobsIdCompleteReviewRouteImport } from './routes/api/jobs.$id.complete-review'
+import { Route as ApiJobsIdDeclineRouteImport } from './routes/api/jobs.$id.decline'
 import { Route as ApiJobsIdDeliverRouteImport } from './routes/api/jobs.$id.deliver'
+import { Route as ApiJobsIdIssuesRouteImport } from './routes/api/jobs.$id.issues'
+import { Route as ApiJobsIdRequestChangesRouteImport } from './routes/api/jobs.$id.request-changes'
+import { Route as ApiJobsIdRetranslateRouteImport } from './routes/api/jobs.$id.retranslate'
 import { Route as ApiJobsIdReviewRouteImport } from './routes/api/jobs.$id.review'
+import { Route as ApiJobsIdSegmentsRouteImport } from './routes/api/jobs.$id.segments'
+import { Route as ApiJobsIdSubmitRouteImport } from './routes/api/jobs.$id.submit'
+import { Route as ApiJobsIdTmMatchesRouteImport } from './routes/api/jobs.$id.tm-matches'
 import { Route as ApiLinguistsIdBlacklistRouteImport } from './routes/api/linguists.$id.blacklist'
 import { Route as ApiLinguistsIdFavoriteRouteImport } from './routes/api/linguists.$id.favorite'
 import { Route as ApiNotificationsIdReadRouteImport } from './routes/api/notifications/$id.read'
 import { Route as ApiOrganizationLinguistsIdRouteImport } from './routes/api/organization.linguists.$id'
 import { Route as ApiOrganizationLinguistsInviteRouteImport } from './routes/api/organization.linguists.invite'
 import { Route as ApiProjectsIdProgressRouteImport } from './routes/api/projects.$id.progress'
+import { Route as ApiSegmentsIdCommentsRouteImport } from './routes/api/segments.$id.comments'
+import { Route as ApiSegmentsIdIssuesRouteImport } from './routes/api/segments.$id.issues'
 import { Route as ApiTmIdImportRouteImport } from './routes/api/tm.$id.import'
 import { Route as ApiDepartmentsIdMembersUserIdRouteImport } from './routes/api/departments.$id.members.$userId'
 
@@ -435,6 +449,11 @@ const ApiIntegrationsCloudStatusRoute =
     path: '/api/integrations/cloud-status',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiJobsIdRoute = ApiJobsIdRouteImport.update({
+  id: '/api/jobs/$id',
+  path: '/api/jobs/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiNotificationsIndexRoute = ApiNotificationsIndexRouteImport.update({
   id: '/api/notifications/',
   path: '/api/notifications/',
@@ -471,6 +490,11 @@ const ApiOrganizationLinguistsRoute =
 const ApiPublicProcessOrdersRoute = ApiPublicProcessOrdersRouteImport.update({
   id: '/api/public/process-orders',
   path: '/api/public/process-orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSegmentsIdRoute = ApiSegmentsIdRouteImport.update({
+  id: '/api/segments/$id',
+  path: '/api/segments/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiStyleGuidesIdRoute = ApiStyleGuidesIdRouteImport.update({
@@ -591,15 +615,65 @@ const ApiGlossaryIdTermsRoute = ApiGlossaryIdTermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => ApiGlossaryIdRoute,
 } as any)
+const ApiJobsIdAcceptRoute = ApiJobsIdAcceptRouteImport.update({
+  id: '/accept',
+  path: '/accept',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
+const ApiJobsIdApproveRoute = ApiJobsIdApproveRouteImport.update({
+  id: '/approve',
+  path: '/approve',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
+const ApiJobsIdCompleteReviewRoute = ApiJobsIdCompleteReviewRouteImport.update({
+  id: '/complete-review',
+  path: '/complete-review',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
+const ApiJobsIdDeclineRoute = ApiJobsIdDeclineRouteImport.update({
+  id: '/decline',
+  path: '/decline',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
 const ApiJobsIdDeliverRoute = ApiJobsIdDeliverRouteImport.update({
-  id: '/api/jobs/$id/deliver',
-  path: '/api/jobs/$id/deliver',
-  getParentRoute: () => rootRouteImport,
+  id: '/deliver',
+  path: '/deliver',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
+const ApiJobsIdIssuesRoute = ApiJobsIdIssuesRouteImport.update({
+  id: '/issues',
+  path: '/issues',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
+const ApiJobsIdRequestChangesRoute = ApiJobsIdRequestChangesRouteImport.update({
+  id: '/request-changes',
+  path: '/request-changes',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
+const ApiJobsIdRetranslateRoute = ApiJobsIdRetranslateRouteImport.update({
+  id: '/retranslate',
+  path: '/retranslate',
+  getParentRoute: () => ApiJobsIdRoute,
 } as any)
 const ApiJobsIdReviewRoute = ApiJobsIdReviewRouteImport.update({
-  id: '/api/jobs/$id/review',
-  path: '/api/jobs/$id/review',
-  getParentRoute: () => rootRouteImport,
+  id: '/review',
+  path: '/review',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
+const ApiJobsIdSegmentsRoute = ApiJobsIdSegmentsRouteImport.update({
+  id: '/segments',
+  path: '/segments',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
+const ApiJobsIdSubmitRoute = ApiJobsIdSubmitRouteImport.update({
+  id: '/submit',
+  path: '/submit',
+  getParentRoute: () => ApiJobsIdRoute,
+} as any)
+const ApiJobsIdTmMatchesRoute = ApiJobsIdTmMatchesRouteImport.update({
+  id: '/tm-matches',
+  path: '/tm-matches',
+  getParentRoute: () => ApiJobsIdRoute,
 } as any)
 const ApiLinguistsIdBlacklistRoute = ApiLinguistsIdBlacklistRouteImport.update({
   id: '/api/linguists/$id/blacklist',
@@ -632,6 +706,16 @@ const ApiProjectsIdProgressRoute = ApiProjectsIdProgressRouteImport.update({
   id: '/$id/progress',
   path: '/$id/progress',
   getParentRoute: () => ApiProjectsRoute,
+} as any)
+const ApiSegmentsIdCommentsRoute = ApiSegmentsIdCommentsRouteImport.update({
+  id: '/comments',
+  path: '/comments',
+  getParentRoute: () => ApiSegmentsIdRoute,
+} as any)
+const ApiSegmentsIdIssuesRoute = ApiSegmentsIdIssuesRouteImport.update({
+  id: '/issues',
+  path: '/issues',
+  getParentRoute: () => ApiSegmentsIdRoute,
 } as any)
 const ApiTmIdImportRoute = ApiTmIdImportRouteImport.update({
   id: '/import',
@@ -710,12 +794,14 @@ export interface FileRoutesByFullPath {
   '/api/developer/webhooks': typeof ApiDeveloperWebhooksRouteWithChildren
   '/api/glossary/$id': typeof ApiGlossaryIdRouteWithChildren
   '/api/integrations/cloud-status': typeof ApiIntegrationsCloudStatusRoute
+  '/api/jobs/$id': typeof ApiJobsIdRouteWithChildren
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
   '/api/ocr-requests/$id': typeof ApiOcrRequestsIdRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
   '/api/public/process-orders': typeof ApiPublicProcessOrdersRoute
+  '/api/segments/$id': typeof ApiSegmentsIdRouteWithChildren
   '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
   '/api/style-guides/generate': typeof ApiStyleGuidesGenerateRoute
   '/api/tm/$id': typeof ApiTmIdRouteWithChildren
@@ -739,14 +825,26 @@ export interface FileRoutesByFullPath {
   '/api/developer/webhooks/$id': typeof ApiDeveloperWebhooksIdRoute
   '/api/glossary/$id/import': typeof ApiGlossaryIdImportRoute
   '/api/glossary/$id/terms': typeof ApiGlossaryIdTermsRoute
+  '/api/jobs/$id/accept': typeof ApiJobsIdAcceptRoute
+  '/api/jobs/$id/approve': typeof ApiJobsIdApproveRoute
+  '/api/jobs/$id/complete-review': typeof ApiJobsIdCompleteReviewRoute
+  '/api/jobs/$id/decline': typeof ApiJobsIdDeclineRoute
   '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
+  '/api/jobs/$id/issues': typeof ApiJobsIdIssuesRoute
+  '/api/jobs/$id/request-changes': typeof ApiJobsIdRequestChangesRoute
+  '/api/jobs/$id/retranslate': typeof ApiJobsIdRetranslateRoute
   '/api/jobs/$id/review': typeof ApiJobsIdReviewRoute
+  '/api/jobs/$id/segments': typeof ApiJobsIdSegmentsRoute
+  '/api/jobs/$id/submit': typeof ApiJobsIdSubmitRoute
+  '/api/jobs/$id/tm-matches': typeof ApiJobsIdTmMatchesRoute
   '/api/linguists/$id/blacklist': typeof ApiLinguistsIdBlacklistRoute
   '/api/linguists/$id/favorite': typeof ApiLinguistsIdFavoriteRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
   '/api/organization/linguists/$id': typeof ApiOrganizationLinguistsIdRoute
   '/api/organization/linguists/invite': typeof ApiOrganizationLinguistsInviteRoute
   '/api/projects/$id/progress': typeof ApiProjectsIdProgressRoute
+  '/api/segments/$id/comments': typeof ApiSegmentsIdCommentsRoute
+  '/api/segments/$id/issues': typeof ApiSegmentsIdIssuesRoute
   '/api/tm/$id/import': typeof ApiTmIdImportRoute
   '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
@@ -812,12 +910,14 @@ export interface FileRoutesByTo {
   '/api/developer/webhooks': typeof ApiDeveloperWebhooksRouteWithChildren
   '/api/glossary/$id': typeof ApiGlossaryIdRouteWithChildren
   '/api/integrations/cloud-status': typeof ApiIntegrationsCloudStatusRoute
+  '/api/jobs/$id': typeof ApiJobsIdRouteWithChildren
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
   '/api/ocr-requests/$id': typeof ApiOcrRequestsIdRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
   '/api/public/process-orders': typeof ApiPublicProcessOrdersRoute
+  '/api/segments/$id': typeof ApiSegmentsIdRouteWithChildren
   '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
   '/api/style-guides/generate': typeof ApiStyleGuidesGenerateRoute
   '/api/tm/$id': typeof ApiTmIdRouteWithChildren
@@ -841,14 +941,26 @@ export interface FileRoutesByTo {
   '/api/developer/webhooks/$id': typeof ApiDeveloperWebhooksIdRoute
   '/api/glossary/$id/import': typeof ApiGlossaryIdImportRoute
   '/api/glossary/$id/terms': typeof ApiGlossaryIdTermsRoute
+  '/api/jobs/$id/accept': typeof ApiJobsIdAcceptRoute
+  '/api/jobs/$id/approve': typeof ApiJobsIdApproveRoute
+  '/api/jobs/$id/complete-review': typeof ApiJobsIdCompleteReviewRoute
+  '/api/jobs/$id/decline': typeof ApiJobsIdDeclineRoute
   '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
+  '/api/jobs/$id/issues': typeof ApiJobsIdIssuesRoute
+  '/api/jobs/$id/request-changes': typeof ApiJobsIdRequestChangesRoute
+  '/api/jobs/$id/retranslate': typeof ApiJobsIdRetranslateRoute
   '/api/jobs/$id/review': typeof ApiJobsIdReviewRoute
+  '/api/jobs/$id/segments': typeof ApiJobsIdSegmentsRoute
+  '/api/jobs/$id/submit': typeof ApiJobsIdSubmitRoute
+  '/api/jobs/$id/tm-matches': typeof ApiJobsIdTmMatchesRoute
   '/api/linguists/$id/blacklist': typeof ApiLinguistsIdBlacklistRoute
   '/api/linguists/$id/favorite': typeof ApiLinguistsIdFavoriteRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
   '/api/organization/linguists/$id': typeof ApiOrganizationLinguistsIdRoute
   '/api/organization/linguists/invite': typeof ApiOrganizationLinguistsInviteRoute
   '/api/projects/$id/progress': typeof ApiProjectsIdProgressRoute
+  '/api/segments/$id/comments': typeof ApiSegmentsIdCommentsRoute
+  '/api/segments/$id/issues': typeof ApiSegmentsIdIssuesRoute
   '/api/tm/$id/import': typeof ApiTmIdImportRoute
   '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
@@ -918,12 +1030,14 @@ export interface FileRoutesById {
   '/api/developer/webhooks': typeof ApiDeveloperWebhooksRouteWithChildren
   '/api/glossary/$id': typeof ApiGlossaryIdRouteWithChildren
   '/api/integrations/cloud-status': typeof ApiIntegrationsCloudStatusRoute
+  '/api/jobs/$id': typeof ApiJobsIdRouteWithChildren
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
   '/api/ocr-requests/$id': typeof ApiOcrRequestsIdRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
   '/api/public/process-orders': typeof ApiPublicProcessOrdersRoute
+  '/api/segments/$id': typeof ApiSegmentsIdRouteWithChildren
   '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
   '/api/style-guides/generate': typeof ApiStyleGuidesGenerateRoute
   '/api/tm/$id': typeof ApiTmIdRouteWithChildren
@@ -947,14 +1061,26 @@ export interface FileRoutesById {
   '/api/developer/webhooks/$id': typeof ApiDeveloperWebhooksIdRoute
   '/api/glossary/$id/import': typeof ApiGlossaryIdImportRoute
   '/api/glossary/$id/terms': typeof ApiGlossaryIdTermsRoute
+  '/api/jobs/$id/accept': typeof ApiJobsIdAcceptRoute
+  '/api/jobs/$id/approve': typeof ApiJobsIdApproveRoute
+  '/api/jobs/$id/complete-review': typeof ApiJobsIdCompleteReviewRoute
+  '/api/jobs/$id/decline': typeof ApiJobsIdDeclineRoute
   '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
+  '/api/jobs/$id/issues': typeof ApiJobsIdIssuesRoute
+  '/api/jobs/$id/request-changes': typeof ApiJobsIdRequestChangesRoute
+  '/api/jobs/$id/retranslate': typeof ApiJobsIdRetranslateRoute
   '/api/jobs/$id/review': typeof ApiJobsIdReviewRoute
+  '/api/jobs/$id/segments': typeof ApiJobsIdSegmentsRoute
+  '/api/jobs/$id/submit': typeof ApiJobsIdSubmitRoute
+  '/api/jobs/$id/tm-matches': typeof ApiJobsIdTmMatchesRoute
   '/api/linguists/$id/blacklist': typeof ApiLinguistsIdBlacklistRoute
   '/api/linguists/$id/favorite': typeof ApiLinguistsIdFavoriteRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
   '/api/organization/linguists/$id': typeof ApiOrganizationLinguistsIdRoute
   '/api/organization/linguists/invite': typeof ApiOrganizationLinguistsInviteRoute
   '/api/projects/$id/progress': typeof ApiProjectsIdProgressRoute
+  '/api/segments/$id/comments': typeof ApiSegmentsIdCommentsRoute
+  '/api/segments/$id/issues': typeof ApiSegmentsIdIssuesRoute
   '/api/tm/$id/import': typeof ApiTmIdImportRoute
   '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
@@ -1025,12 +1151,14 @@ export interface FileRouteTypes {
     | '/api/developer/webhooks'
     | '/api/glossary/$id'
     | '/api/integrations/cloud-status'
+    | '/api/jobs/$id'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
     | '/api/ocr-requests/$id'
     | '/api/organization/join-requests'
     | '/api/organization/linguists'
     | '/api/public/process-orders'
+    | '/api/segments/$id'
     | '/api/style-guides/$id'
     | '/api/style-guides/generate'
     | '/api/tm/$id'
@@ -1054,14 +1182,26 @@ export interface FileRouteTypes {
     | '/api/developer/webhooks/$id'
     | '/api/glossary/$id/import'
     | '/api/glossary/$id/terms'
+    | '/api/jobs/$id/accept'
+    | '/api/jobs/$id/approve'
+    | '/api/jobs/$id/complete-review'
+    | '/api/jobs/$id/decline'
     | '/api/jobs/$id/deliver'
+    | '/api/jobs/$id/issues'
+    | '/api/jobs/$id/request-changes'
+    | '/api/jobs/$id/retranslate'
     | '/api/jobs/$id/review'
+    | '/api/jobs/$id/segments'
+    | '/api/jobs/$id/submit'
+    | '/api/jobs/$id/tm-matches'
     | '/api/linguists/$id/blacklist'
     | '/api/linguists/$id/favorite'
     | '/api/notifications/$id/read'
     | '/api/organization/linguists/$id'
     | '/api/organization/linguists/invite'
     | '/api/projects/$id/progress'
+    | '/api/segments/$id/comments'
+    | '/api/segments/$id/issues'
     | '/api/tm/$id/import'
     | '/api/departments/$id/members/$userId'
   fileRoutesByTo: FileRoutesByTo
@@ -1127,12 +1267,14 @@ export interface FileRouteTypes {
     | '/api/developer/webhooks'
     | '/api/glossary/$id'
     | '/api/integrations/cloud-status'
+    | '/api/jobs/$id'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
     | '/api/ocr-requests/$id'
     | '/api/organization/join-requests'
     | '/api/organization/linguists'
     | '/api/public/process-orders'
+    | '/api/segments/$id'
     | '/api/style-guides/$id'
     | '/api/style-guides/generate'
     | '/api/tm/$id'
@@ -1156,14 +1298,26 @@ export interface FileRouteTypes {
     | '/api/developer/webhooks/$id'
     | '/api/glossary/$id/import'
     | '/api/glossary/$id/terms'
+    | '/api/jobs/$id/accept'
+    | '/api/jobs/$id/approve'
+    | '/api/jobs/$id/complete-review'
+    | '/api/jobs/$id/decline'
     | '/api/jobs/$id/deliver'
+    | '/api/jobs/$id/issues'
+    | '/api/jobs/$id/request-changes'
+    | '/api/jobs/$id/retranslate'
     | '/api/jobs/$id/review'
+    | '/api/jobs/$id/segments'
+    | '/api/jobs/$id/submit'
+    | '/api/jobs/$id/tm-matches'
     | '/api/linguists/$id/blacklist'
     | '/api/linguists/$id/favorite'
     | '/api/notifications/$id/read'
     | '/api/organization/linguists/$id'
     | '/api/organization/linguists/invite'
     | '/api/projects/$id/progress'
+    | '/api/segments/$id/comments'
+    | '/api/segments/$id/issues'
     | '/api/tm/$id/import'
     | '/api/departments/$id/members/$userId'
   id:
@@ -1232,12 +1386,14 @@ export interface FileRouteTypes {
     | '/api/developer/webhooks'
     | '/api/glossary/$id'
     | '/api/integrations/cloud-status'
+    | '/api/jobs/$id'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
     | '/api/ocr-requests/$id'
     | '/api/organization/join-requests'
     | '/api/organization/linguists'
     | '/api/public/process-orders'
+    | '/api/segments/$id'
     | '/api/style-guides/$id'
     | '/api/style-guides/generate'
     | '/api/tm/$id'
@@ -1261,14 +1417,26 @@ export interface FileRouteTypes {
     | '/api/developer/webhooks/$id'
     | '/api/glossary/$id/import'
     | '/api/glossary/$id/terms'
+    | '/api/jobs/$id/accept'
+    | '/api/jobs/$id/approve'
+    | '/api/jobs/$id/complete-review'
+    | '/api/jobs/$id/decline'
     | '/api/jobs/$id/deliver'
+    | '/api/jobs/$id/issues'
+    | '/api/jobs/$id/request-changes'
+    | '/api/jobs/$id/retranslate'
     | '/api/jobs/$id/review'
+    | '/api/jobs/$id/segments'
+    | '/api/jobs/$id/submit'
+    | '/api/jobs/$id/tm-matches'
     | '/api/linguists/$id/blacklist'
     | '/api/linguists/$id/favorite'
     | '/api/notifications/$id/read'
     | '/api/organization/linguists/$id'
     | '/api/organization/linguists/invite'
     | '/api/projects/$id/progress'
+    | '/api/segments/$id/comments'
+    | '/api/segments/$id/issues'
     | '/api/tm/$id/import'
     | '/api/departments/$id/members/$userId'
   fileRoutesById: FileRoutesById
@@ -1315,13 +1483,13 @@ export interface RootRouteChildren {
   ApiDeveloperKeysRoute: typeof ApiDeveloperKeysRouteWithChildren
   ApiDeveloperWebhooksRoute: typeof ApiDeveloperWebhooksRouteWithChildren
   ApiIntegrationsCloudStatusRoute: typeof ApiIntegrationsCloudStatusRoute
+  ApiJobsIdRoute: typeof ApiJobsIdRouteWithChildren
   ApiNotificationsReadAllRoute: typeof ApiNotificationsReadAllRoute
   ApiNotificationsUnreadCountRoute: typeof ApiNotificationsUnreadCountRoute
   ApiPublicProcessOrdersRoute: typeof ApiPublicProcessOrdersRoute
+  ApiSegmentsIdRoute: typeof ApiSegmentsIdRouteWithChildren
   ApiUploadAnalyzeRoute: typeof ApiUploadAnalyzeRoute
   ApiNotificationsIndexRoute: typeof ApiNotificationsIndexRoute
-  ApiJobsIdDeliverRoute: typeof ApiJobsIdDeliverRoute
-  ApiJobsIdReviewRoute: typeof ApiJobsIdReviewRoute
   ApiLinguistsIdBlacklistRoute: typeof ApiLinguistsIdBlacklistRoute
   ApiLinguistsIdFavoriteRoute: typeof ApiLinguistsIdFavoriteRoute
   ApiNotificationsIdReadRoute: typeof ApiNotificationsIdReadRoute
@@ -1777,6 +1945,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiIntegrationsCloudStatusRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/jobs/$id': {
+      id: '/api/jobs/$id'
+      path: '/api/jobs/$id'
+      fullPath: '/api/jobs/$id'
+      preLoaderRoute: typeof ApiJobsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/notifications/': {
       id: '/api/notifications/'
       path: '/api/notifications'
@@ -1824,6 +1999,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/process-orders'
       fullPath: '/api/public/process-orders'
       preLoaderRoute: typeof ApiPublicProcessOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/segments/$id': {
+      id: '/api/segments/$id'
+      path: '/api/segments/$id'
+      fullPath: '/api/segments/$id'
+      preLoaderRoute: typeof ApiSegmentsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/style-guides/$id': {
@@ -1980,19 +2162,89 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGlossaryIdTermsRouteImport
       parentRoute: typeof ApiGlossaryIdRoute
     }
+    '/api/jobs/$id/accept': {
+      id: '/api/jobs/$id/accept'
+      path: '/accept'
+      fullPath: '/api/jobs/$id/accept'
+      preLoaderRoute: typeof ApiJobsIdAcceptRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
+    '/api/jobs/$id/approve': {
+      id: '/api/jobs/$id/approve'
+      path: '/approve'
+      fullPath: '/api/jobs/$id/approve'
+      preLoaderRoute: typeof ApiJobsIdApproveRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
+    '/api/jobs/$id/complete-review': {
+      id: '/api/jobs/$id/complete-review'
+      path: '/complete-review'
+      fullPath: '/api/jobs/$id/complete-review'
+      preLoaderRoute: typeof ApiJobsIdCompleteReviewRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
+    '/api/jobs/$id/decline': {
+      id: '/api/jobs/$id/decline'
+      path: '/decline'
+      fullPath: '/api/jobs/$id/decline'
+      preLoaderRoute: typeof ApiJobsIdDeclineRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
     '/api/jobs/$id/deliver': {
       id: '/api/jobs/$id/deliver'
-      path: '/api/jobs/$id/deliver'
+      path: '/deliver'
       fullPath: '/api/jobs/$id/deliver'
       preLoaderRoute: typeof ApiJobsIdDeliverRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
+    '/api/jobs/$id/issues': {
+      id: '/api/jobs/$id/issues'
+      path: '/issues'
+      fullPath: '/api/jobs/$id/issues'
+      preLoaderRoute: typeof ApiJobsIdIssuesRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
+    '/api/jobs/$id/request-changes': {
+      id: '/api/jobs/$id/request-changes'
+      path: '/request-changes'
+      fullPath: '/api/jobs/$id/request-changes'
+      preLoaderRoute: typeof ApiJobsIdRequestChangesRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
+    '/api/jobs/$id/retranslate': {
+      id: '/api/jobs/$id/retranslate'
+      path: '/retranslate'
+      fullPath: '/api/jobs/$id/retranslate'
+      preLoaderRoute: typeof ApiJobsIdRetranslateRouteImport
+      parentRoute: typeof ApiJobsIdRoute
     }
     '/api/jobs/$id/review': {
       id: '/api/jobs/$id/review'
-      path: '/api/jobs/$id/review'
+      path: '/review'
       fullPath: '/api/jobs/$id/review'
       preLoaderRoute: typeof ApiJobsIdReviewRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
+    '/api/jobs/$id/segments': {
+      id: '/api/jobs/$id/segments'
+      path: '/segments'
+      fullPath: '/api/jobs/$id/segments'
+      preLoaderRoute: typeof ApiJobsIdSegmentsRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
+    '/api/jobs/$id/submit': {
+      id: '/api/jobs/$id/submit'
+      path: '/submit'
+      fullPath: '/api/jobs/$id/submit'
+      preLoaderRoute: typeof ApiJobsIdSubmitRouteImport
+      parentRoute: typeof ApiJobsIdRoute
+    }
+    '/api/jobs/$id/tm-matches': {
+      id: '/api/jobs/$id/tm-matches'
+      path: '/tm-matches'
+      fullPath: '/api/jobs/$id/tm-matches'
+      preLoaderRoute: typeof ApiJobsIdTmMatchesRouteImport
+      parentRoute: typeof ApiJobsIdRoute
     }
     '/api/linguists/$id/blacklist': {
       id: '/api/linguists/$id/blacklist'
@@ -2035,6 +2287,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/projects/$id/progress'
       preLoaderRoute: typeof ApiProjectsIdProgressRouteImport
       parentRoute: typeof ApiProjectsRoute
+    }
+    '/api/segments/$id/comments': {
+      id: '/api/segments/$id/comments'
+      path: '/comments'
+      fullPath: '/api/segments/$id/comments'
+      preLoaderRoute: typeof ApiSegmentsIdCommentsRouteImport
+      parentRoute: typeof ApiSegmentsIdRoute
+    }
+    '/api/segments/$id/issues': {
+      id: '/api/segments/$id/issues'
+      path: '/issues'
+      fullPath: '/api/segments/$id/issues'
+      preLoaderRoute: typeof ApiSegmentsIdIssuesRouteImport
+      parentRoute: typeof ApiSegmentsIdRoute
     }
     '/api/tm/$id/import': {
       id: '/api/tm/$id/import'
@@ -2343,6 +2609,54 @@ const ApiDeveloperWebhooksRouteChildren: ApiDeveloperWebhooksRouteChildren = {
 const ApiDeveloperWebhooksRouteWithChildren =
   ApiDeveloperWebhooksRoute._addFileChildren(ApiDeveloperWebhooksRouteChildren)
 
+interface ApiJobsIdRouteChildren {
+  ApiJobsIdAcceptRoute: typeof ApiJobsIdAcceptRoute
+  ApiJobsIdApproveRoute: typeof ApiJobsIdApproveRoute
+  ApiJobsIdCompleteReviewRoute: typeof ApiJobsIdCompleteReviewRoute
+  ApiJobsIdDeclineRoute: typeof ApiJobsIdDeclineRoute
+  ApiJobsIdDeliverRoute: typeof ApiJobsIdDeliverRoute
+  ApiJobsIdIssuesRoute: typeof ApiJobsIdIssuesRoute
+  ApiJobsIdRequestChangesRoute: typeof ApiJobsIdRequestChangesRoute
+  ApiJobsIdRetranslateRoute: typeof ApiJobsIdRetranslateRoute
+  ApiJobsIdReviewRoute: typeof ApiJobsIdReviewRoute
+  ApiJobsIdSegmentsRoute: typeof ApiJobsIdSegmentsRoute
+  ApiJobsIdSubmitRoute: typeof ApiJobsIdSubmitRoute
+  ApiJobsIdTmMatchesRoute: typeof ApiJobsIdTmMatchesRoute
+}
+
+const ApiJobsIdRouteChildren: ApiJobsIdRouteChildren = {
+  ApiJobsIdAcceptRoute: ApiJobsIdAcceptRoute,
+  ApiJobsIdApproveRoute: ApiJobsIdApproveRoute,
+  ApiJobsIdCompleteReviewRoute: ApiJobsIdCompleteReviewRoute,
+  ApiJobsIdDeclineRoute: ApiJobsIdDeclineRoute,
+  ApiJobsIdDeliverRoute: ApiJobsIdDeliverRoute,
+  ApiJobsIdIssuesRoute: ApiJobsIdIssuesRoute,
+  ApiJobsIdRequestChangesRoute: ApiJobsIdRequestChangesRoute,
+  ApiJobsIdRetranslateRoute: ApiJobsIdRetranslateRoute,
+  ApiJobsIdReviewRoute: ApiJobsIdReviewRoute,
+  ApiJobsIdSegmentsRoute: ApiJobsIdSegmentsRoute,
+  ApiJobsIdSubmitRoute: ApiJobsIdSubmitRoute,
+  ApiJobsIdTmMatchesRoute: ApiJobsIdTmMatchesRoute,
+}
+
+const ApiJobsIdRouteWithChildren = ApiJobsIdRoute._addFileChildren(
+  ApiJobsIdRouteChildren,
+)
+
+interface ApiSegmentsIdRouteChildren {
+  ApiSegmentsIdCommentsRoute: typeof ApiSegmentsIdCommentsRoute
+  ApiSegmentsIdIssuesRoute: typeof ApiSegmentsIdIssuesRoute
+}
+
+const ApiSegmentsIdRouteChildren: ApiSegmentsIdRouteChildren = {
+  ApiSegmentsIdCommentsRoute: ApiSegmentsIdCommentsRoute,
+  ApiSegmentsIdIssuesRoute: ApiSegmentsIdIssuesRoute,
+}
+
+const ApiSegmentsIdRouteWithChildren = ApiSegmentsIdRoute._addFileChildren(
+  ApiSegmentsIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   LocaleRoute: LocaleRouteWithChildren,
@@ -2385,13 +2699,13 @@ const rootRouteChildren: RootRouteChildren = {
   ApiDeveloperKeysRoute: ApiDeveloperKeysRouteWithChildren,
   ApiDeveloperWebhooksRoute: ApiDeveloperWebhooksRouteWithChildren,
   ApiIntegrationsCloudStatusRoute: ApiIntegrationsCloudStatusRoute,
+  ApiJobsIdRoute: ApiJobsIdRouteWithChildren,
   ApiNotificationsReadAllRoute: ApiNotificationsReadAllRoute,
   ApiNotificationsUnreadCountRoute: ApiNotificationsUnreadCountRoute,
   ApiPublicProcessOrdersRoute: ApiPublicProcessOrdersRoute,
+  ApiSegmentsIdRoute: ApiSegmentsIdRouteWithChildren,
   ApiUploadAnalyzeRoute: ApiUploadAnalyzeRoute,
   ApiNotificationsIndexRoute: ApiNotificationsIndexRoute,
-  ApiJobsIdDeliverRoute: ApiJobsIdDeliverRoute,
-  ApiJobsIdReviewRoute: ApiJobsIdReviewRoute,
   ApiLinguistsIdBlacklistRoute: ApiLinguistsIdBlacklistRoute,
   ApiLinguistsIdFavoriteRoute: ApiLinguistsIdFavoriteRoute,
   ApiNotificationsIdReadRoute: ApiNotificationsIdReadRoute,
