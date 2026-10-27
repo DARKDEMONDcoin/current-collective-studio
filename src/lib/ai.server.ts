@@ -77,3 +77,9 @@ export async function ocrDocument(bytes: Uint8Array, filename: string, mime: str
   });
   return outputText(res).trim();
 }
+
+/** Free-form text generation (e.g. style guide drafting). */
+export async function generateText(instructions: string, input: string): Promise<string> {
+  const res = await generateResponse({ model: MODEL, instructions, input, reasoning: { effort: "low" } });
+  return outputText(res as { output?: unknown[] }).trim();
+}
