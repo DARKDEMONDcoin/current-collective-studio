@@ -503,6 +503,33 @@ export type Database = {
           },
         ]
       }
+      ct_admin_audit: {
+        Row: {
+          action: string
+          admin_id: string
+          created_at: string
+          details: Json
+          id: string
+          target: string | null
+        }
+        Insert: {
+          action: string
+          admin_id: string
+          created_at?: string
+          details?: Json
+          id?: string
+          target?: string | null
+        }
+        Update: {
+          action?: string
+          admin_id?: string
+          created_at?: string
+          details?: Json
+          id?: string
+          target?: string | null
+        }
+        Relationships: []
+      }
       ct_api_keys: {
         Row: {
           created_at: string
@@ -1193,6 +1220,33 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      ct_linguist_rates: {
+        Row: {
+          id: string
+          label: string | null
+          min_payout: number
+          rate_per_word: number
+          updated_at: string
+          workflow_type: string
+        }
+        Insert: {
+          id?: string
+          label?: string | null
+          min_payout?: number
+          rate_per_word?: number
+          updated_at?: string
+          workflow_type: string
+        }
+        Update: {
+          id?: string
+          label?: string | null
+          min_payout?: number
+          rate_per_word?: number
+          updated_at?: string
+          workflow_type?: string
+        }
+        Relationships: []
       }
       ct_linguist_reviews: {
         Row: {
@@ -3069,6 +3123,18 @@ export type Database = {
       can_edit_campaign: { Args: { _c: string }; Returns: boolean }
       can_edit_org: { Args: { _org: string }; Returns: boolean }
       create_workspace: { Args: { _name: string }; Returns: string }
+      ct_admin_adjust_credits: {
+        Args: { _amount: number; _org: string; _reason: string }
+        Returns: Json
+      }
+      ct_admin_set_role: {
+        Args: {
+          _grant: boolean
+          _role: Database["public"]["Enums"]["ct_role"]
+          _user: string
+        }
+        Returns: undefined
+      }
       ct_charge_ocr: {
         Args: { _org: string; _user: string; p: Json }
         Returns: Json
