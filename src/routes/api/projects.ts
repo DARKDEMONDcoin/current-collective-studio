@@ -112,6 +112,11 @@ export const Route = createFileRoute("/api/projects")({
           .select("*, jobs:ct_jobs(*)")
           .eq("id", r.id!)
           .maybeSingle();
+        if (!r.duplicate && project?.status === "FAILED")
+          return Response.json(
+            { error: "AI translation failed, so the order was stopped and your credits were refunded. Please try again.", projectId: r.id },
+            { status: 502 },
+          );
         if (r.duplicate && project?.status === "FAILED")
           return Response.json({ error: "This order failed earlier and was refunded. Please submit it again." }, { status: 409 });
         return Response.json(camel(project), { status: 201 });
