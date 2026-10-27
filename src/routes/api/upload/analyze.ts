@@ -27,6 +27,13 @@ export const Route = createFileRoute("/api/upload/analyze")({
         const buf = new Uint8Array(await file.arrayBuffer());
         let segments: { text: string; formatHint: string }[] = [];
         let pageCount = 0;
+        let scanned = false;
+        const ocr = async (mime: string) => {
+          const { ocrDocument } = await import("@/lib/ai.server");
+          const text = await ocrDocument(buf, file.name, mime);
+          scanned = true;
+          return parsePlainText(text);
+        };
         try {
           if (["txt", "md", "csv"].includes(ext)) segments = parsePlainText(new TextDecoder().decode(buf));
           else if (ext === "docx") segments = parseDocx(buf);
@@ -34,9 +41,15 @@ export const Route = createFileRoute("/api/upload/analyze")({
             const r = await parsePdf(buf);
             segments = r.segments;
             pageCount = r.pages;
+            // Little or no selectable text -> treat as a scan and read it with AI OCR.
+            if (countWords(segments.map((x) => x.text).join(" ")) < 5 * Math.max(1, pageCount))
+              segments = await ocr("application/pdf");
+          } else if (["jpg", "jpeg", "png", "webp"].includes(ext)) {
+            segments = await ocr(ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg");
+            pageCount = 1;
           } else
             return Response.json(
-              { error: "Unsupported file type. Please upload a PDF, DOCX, or TXT file." },
+              { error: "Unsupported file type. Please upload a PDF, DOCX, TXT, or image (JPG/PNG) file." },
               { status: 415 },
             );
         } catch (e) {
@@ -48,7 +61,7 @@ export const Route = createFileRoute("/api/upload/analyze")({
             {
               error:
                 ext === "pdf"
-                  ? "This PDF has no selectable text (it may be a scan). Scanned documents are not supported yet."
+                  ? "We could not find any readable text in this PDF, even after scanning it."
                   : "No text found in the document.",
             },
             { status: 422 },
@@ -62,7 +75,7 @@ export const Route = createFileRoute("/api/upload/analyze")({
           segments,
           segmentCount: segments.length,
           pageCount,
-          scanned: false,
+          scanned,
           ocrConfidence: null,
           sourceMimeType: file.type || null,
         });
