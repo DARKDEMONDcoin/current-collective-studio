@@ -530,6 +530,66 @@ export type Database = {
         }
         Relationships: []
       }
+      ct_admin_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Relationships: []
+      }
+      ct_ai_usage: {
+        Row: {
+          cost_usd: number
+          created_at: string
+          feature: string
+          id: string
+          input_tokens: number
+          model: string
+          ok: boolean
+          organization_id: string | null
+          output_tokens: number
+          project_id: string | null
+        }
+        Insert: {
+          cost_usd?: number
+          created_at?: string
+          feature: string
+          id?: string
+          input_tokens?: number
+          model: string
+          ok?: boolean
+          organization_id?: string | null
+          output_tokens?: number
+          project_id?: string | null
+        }
+        Update: {
+          cost_usd?: number
+          created_at?: string
+          feature?: string
+          id?: string
+          input_tokens?: number
+          model?: string
+          ok?: boolean
+          organization_id?: string | null
+          output_tokens?: number
+          project_id?: string | null
+        }
+        Relationships: []
+      }
       ct_api_keys: {
         Row: {
           created_at: string
