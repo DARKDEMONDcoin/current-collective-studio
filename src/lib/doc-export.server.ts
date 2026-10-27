@@ -165,7 +165,7 @@ const FONT_BASE = "https://cdn.jsdelivr.net/gh/notofonts/notofonts.github.io/fon
 const FONTS = {
   latin: `${FONT_BASE}/NotoSans/hinted/ttf/NotoSans-Regular.ttf`,
   latinBold: `${FONT_BASE}/NotoSans/hinted/ttf/NotoSans-Bold.ttf`,
-  arabic: `${FONT_BASE}/NotoNaskhArabic/hinted/ttf/NotoNaskhArabic-Regular.ttf`,
+  arabic: `${FONT_BASE}/NotoSansArabic/hinted/ttf/NotoSansArabic-Regular.ttf`,
   hebrew: `${FONT_BASE}/NotoSansHebrew/hinted/ttf/NotoSansHebrew-Regular.ttf`,
 };
 const fontCache = new Map<string, Uint8Array>();
