@@ -191,7 +191,7 @@ export async function translateChunk(texts: string[], source: string, target: st
   const first = await translateBatch(sub, source, target, base);
   const sameScript = LATIN.test(source) && LATIN.test(target);
   const fb = sub.map((t, k) => {
-    const issues = checkSegment(t, first[k], terms, sameScript);
+    const issues = checkSegment(t, first[k], terms, sameScript, target);
     return issues.length ? issues.join("; ") : null;
   });
   const bad = fb.map((f, k) => (f ? k : -1)).filter((k) => k >= 0);
@@ -199,8 +199,8 @@ export async function translateChunk(texts: string[], source: string, target: st
     try {
       const fixed = await translateBatch(bad.map((k) => sub[k]), source, target, { ...base, feedback: bad.map((k) => fb[k]) });
       bad.forEach((k, j) => {
-        const before = checkSegment(sub[k], first[k], terms, sameScript).length;
-        const after = checkSegment(sub[k], fixed[j], terms, sameScript).length;
+        const before = checkSegment(sub[k], first[k], terms, sameScript, target).length;
+        const after = checkSegment(sub[k], fixed[j], terms, sameScript, target).length;
         if (fixed[j]?.trim() && after <= before) first[k] = fixed[j];
       });
     } catch (e) {
