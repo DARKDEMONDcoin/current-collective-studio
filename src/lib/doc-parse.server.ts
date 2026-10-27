@@ -89,9 +89,13 @@ export async function parsePptx(buf: Uint8Array): Promise<Segment[]> {
   const out: Segment[] = [];
   for (const name of slideNames(files)) {
     const xml = strFromU8(files[name]);
+    // Character ranges of title placeholders, so their paragraphs become headings.
+    const titles = [...xml.matchAll(/<p:sp>[\s\S]*?<\/p:sp>/g)]
+      .filter((m) => /<p:ph[^>]*type="(title|ctrTitle)"/.test(m[0]))
+      .map((m) => [m.index!, m.index! + m[0].length]);
     for (const m of xml.matchAll(PPTX_PARA)) {
       const text = pptxParaText(m[0]).replace(/\s+/g, " ").trim();
-      if (text) out.push({ text, formatHint: /type="(title|ctrTitle)"/.test(xml.slice(Math.max(0, m.index! - 600), m.index)) ? "h2" : "p" });
+      if (text) out.push({ text, formatHint: titles.some(([a, b]) => m.index! >= a && m.index! < b) ? "h2" : "p" });
     }
   }
   return out;
