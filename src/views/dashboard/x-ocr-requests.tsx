@@ -139,50 +139,13 @@ export default function OcrRequestsPage() {
     setCreating(true);
     setCreateError(null);
     try {
-      // 1. Analyze the file (runs OCR via OcrProvider).
+      // Scan + per-page billing happen together on the server (Lovable migration).
       const fd = new FormData();
       fd.append("file", pickedFile);
-      const analyzeRes = await fetch("/api/upload/analyze", {
-        method: "POST",
-        body: fd,
-      });
-      if (!analyzeRes.ok) {
-        const e = await analyzeRes.json().catch(() => ({}));
-        setCreateError(e.error ?? "Could not analyze the file.");
-        return;
-      }
-      const analyze = await analyzeRes.json();
-      const enrichment = analyze.ocrEnrichment ?? null;
-      const pages = enrichment?.pages ?? [];
-      const conf =
-        typeof analyze.ocrConfidence === "number" && Number.isFinite(analyze.ocrConfidence)
-          ? Math.max(0, Math.min(1, analyze.ocrConfidence))
-          : 0;
-
-      // 2. Create the OCR request.
-      const createRes = await fetch("/api/ocr-requests", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sourceFilename: analyze.filename,
-          sourceFileUrl: analyze.pdfStoredPath ?? "",
-          sourceMimeType: analyze.sourceMimeType ?? null,
-          sourceLanguage: analyze.sourceLanguage,
-          pageCount: analyze.pageCount ?? pages.length,
-          wordCount: analyze.wordCount,
-          avgConfidence: conf,
-          perPageConfidence: pages.map((p: { confidence?: unknown }) =>
-            typeof p.confidence === "number" ? p.confidence : 0
-          ),
-          pages,
-          provider: enrichment?.provider ?? "tesseract",
-          extractedText: enrichment?.extractedText ?? null,
-          extractedMarkdown: enrichment?.extractedMarkdown ?? null,
-          structuredLayout: enrichment?.structuredLayout ?? null,
-          workflowType,
-          ...(clientAccountId ? { clientAccountId } : {}),
-        }),
-      });
+      fd.append("workflowType", workflowType);
+      fd.append("idempotencyKey", crypto.randomUUID());
+      if (clientAccountId) fd.append("clientAccountId", clientAccountId);
+      const createRes = await fetch("/api/ocr-requests", { method: "POST", body: fd });
       if (!createRes.ok) {
         const e = await createRes.json().catch(() => ({}));
         setCreateError(e.error ?? "Could not create the OCR request.");
