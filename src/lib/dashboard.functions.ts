@@ -27,7 +27,13 @@ export const getDashboardShell = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const sb = context.supabase;
-    const user = await loadMe(sb, context.userId);
+    let user = await loadMe(sb, context.userId);
+    if (!user.organizationId) {
+      // Account predates Contentech (shared sign-in): create its client workspace once.
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      const { data: org } = await (supabaseAdmin as any).rpc("ct_ensure_client_workspace", { _user: context.userId });
+      if (org) user = await loadMe(sb, context.userId);
+    }
     let orgPlan = "STARTER";
     if (user.organizationId) {
       const { data } = await sb

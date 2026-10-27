@@ -152,7 +152,7 @@ export function AdminFinance() {
       {!data ? <Loading error={error} /> : (
         <>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            {[["Credits in client balances", data.totals.balance], ["Credits used*", data.totals.usage], ["Credits refunded*", data.totals.refunds], ["Admin adjustments*", data.totals.adjustments]].map(([l, v]) => (
+            {[["Credits in client balances", data.totals.balance], ["Credits used*", Math.abs(data.totals.usage)], ["Credits refunded*", data.totals.refunds], ["Admin adjustments*", data.totals.adjustments]].map(([l, v]) => (
               <div key={l as string} className={`${card} p-5`}><div className="text-2xl font-bold text-navy">{Number(v).toLocaleString()}</div><div className="text-xs text-gray-500">{l}</div></div>
             ))}
           </div>
