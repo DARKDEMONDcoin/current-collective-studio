@@ -1,5 +1,3 @@
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import Link from "@/compat/next-link";
 import {
   Briefcase,
@@ -19,49 +17,14 @@ import {
 import { InfoNote } from "@/components/ui/info-tip";
 import { Button } from "@/components/ui/button";
 import { formatDate, formatCurrency } from "@/lib/utils";
-import { getServerTranslation } from "@/lib/i18n/server";
+import { useTranslation } from "@/lib/i18n/client";
 
-export const dynamic = "force-dynamic";
 
-export default async function LinguistDashboard() {
-  const session = await auth();
-  const userId = session!.user.id!;
-  const { t } = await getServerTranslation();
+export default function LinguistDashboard({ data }: { data: any }) {
+  const session = { user: data.user };
+  const { t } = useTranslation();
 
-  const [availableJobs, myJobs, profile, notifications] = await Promise.all([
-    prisma.job.findMany({
-      where: { status: { in: ["AVAILABLE", "EXCLUSIVE"] }, linguistId: null },
-      orderBy: [{ status: "asc" }, { createdAt: "desc" }],
-      take: 10,
-      include: { project: { include: { client: true, organization: true } } },
-    }),
-    prisma.job.findMany({
-      where: { linguistId: userId, status: { in: ["ACCEPTED", "IN_PROGRESS"] } },
-      take: 5,
-      include: { project: true },
-    }),
-    prisma.linguistProfile.findUnique({ where: { userId } }),
-    prisma.notification.findMany({
-      where: { userId, read: false },
-      orderBy: { createdAt: "desc" },
-      take: 3,
-    }),
-  ]);
-
-  const earnings = await prisma.job.aggregate({
-    where: { linguistId: userId, status: "COMPLETED" },
-    _sum: { payoutAmount: true },
-    _count: true,
-  });
-
-  const monthEarnings = await prisma.job.aggregate({
-    where: {
-      linguistId: userId,
-      status: "COMPLETED",
-      completedAt: { gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1) },
-    },
-    _sum: { payoutAmount: true },
-  });
+  const { availableJobs, myJobs, profile, notifications, earnings, monthEarnings } = data;
 
   const statusBadge = (status: string) => {
     const map: Record<string, string> = {

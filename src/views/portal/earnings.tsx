@@ -1,29 +1,14 @@
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { DollarSign, TrendingUp, Clock, CheckCircle, AlertCircle } from "lucide-react";
 import { formatDate, formatCurrency } from "@/lib/utils";
-import { getServerTranslation } from "@/lib/i18n/server";
+import { useTranslation } from "@/lib/i18n/client";
 import { InfoNote } from "@/components/ui/info-tip";
 
-export const dynamic = "force-dynamic";
 
-export default async function EarningsPage() {
-  const session = await auth();
-  const userId = session!.user.id!;
-  const { t } = await getServerTranslation();
+export default function EarningsPage({ data }: { data: any }) {
+  const session = { user: data.user };
+  const { t } = useTranslation();
 
-  const [completedJobs, pendingJobs] = await Promise.all([
-    prisma.job.findMany({
-      where: { linguistId: userId, status: "COMPLETED" },
-      include: { project: { include: { organization: { select: { name: true } } } } },
-      orderBy: { completedAt: "desc" },
-    }),
-    prisma.job.findMany({
-      where: { linguistId: userId, status: { in: ["ACCEPTED", "IN_PROGRESS"] } },
-      include: { project: true },
-      orderBy: { acceptedAt: "desc" },
-    }),
-  ]);
+  const { completedJobs, pendingJobs } = data;
 
   const totalEarned = completedJobs.reduce((sum: number, j: any) => sum + Number(j.payoutAmount ?? 0), 0);
   const pendingAmount = pendingJobs.reduce((sum: number, j: any) => sum + Number(j.payoutAmount ?? 0), 0);

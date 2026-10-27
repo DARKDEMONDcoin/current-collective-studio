@@ -1,34 +1,17 @@
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import Link from "@/compat/next-link";
 import { Briefcase, Star, Clock, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatCurrency } from "@/lib/utils";
-import { getServerTranslation } from "@/lib/i18n/server";
+import { useTranslation } from "@/lib/i18n/client";
 import { InfoNote } from "@/components/ui/info-tip";
 
-export const dynamic = "force-dynamic";
 
-export default async function JobFeedPage() {
-  const session = await auth();
-  const userId = session!.user.id!;
-  const { t } = await getServerTranslation();
+export default function JobFeedPage({ data }: { data: any }) {
+  const session = { user: data.user };
+  const { t } = useTranslation();
 
-  const [favoriteClientIds, jobs] = await Promise.all([
-    prisma.favoriteLinguist.findMany({
-      where: { linguistId: userId },
-      select: { customerId: true },
-    }).then((favs) => new Set(favs.map((f: any) => f.customerId))),
-    prisma.job.findMany({
-      where: { status: { in: ["AVAILABLE", "EXCLUSIVE"] } },
-      orderBy: [{ status: "asc" }, { createdAt: "desc" }],
-      include: {
-        project: {
-          include: { client: { select: { id: true, name: true } }, organization: true },
-        },
-      },
-    }),
-  ]);
+  const favoriteClientIds = new Set<string>(data.favoriteClientIds);
+  const jobs = data.jobs;
 
   const preferredJobs = jobs.filter(
     (j: any) => j.status === "EXCLUSIVE" || favoriteClientIds.has(j.project.clientId)

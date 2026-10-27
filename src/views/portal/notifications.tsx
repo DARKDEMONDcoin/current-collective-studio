@@ -1,10 +1,7 @@
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { Bell, Star, Briefcase, Clock, DollarSign } from "lucide-react";
 import { formatDate } from "@/lib/utils";
-import { getServerTranslation } from "@/lib/i18n/server";
+import { useTranslation } from "@/lib/i18n/client";
 
-export const dynamic = "force-dynamic";
 
 const NOTIF_CONFIG: Record<string, { icon: typeof Bell; color: string }> = {
   PREFERRED_JOB:     { icon: Star,      color: "bg-gold/10 text-gold" },
@@ -14,16 +11,11 @@ const NOTIF_CONFIG: Record<string, { icon: typeof Bell; color: string }> = {
   SYSTEM:            { icon: Bell,      color: "bg-gray-100 text-gray-500" },
 };
 
-export default async function PortalNotificationsPage() {
-  const session = await auth();
-  const userId = session!.user.id!;
-  const { t } = await getServerTranslation();
+export default function PortalNotificationsPage({ data }: { data: any }) {
+  const session = { user: data.user };
+  const { t } = useTranslation();
 
-  const notifications = await prisma.notification.findMany({
-    where: { userId },
-    orderBy: { createdAt: "desc" },
-    take: 50,
-  });
+  const notifications = data.notifications;
 
   const unreadCount = notifications.filter((n: any) => !n.isRead).length;
 

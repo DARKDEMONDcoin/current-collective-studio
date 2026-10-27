@@ -1,39 +1,24 @@
-import { auth } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import Link from "@/compat/next-link";
 import { Clock, ArrowRight, CheckCircle, Loader2, FileText, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDate, formatCurrency } from "@/lib/utils";
-import { getServerTranslation } from "@/lib/i18n/server";
+import { useTranslation } from "@/lib/i18n/client";
 import { InfoNote } from "@/components/ui/info-tip";
 
-export const dynamic = "force-dynamic";
 
-export default async function AssignmentsPage() {
-  const session = await auth();
-  const userId = session!.user.id!;
-  const { t } = await getServerTranslation();
+export default function AssignmentsPage({ data }: { data: any }) {
+  const session = { user: data.user };
+  const { t } = useTranslation();
 
   const STATUS_STYLES: Record<string, { label: string; classes: string }> = {
     ACCEPTED:    { label: t("assignments.accepted"),    classes: "bg-blue-100 text-blue-700" },
     IN_PROGRESS: { label: t("editor.status.inProgress"), classes: "bg-purple-100 text-purple-700" },
+    SUBMITTED:   { label: "Awaiting client approval", classes: "bg-amber-50 text-amber-700" },
     COMPLETED:   { label: t("assignments.completed"),   classes: "bg-teal/10 text-teal" },
     CANCELLED:   { label: "Cancelled",                  classes: "bg-gray-100 text-gray-500" },
   };
 
-  const [active, completed] = await Promise.all([
-    prisma.job.findMany({
-      where: { linguistId: userId, status: { in: ["ACCEPTED", "IN_PROGRESS"] } },
-      include: { project: { include: { organization: { select: { name: true } } } } },
-      orderBy: { acceptedAt: "desc" },
-    }),
-    prisma.job.findMany({
-      where: { linguistId: userId, status: "COMPLETED" },
-      include: { project: { include: { organization: { select: { name: true } } } } },
-      orderBy: { completedAt: "desc" },
-      take: 10,
-    }),
-  ]);
+  const { active, completed } = data;
 
   return (
     <div className="p-8 max-w-4xl mx-auto">
