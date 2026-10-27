@@ -1076,7 +1076,9 @@ export type Database = {
           client_id: string
           created_at: string
           due_date: string | null
+          failure_reason: string | null
           id: string
+          idempotency_key: string | null
           name: string
           notes: string | null
           ocr_confidence_warning: boolean
@@ -1095,7 +1097,9 @@ export type Database = {
           client_id: string
           created_at?: string
           due_date?: string | null
+          failure_reason?: string | null
           id?: string
+          idempotency_key?: string | null
           name: string
           notes?: string | null
           ocr_confidence_warning?: boolean
@@ -1114,7 +1118,9 @@ export type Database = {
           client_id?: string
           created_at?: string
           due_date?: string | null
+          failure_reason?: string | null
           id?: string
+          idempotency_key?: string | null
           name?: string
           notes?: string | null
           ocr_confidence_warning?: boolean
@@ -1295,6 +1301,51 @@ export type Database = {
             columns: ["category_id"]
             isOneToOne: false
             referencedRelation: "ct_resource_categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_segment_translations: {
+        Row: {
+          created_at: string
+          id: string
+          job_id: string
+          segment_id: string
+          status: string
+          target_text: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          job_id: string
+          segment_id: string
+          status?: string
+          target_text?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          job_id?: string
+          segment_id?: string
+          status?: string
+          target_text?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_segment_translations_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "ct_jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ct_segment_translations_segment_id_fkey"
+            columns: ["segment_id"]
+            isOneToOne: false
+            referencedRelation: "ct_segments"
             referencedColumns: ["id"]
           },
         ]
@@ -2304,12 +2355,20 @@ export type Database = {
         Args: { _org: string; _user: string; p: Json }
         Returns: Json
       }
+      ct_create_project_once: {
+        Args: { _org: string; _user: string; p: Json }
+        Returns: Json
+      }
       ct_has_role: {
         Args: {
           _role: Database["public"]["Enums"]["ct_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      ct_refund_project: {
+        Args: { _project: string; _reason: string }
+        Returns: number
       }
       ct_user_org: { Args: { _uid: string }; Returns: string }
       has_ws_role: {

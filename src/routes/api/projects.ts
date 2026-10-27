@@ -56,6 +56,7 @@ export const Route = createFileRoute("/api/projects")({
           attachedGlossaryIds: Array.isArray(body.attachedGlossaryIds) ? body.attachedGlossaryIds : [],
           attachedStyleGuideIds: Array.isArray(body.attachedStyleGuideIds) ? body.attachedStyleGuideIds : [],
           ocrConfidenceWarning: !!body.ocrConfidenceWarning,
+          idempotencyKey: typeof body.idempotencyKey === "string" ? body.idempotencyKey.slice(0, 100) : null,
         };
         if (!payload.name || payload.targetLanguages.length === 0)
           return Response.json({ error: "Project name and target languages are required" }, { status: 400 });
@@ -63,7 +64,7 @@ export const Route = createFileRoute("/api/projects")({
         // Caller and organization verified above; the DB function re-checks
         // membership and performs the balance-guarded debit atomically.
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-        const { data, error } = await supabaseAdmin.rpc("ct_create_project", {
+        const { data, error } = await supabaseAdmin.rpc("ct_create_project_once", {
           _user: me.userId,
           _org: orgId,
           p: payload,
@@ -72,7 +73,7 @@ export const Route = createFileRoute("/api/projects")({
           console.error("[projects] create failed", error);
           return Response.json({ error: "Could not create the project." }, { status: 500 });
         }
-        const r = data as { id?: string; error?: string; required?: number; balance?: number };
+        const r = data as { id?: string; error?: string; required?: number; balance?: number; duplicate?: boolean };
         if (r.error === "INSUFFICIENT_CREDITS")
           return Response.json(
             {
@@ -80,11 +81,25 @@ export const Route = createFileRoute("/api/projects")({
             },
             { status: 402 },
           );
+        if (!r.duplicate) {
+          const { runOrderPipeline } = await import("@/lib/order-pipeline.server");
+          const run = await runOrderPipeline(r.id!);
+          if (!run.ok)
+            return Response.json(
+              {
+                error: `AI translation failed, so the order was stopped.${run.refunded ? ` ${run.refunded} credits were refunded to your balance.` : ""} Please try again.`,
+                projectId: r.id,
+              },
+              { status: 502 },
+            );
+        }
         const { data: project } = await me.supabase
           .from("ct_projects")
           .select("*, jobs:ct_jobs(*)")
           .eq("id", r.id!)
           .maybeSingle();
+        if (r.duplicate && project?.status === "FAILED")
+          return Response.json({ error: "This order failed earlier and was refunded. Please submit it again." }, { status: 409 });
         return Response.json(camel(project), { status: 201 });
       },
     },
