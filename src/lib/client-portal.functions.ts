@@ -35,7 +35,7 @@ export const getProjectDetail = createServerFn({ method: "GET" })
     const [{ data: project }, { data: txs }, { data: favs }] = await Promise.all([
       sb
         .from("ct_projects")
-        .select("*, documents:ct_documents(*, segments:ct_segments(status)), jobs:ct_jobs(*)")
+        .select("*, documents:ct_documents(*, segments:ct_segments(status)), jobs:ct_jobs(*, reviews:ct_linguist_reviews(rating,comment))")
         .eq("id", data.id)
         .eq("organization_id", orgId)
         .maybeSingle(),
@@ -56,7 +56,8 @@ export const getProjectDetail = createServerFn({ method: "GET" })
       attached_ocr_request: null,
       jobs: (project.jobs ?? []).map((j: any) => ({
         ...j,
-        review: null,
+        reviews: undefined,
+        review: j.reviews?.[0] ?? null,
         linguist: j.linguist_id
           ? { id: j.linguist_id, name: names.get(j.linguist_id)?.name ?? null, email: names.get(j.linguist_id)?.email ?? null }
           : null,
