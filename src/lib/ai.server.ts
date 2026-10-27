@@ -1,5 +1,20 @@
 // Lovable AI Gateway helpers: segment translation and scanned-PDF OCR.
-import { generateResponse } from "@lovable.dev/ai-gateway";
+import { generateResponse as rawGenerate } from "@lovable.dev/ai-gateway";
+import { getSetting, logAiUsage } from "./settings.server";
+
+// Every AI call uses the admin-selected model and is logged to ct_ai_usage for cost monitoring.
+async function generateResponse(req: any, feature = "other"): Promise<any> {
+  const ai = await getSetting("ai");
+  const model = ai.model || MODEL;
+  try {
+    const res: any = await rawGenerate({ ...req, model } as any);
+    void logAiUsage({ feature, model, usage: res?.usage });
+    return res;
+  } catch (e) {
+    void logAiUsage({ feature, model, ok: false });
+    throw e;
+  }
+}
 
 const MODEL = "openai/gpt-6-astra" as const;
 
@@ -32,6 +47,7 @@ async function translateOnce(texts: string[], source: string, target: string, co
     terms ? `MANDATORY TERMINOLOGY (use these exact target terms, inflect only if grammar requires):\n${terms}` : "",
     context?.style ? `CLIENT STYLE GUIDE (follow it):\n${context.style}` : "",
     context?.notes ? `CLIENT INSTRUCTIONS:\n${context.notes}` : "",
+    (await getSetting("ai")).extraInstructions ? `PLATFORM TRANSLATION POLICY:\n${(await getSetting("ai")).extraInstructions}` : "",
   ]
     .filter(Boolean)
     .join("\n\n");
@@ -66,7 +82,7 @@ async function translateOnce(texts: string[], source: string, target: string, co
         },
       },
     },
-  });
+  }, "translation");
   const parsed = JSON.parse(outputText(res)) as { translations: string[] };
   if (!Array.isArray(parsed.translations) || parsed.translations.length !== texts.length)
     throw new Error("Translation count mismatch");
@@ -112,12 +128,12 @@ export async function ocrDocument(bytes: Uint8Array, filename: string, mime: str
         ],
       },
     ],
-  });
+  }, "ocr");
   return outputText(res).trim();
 }
 
 /** Free-form text generation (e.g. style guide drafting). */
 export async function generateText(instructions: string, input: string): Promise<string> {
-  const res = await generateResponse({ model: MODEL, instructions, input, reasoning: { effort: "low" } });
+  const res = await generateResponse({ model: MODEL, instructions, input, reasoning: { effort: "low" } }, "generate");
   return outputText(res as { output?: unknown[] }).trim();
 }
