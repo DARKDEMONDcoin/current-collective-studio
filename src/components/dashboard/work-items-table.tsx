@@ -130,7 +130,7 @@ function JobRow({
     "pdf";
 
   const altFormats = defaultFormat === "pptx"
-    ? ([] as string[])
+    ? ["pdf"]
     : defaultFormat === "docx"
       ? ["pdf"]
       : ["docx"];

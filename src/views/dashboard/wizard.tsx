@@ -979,7 +979,7 @@ export default function WizardPage() {
 
     if (needsAI && (analysis?.segments?.length ?? 0) > 0) {
       addBotMessage(
-        `Creating your project and running AI pre-translation into ${targetNames}. This may take up to 30 seconds for larger documents — please wait…`,
+        `Creating your project and starting AI translation into ${targetNames}. Large documents keep translating in the background — you can leave this page.`,
         400
       );
     } else {
@@ -1033,7 +1033,7 @@ export default function WizardPage() {
         const segCount = analysis?.segments?.length ?? 0;
         const aiNote =
           needsAI && segCount > 0
-            ? ` AI has drafted all ${segCount} segments — linguists will review and refine.`
+            ? (project.status === "PROCESSING" || project.status === "PENDING" ? ` AI is translating ${segCount} segments in the background — progress is shown on the project page.` : ` AI has translated all ${segCount} segments.`)
             : "";
         addBotMessage(
           `Your project is ready with ${jobCount} translation ${jobCount === 1 ? "job" : "jobs"}.${aiNote} Head to your project to track progress.`,
@@ -1209,7 +1209,7 @@ export default function WizardPage() {
                       ref={fileInputRef}
                       type="file"
                       className="hidden"
-                      accept=".pdf,.docx,.txt,.md,.csv,.jpg,.jpeg,.png,.webp"
+                      accept=".pdf,.docx,.pptx,.txt,.md,.csv,.jpg,.jpeg,.png,.webp"
                       onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0])}
                     />
                     <div className="w-12 h-12 mx-auto rounded-full bg-white border border-[#CBD6E2] flex items-center justify-center mb-3 shadow-sm">

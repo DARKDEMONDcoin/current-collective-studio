@@ -15,6 +15,7 @@ import {
   ScanText,
 } from "lucide-react";
 import { formatDate } from "@/lib/utils";
+import ProcessingBanner from "@/components/dashboard/processing-banner";
 import WorkItemsTable from "@/components/dashboard/work-items-table";
 
 
@@ -22,6 +23,8 @@ import WorkItemsTable from "@/components/dashboard/work-items-table";
 const statusColors: Record<string, string> = {
   DRAFT: "bg-gray-100 text-gray-600 border-gray-200",
   PENDING: "bg-yellow-50 text-yellow-700 border-yellow-200",
+  PROCESSING: "bg-blue-50 text-blue-700 border-blue-200",
+  FAILED: "bg-red-50 text-red-600 border-red-200",
   IN_PROGRESS: "bg-blue-50 text-blue-700 border-blue-200",
   REVIEW: "bg-purple-50 text-purple-700 border-purple-200",
   COMPLETED: "bg-teal-50 text-teal-700 border-teal-200",
@@ -32,6 +35,7 @@ const jobStatusColors: Record<string, string> = {
   AVAILABLE: "bg-teal-50 text-teal-700",
   EXCLUSIVE: "bg-amber-50 text-amber-700",
   ACCEPTED: "bg-blue-50 text-blue-700",
+  SUBMITTED: "bg-amber-50 text-amber-700",
   IN_PROGRESS: "bg-purple-50 text-purple-700",
   COMPLETED: "bg-green-50 text-green-700",
   CANCELLED: "bg-gray-100 text-gray-500",
@@ -93,7 +97,7 @@ function buildTimeline(project: any, jobs: any[]): Milestone[] {
     .map((j) => new Date(j.completedAt))
     .sort((a, b) => a.getTime() - b.getTime())[0] ?? null;
 
-  const pastPending = project.status !== "DRAFT" && project.status !== "PENDING";
+  const pastPending = !["DRAFT", "PENDING", "PROCESSING", "FAILED"].includes(project.status);
 
   const milestones: Milestone[] = [
     { label: "Project created", ts: new Date(project.createdAt), done: true },
@@ -273,6 +277,13 @@ export default function ProjectDetailPage({
 
         {/* ── LEFT COLUMN ─────────────────────────────────────────── */}
         <div className="space-y-5 min-w-0">
+
+          <ProcessingBanner projectId={project.id} status={project.status} />
+          {project.status === "FAILED" && (
+            <section className="rounded-2xl border p-4 text-sm bg-red-50 border-red-200 text-red-700">
+              This order could not be completed{project.failureReason ? "" : ""}. Any credits charged for it were refunded to your balance.
+            </section>
+          )}
 
           {/* Work items table with inline delivery + rating */}
           <WorkItemsTable

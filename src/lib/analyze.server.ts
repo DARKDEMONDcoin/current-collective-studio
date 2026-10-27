@@ -11,7 +11,7 @@ export type AnalyzeOpts = { workflowType?: string; clientAccountId?: string | nu
 export async function analyzeFile(ctx: OrgCtx, file: File, opts: AnalyzeOpts = {}) {
   const fail = (error: string, status: number, extra: Record<string, unknown> = {}) => ({ ok: false as const, status, body: { error, ...extra } });
   if (file.size > MAX_BYTES) return fail("File is too large (max 20 MB).", 413);
-  const { parsePlainText, parseDocx, parsePdf, countWords, detectLanguage } = await import("@/lib/doc-parse.server");
+  const { parsePlainText, parseDocx, parsePptx, parsePdf, countWords, detectLanguage } = await import("@/lib/doc-parse.server");
   const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
   const buf = new Uint8Array(await file.arrayBuffer());
   let segments: { text: string; formatHint: string }[] = [];
@@ -20,6 +20,7 @@ export async function analyzeFile(ctx: OrgCtx, file: File, opts: AnalyzeOpts = {
   try {
     if (["txt", "md", "csv"].includes(ext)) segments = parsePlainText(new TextDecoder().decode(buf));
     else if (ext === "docx") segments = parseDocx(buf);
+    else if (ext === "pptx") segments = await parsePptx(buf);
     else if (ext === "pdf") {
       const r = await parsePdf(buf);
       segments = r.segments;
@@ -28,7 +29,7 @@ export async function analyzeFile(ctx: OrgCtx, file: File, opts: AnalyzeOpts = {
     } else if (IMG.includes(ext)) {
       pageCount = 1;
       needOcr = ext === "png" ? "image/png" : ext === "webp" ? "image/webp" : "image/jpeg";
-    } else return fail("Unsupported file type. Please upload a PDF, DOCX, TXT, or image (JPG/PNG) file.", 415);
+    } else return fail("Unsupported file type. Please upload a PDF, DOCX, PPTX, TXT, or image (JPG/PNG) file.", 415);
   } catch (e) {
     console.error("[analyze] parse failed", e);
     return fail("Could not read that file.", 500);
@@ -80,12 +81,22 @@ export async function analyzeFile(ctx: OrgCtx, file: File, opts: AnalyzeOpts = {
   }
   if (!segments.length) return fail(ext === "pdf" ? "We could not find any readable text in this PDF." : "No text found in the document.", 422);
   const allText = segments.map((s) => s.text).join(" ");
+  // Keep the original so the translation can be delivered in the same format and layout.
+  let storedPath: string | null = null;
+  if (["docx", "pptx", "pdf"].includes(ext)) {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const path = `${ctx.orgId}/${crypto.randomUUID()}/${file.name.replace(/[^\w.\- ]+/g, "_").slice(-120)}`;
+    const { error } = await supabaseAdmin.storage.from("ct-originals").upload(path, buf, { contentType: file.type || "application/octet-stream" });
+    if (error) console.error("[analyze] original upload failed", error.message);
+    else storedPath = path;
+  }
   return {
     ok: true as const, status: 200,
     body: {
       filename: file.name, wordCount: countWords(allText), sourceLanguage: detectLanguage(allText), docType: "General Document",
       segments, segmentCount: segments.length, pageCount, scanned: !!needOcr, ocrConfidence: null,
       sourceMimeType: file.type || null, ocrRequestId, ocrCharged,
+      docxStoredPath: ext === "docx" ? storedPath : null, pptxStoredPath: ext === "pptx" ? storedPath : null, pdfStoredPath: ext === "pdf" ? storedPath : null,
     },
   };
 }

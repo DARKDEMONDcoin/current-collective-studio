@@ -79,6 +79,7 @@ import { Route as ApiNotificationsUnreadCountRouteImport } from './routes/api/no
 import { Route as ApiOcrRequestsIdRouteImport } from './routes/api/ocr-requests.$id'
 import { Route as ApiOrganizationJoinRequestsRouteImport } from './routes/api/organization.join-requests'
 import { Route as ApiOrganizationLinguistsRouteImport } from './routes/api/organization.linguists'
+import { Route as ApiPublicProcessOrdersRouteImport } from './routes/api/public/process-orders'
 import { Route as ApiStyleGuidesIdRouteImport } from './routes/api/style-guides.$id'
 import { Route as ApiStyleGuidesGenerateRouteImport } from './routes/api/style-guides.generate'
 import { Route as ApiTmIdRouteImport } from './routes/api/tm.$id'
@@ -108,6 +109,7 @@ import { Route as ApiLinguistsIdFavoriteRouteImport } from './routes/api/linguis
 import { Route as ApiNotificationsIdReadRouteImport } from './routes/api/notifications/$id.read'
 import { Route as ApiOrganizationLinguistsIdRouteImport } from './routes/api/organization.linguists.$id'
 import { Route as ApiOrganizationLinguistsInviteRouteImport } from './routes/api/organization.linguists.invite'
+import { Route as ApiProjectsIdProgressRouteImport } from './routes/api/projects.$id.progress'
 import { Route as ApiTmIdImportRouteImport } from './routes/api/tm.$id.import'
 import { Route as ApiDepartmentsIdMembersUserIdRouteImport } from './routes/api/departments.$id.members.$userId'
 
@@ -466,6 +468,11 @@ const ApiOrganizationLinguistsRoute =
     path: '/linguists',
     getParentRoute: () => ApiOrganizationRoute,
   } as any)
+const ApiPublicProcessOrdersRoute = ApiPublicProcessOrdersRouteImport.update({
+  id: '/api/public/process-orders',
+  path: '/api/public/process-orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiStyleGuidesIdRoute = ApiStyleGuidesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -621,6 +628,11 @@ const ApiOrganizationLinguistsInviteRoute =
     path: '/invite',
     getParentRoute: () => ApiOrganizationLinguistsRoute,
   } as any)
+const ApiProjectsIdProgressRoute = ApiProjectsIdProgressRouteImport.update({
+  id: '/$id/progress',
+  path: '/$id/progress',
+  getParentRoute: () => ApiProjectsRoute,
+} as any)
 const ApiTmIdImportRoute = ApiTmIdImportRouteImport.update({
   id: '/import',
   path: '/import',
@@ -661,7 +673,7 @@ export interface FileRoutesByFullPath {
   '/api/ocr-requests': typeof ApiOcrRequestsRouteWithChildren
   '/api/org-members': typeof ApiOrgMembersRoute
   '/api/organization': typeof ApiOrganizationRouteWithChildren
-  '/api/projects': typeof ApiProjectsRoute
+  '/api/projects': typeof ApiProjectsRouteWithChildren
   '/api/style-guides': typeof ApiStyleGuidesRouteWithChildren
   '/api/tm': typeof ApiTmRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
@@ -703,6 +715,7 @@ export interface FileRoutesByFullPath {
   '/api/ocr-requests/$id': typeof ApiOcrRequestsIdRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
+  '/api/public/process-orders': typeof ApiPublicProcessOrdersRoute
   '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
   '/api/style-guides/generate': typeof ApiStyleGuidesGenerateRoute
   '/api/tm/$id': typeof ApiTmIdRouteWithChildren
@@ -733,6 +746,7 @@ export interface FileRoutesByFullPath {
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
   '/api/organization/linguists/$id': typeof ApiOrganizationLinguistsIdRoute
   '/api/organization/linguists/invite': typeof ApiOrganizationLinguistsInviteRoute
+  '/api/projects/$id/progress': typeof ApiProjectsIdProgressRoute
   '/api/tm/$id/import': typeof ApiTmIdImportRoute
   '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
@@ -761,7 +775,7 @@ export interface FileRoutesByTo {
   '/api/ocr-requests': typeof ApiOcrRequestsRouteWithChildren
   '/api/org-members': typeof ApiOrgMembersRoute
   '/api/organization': typeof ApiOrganizationRouteWithChildren
-  '/api/projects': typeof ApiProjectsRoute
+  '/api/projects': typeof ApiProjectsRouteWithChildren
   '/api/style-guides': typeof ApiStyleGuidesRouteWithChildren
   '/api/tm': typeof ApiTmRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
@@ -803,6 +817,7 @@ export interface FileRoutesByTo {
   '/api/ocr-requests/$id': typeof ApiOcrRequestsIdRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
+  '/api/public/process-orders': typeof ApiPublicProcessOrdersRoute
   '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
   '/api/style-guides/generate': typeof ApiStyleGuidesGenerateRoute
   '/api/tm/$id': typeof ApiTmIdRouteWithChildren
@@ -833,6 +848,7 @@ export interface FileRoutesByTo {
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
   '/api/organization/linguists/$id': typeof ApiOrganizationLinguistsIdRoute
   '/api/organization/linguists/invite': typeof ApiOrganizationLinguistsInviteRoute
+  '/api/projects/$id/progress': typeof ApiProjectsIdProgressRoute
   '/api/tm/$id/import': typeof ApiTmIdImportRoute
   '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
@@ -865,7 +881,7 @@ export interface FileRoutesById {
   '/api/ocr-requests': typeof ApiOcrRequestsRouteWithChildren
   '/api/org-members': typeof ApiOrgMembersRoute
   '/api/organization': typeof ApiOrganizationRouteWithChildren
-  '/api/projects': typeof ApiProjectsRoute
+  '/api/projects': typeof ApiProjectsRouteWithChildren
   '/api/style-guides': typeof ApiStyleGuidesRouteWithChildren
   '/api/tm': typeof ApiTmRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
@@ -907,6 +923,7 @@ export interface FileRoutesById {
   '/api/ocr-requests/$id': typeof ApiOcrRequestsIdRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
+  '/api/public/process-orders': typeof ApiPublicProcessOrdersRoute
   '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
   '/api/style-guides/generate': typeof ApiStyleGuidesGenerateRoute
   '/api/tm/$id': typeof ApiTmIdRouteWithChildren
@@ -937,6 +954,7 @@ export interface FileRoutesById {
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
   '/api/organization/linguists/$id': typeof ApiOrganizationLinguistsIdRoute
   '/api/organization/linguists/invite': typeof ApiOrganizationLinguistsInviteRoute
+  '/api/projects/$id/progress': typeof ApiProjectsIdProgressRoute
   '/api/tm/$id/import': typeof ApiTmIdImportRoute
   '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
@@ -1012,6 +1030,7 @@ export interface FileRouteTypes {
     | '/api/ocr-requests/$id'
     | '/api/organization/join-requests'
     | '/api/organization/linguists'
+    | '/api/public/process-orders'
     | '/api/style-guides/$id'
     | '/api/style-guides/generate'
     | '/api/tm/$id'
@@ -1042,6 +1061,7 @@ export interface FileRouteTypes {
     | '/api/notifications/$id/read'
     | '/api/organization/linguists/$id'
     | '/api/organization/linguists/invite'
+    | '/api/projects/$id/progress'
     | '/api/tm/$id/import'
     | '/api/departments/$id/members/$userId'
   fileRoutesByTo: FileRoutesByTo
@@ -1112,6 +1132,7 @@ export interface FileRouteTypes {
     | '/api/ocr-requests/$id'
     | '/api/organization/join-requests'
     | '/api/organization/linguists'
+    | '/api/public/process-orders'
     | '/api/style-guides/$id'
     | '/api/style-guides/generate'
     | '/api/tm/$id'
@@ -1142,6 +1163,7 @@ export interface FileRouteTypes {
     | '/api/notifications/$id/read'
     | '/api/organization/linguists/$id'
     | '/api/organization/linguists/invite'
+    | '/api/projects/$id/progress'
     | '/api/tm/$id/import'
     | '/api/departments/$id/members/$userId'
   id:
@@ -1215,6 +1237,7 @@ export interface FileRouteTypes {
     | '/api/ocr-requests/$id'
     | '/api/organization/join-requests'
     | '/api/organization/linguists'
+    | '/api/public/process-orders'
     | '/api/style-guides/$id'
     | '/api/style-guides/generate'
     | '/api/tm/$id'
@@ -1245,6 +1268,7 @@ export interface FileRouteTypes {
     | '/api/notifications/$id/read'
     | '/api/organization/linguists/$id'
     | '/api/organization/linguists/invite'
+    | '/api/projects/$id/progress'
     | '/api/tm/$id/import'
     | '/api/departments/$id/members/$userId'
   fileRoutesById: FileRoutesById
@@ -1274,7 +1298,7 @@ export interface RootRouteChildren {
   ApiOcrRequestsRoute: typeof ApiOcrRequestsRouteWithChildren
   ApiOrgMembersRoute: typeof ApiOrgMembersRoute
   ApiOrganizationRoute: typeof ApiOrganizationRouteWithChildren
-  ApiProjectsRoute: typeof ApiProjectsRoute
+  ApiProjectsRoute: typeof ApiProjectsRouteWithChildren
   ApiStyleGuidesRoute: typeof ApiStyleGuidesRouteWithChildren
   ApiTmRoute: typeof ApiTmRouteWithChildren
   ProductAgencyRoute: typeof ProductAgencyRoute
@@ -1293,6 +1317,7 @@ export interface RootRouteChildren {
   ApiIntegrationsCloudStatusRoute: typeof ApiIntegrationsCloudStatusRoute
   ApiNotificationsReadAllRoute: typeof ApiNotificationsReadAllRoute
   ApiNotificationsUnreadCountRoute: typeof ApiNotificationsUnreadCountRoute
+  ApiPublicProcessOrdersRoute: typeof ApiPublicProcessOrdersRoute
   ApiUploadAnalyzeRoute: typeof ApiUploadAnalyzeRoute
   ApiNotificationsIndexRoute: typeof ApiNotificationsIndexRoute
   ApiJobsIdDeliverRoute: typeof ApiJobsIdDeliverRoute
@@ -1794,6 +1819,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiOrganizationLinguistsRouteImport
       parentRoute: typeof ApiOrganizationRoute
     }
+    '/api/public/process-orders': {
+      id: '/api/public/process-orders'
+      path: '/api/public/process-orders'
+      fullPath: '/api/public/process-orders'
+      preLoaderRoute: typeof ApiPublicProcessOrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/style-guides/$id': {
       id: '/api/style-guides/$id'
       path: '/$id'
@@ -1996,6 +2028,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/organization/linguists/invite'
       preLoaderRoute: typeof ApiOrganizationLinguistsInviteRouteImport
       parentRoute: typeof ApiOrganizationLinguistsRoute
+    }
+    '/api/projects/$id/progress': {
+      id: '/api/projects/$id/progress'
+      path: '/$id/progress'
+      fullPath: '/api/projects/$id/progress'
+      preLoaderRoute: typeof ApiProjectsIdProgressRouteImport
+      parentRoute: typeof ApiProjectsRoute
     }
     '/api/tm/$id/import': {
       id: '/api/tm/$id/import'
@@ -2235,6 +2274,18 @@ const ApiOrganizationRouteWithChildren = ApiOrganizationRoute._addFileChildren(
   ApiOrganizationRouteChildren,
 )
 
+interface ApiProjectsRouteChildren {
+  ApiProjectsIdProgressRoute: typeof ApiProjectsIdProgressRoute
+}
+
+const ApiProjectsRouteChildren: ApiProjectsRouteChildren = {
+  ApiProjectsIdProgressRoute: ApiProjectsIdProgressRoute,
+}
+
+const ApiProjectsRouteWithChildren = ApiProjectsRoute._addFileChildren(
+  ApiProjectsRouteChildren,
+)
+
 interface ApiStyleGuidesRouteChildren {
   ApiStyleGuidesIdRoute: typeof ApiStyleGuidesIdRoute
   ApiStyleGuidesGenerateRoute: typeof ApiStyleGuidesGenerateRoute
@@ -2317,7 +2368,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiOcrRequestsRoute: ApiOcrRequestsRouteWithChildren,
   ApiOrgMembersRoute: ApiOrgMembersRoute,
   ApiOrganizationRoute: ApiOrganizationRouteWithChildren,
-  ApiProjectsRoute: ApiProjectsRoute,
+  ApiProjectsRoute: ApiProjectsRouteWithChildren,
   ApiStyleGuidesRoute: ApiStyleGuidesRouteWithChildren,
   ApiTmRoute: ApiTmRouteWithChildren,
   ProductAgencyRoute: ProductAgencyRoute,
@@ -2336,6 +2387,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiIntegrationsCloudStatusRoute: ApiIntegrationsCloudStatusRoute,
   ApiNotificationsReadAllRoute: ApiNotificationsReadAllRoute,
   ApiNotificationsUnreadCountRoute: ApiNotificationsUnreadCountRoute,
+  ApiPublicProcessOrdersRoute: ApiPublicProcessOrdersRoute,
   ApiUploadAnalyzeRoute: ApiUploadAnalyzeRoute,
   ApiNotificationsIndexRoute: ApiNotificationsIndexRoute,
   ApiJobsIdDeliverRoute: ApiJobsIdDeliverRoute,

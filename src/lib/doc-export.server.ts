@@ -1,0 +1,243 @@
+// Builds the translated deliverable for a job.
+//  - DOCX / PPTX with an original file: the original package is reopened and only the
+//    paragraph text is swapped, so styles, tables, images, slide layout stay intact.
+//  - DOCX without an original (TXT / PDF / pasted text): a clean Word file.
+//  - PDF: a real PDF (pdf-lib) with the translated text re-flowed on A4 pages; Arabic and
+//    Hebrew are shaped and right-aligned. The original PDF's page layout cannot be rebuilt.
+import { unzipSync, zipSync, strFromU8, strToU8 } from "fflate";
+
+export type Pair = { source: string; target: string; hint: string };
+
+const RTL_LANGS = ["ar", "he", "fa", "ur", "arabic", "hebrew", "persian", "farsi", "urdu"];
+export const isRtl = (lang: string) => RTL_LANGS.includes(String(lang).toLowerCase().trim());
+
+const esc = (s: string) =>
+  s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const decodeXml = (s: string) =>
+  s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, "&");
+const norm = (s: string) => s.replace(/\s+/g, " ").trim();
+
+/** Walks paragraphs in order and pairs each with the next matching source segment. */
+function makeMatcher(pairs: Pair[]) {
+  let k = 0;
+  return (text: string): string | null => {
+    const t = norm(text);
+    if (!t) return null;
+    for (let j = k; j < Math.min(pairs.length, k + 8); j++) {
+      if (norm(pairs[j].source) === t) {
+        k = j + 1;
+        return pairs[j].target;
+      }
+    }
+    return null;
+  };
+}
+
+// ── DOCX ────────────────────────────────────────────────────────
+function docxParagraph(p: string, target: string, rtl: boolean): string {
+  let first = true;
+  let out = p.replace(/<w:t(?: [^>]*)?>[\s\S]*?<\/w:t>/g, () => {
+    if (!first) return "<w:t></w:t>";
+    first = false;
+    return `<w:t xml:space="preserve">${esc(target)}</w:t>`;
+  });
+  out = out.replace(/<w:tab\/>/g, "");
+  if (rtl) {
+    if (/<w:pPr>/.test(out)) out = out.replace(/<w:pPr>/, "<w:pPr><w:bidi/>");
+    else if (/<w:pPr\/>/.test(out)) out = out.replace(/<w:pPr\/>/, "<w:pPr><w:bidi/></w:pPr>");
+    else out = out.replace(/^<w:p( [^>]*)?>/, (m) => `${m}<w:pPr><w:bidi/></w:pPr>`);
+    out = out.replace(/<w:rPr>/g, "<w:rPr><w:rtl/>");
+    out = out.replace(/<w:r>(?!<w:rPr>)/g, "<w:r><w:rPr><w:rtl/></w:rPr>");
+  }
+  return out;
+}
+
+export function translateDocx(original: Uint8Array, pairs: Pair[], rtl: boolean): { bytes: Uint8Array; matched: number } {
+  const files = unzipSync(original);
+  const xml = files["word/document.xml"];
+  if (!xml) throw new Error("Not a Word document");
+  const match = makeMatcher(pairs);
+  let matched = 0;
+  const doc = strFromU8(xml).replace(/<w:p[ >][\s\S]*?<\/w:p>/g, (p) => {
+    const text = decodeXml(
+      [...p.matchAll(/<w:t(?: [^>]*)?>([\s\S]*?)<\/w:t>|<w:tab\/>/g)].map((t) => (t[1] === undefined ? " " : t[1])).join(""),
+    );
+    const target = match(text);
+    if (target == null) return p;
+    matched++;
+    return docxParagraph(p, target, rtl);
+  });
+  files["word/document.xml"] = strToU8(doc);
+  return { bytes: zipSync(files), matched };
+}
+
+export function buildDocx(pairs: Pair[], rtl: boolean): Uint8Array {
+  const body = pairs
+    .map(({ target, hint }) => {
+      const h = hint.match(/^h(\d)$/)?.[1];
+      const pPr = `<w:pPr>${h ? `<w:pStyle w:val="Heading${h}"/>` : ""}${rtl ? "<w:bidi/>" : ""}</w:pPr>`;
+      const rPr = `<w:rPr>${h ? "<w:b/>" : ""}${h ? `<w:sz w:val="${36 - Number(h) * 4}"/>` : ""}${rtl ? "<w:rtl/>" : ""}</w:rPr>`;
+      return `<w:p>${pPr}<w:r>${rPr}<w:t xml:space="preserve">${esc(target)}</w:t></w:r></w:p>`;
+    })
+    .join("");
+  return zipSync({
+    "[Content_Types].xml": strToU8(
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`,
+    ),
+    "_rels/.rels": strToU8(
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`,
+    ),
+    "word/document.xml": strToU8(
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${body}<w:sectPr>${rtl ? "<w:bidi/>" : ""}</w:sectPr></w:body></w:document>`,
+    ),
+  });
+}
+
+// ── PPTX ────────────────────────────────────────────────────────
+export const slideNames = (files: Record<string, Uint8Array>) =>
+  Object.keys(files)
+    .filter((n) => /^ppt\/slides\/slide\d+\.xml$/.test(n))
+    .sort((a, b) => Number(a.match(/(\d+)\.xml$/)![1]) - Number(b.match(/(\d+)\.xml$/)![1]));
+
+export const PPTX_PARA = /<a:p(?:\s[^>]*)?>[\s\S]*?<\/a:p>/g;
+export const pptxParaText = (p: string) =>
+  decodeXml([...p.matchAll(/<a:t>([\s\S]*?)<\/a:t>|<a:t\/>/g)].map((t) => t[1] ?? "").join(""));
+
+export function translatePptx(original: Uint8Array, pairs: Pair[], rtl: boolean): { bytes: Uint8Array; matched: number } {
+  const files = unzipSync(original);
+  const match = makeMatcher(pairs);
+  let matched = 0;
+  for (const name of slideNames(files)) {
+    const xml = strFromU8(files[name]).replace(PPTX_PARA, (p) => {
+      const target = match(pptxParaText(p));
+      if (target == null) return p;
+      matched++;
+      let first = true;
+      let out = p.replace(/<a:t>[\s\S]*?<\/a:t>/g, () => {
+        if (!first) return "<a:t></a:t>";
+        first = false;
+        return `<a:t>${esc(target)}</a:t>`;
+      });
+      if (rtl) {
+        if (/<a:pPr\b/.test(out)) out = out.replace(/<a:pPr\b(?![^>]*rtl=)/, '<a:pPr rtl="1"');
+        else out = out.replace(/^<a:p(\s[^>]*)?>/, (m) => `${m}<a:pPr rtl="1"/>`);
+      }
+      return out;
+    });
+    files[name] = strToU8(xml);
+  }
+  return { bytes: zipSync(files), matched };
+}
+
+// ── PDF ─────────────────────────────────────────────────────────
+const FONT_BASE = "https://cdn.jsdelivr.net/gh/notofonts/notofonts.github.io/fonts";
+const FONTS = {
+  latin: `${FONT_BASE}/NotoSans/hinted/ttf/NotoSans-Regular.ttf`,
+  latinBold: `${FONT_BASE}/NotoSans/hinted/ttf/NotoSans-Bold.ttf`,
+  arabic: `${FONT_BASE}/NotoNaskhArabic/hinted/ttf/NotoNaskhArabic-Regular.ttf`,
+  hebrew: `${FONT_BASE}/NotoSansHebrew/hinted/ttf/NotoSansHebrew-Regular.ttf`,
+};
+const fontCache = new Map<string, Uint8Array>();
+async function loadFont(url: string) {
+  const hit = fontCache.get(url);
+  if (hit) return hit;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Font download failed (${res.status})`);
+  const bytes = new Uint8Array(await res.arrayBuffer());
+  fontCache.set(url, bytes);
+  return bytes;
+}
+
+const ARABIC = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
+const HEBREW = /[\u0590-\u05FF\uFB1D-\uFB4F]/;
+// Scripts the bundled fonts cannot draw (CJK, Indic, Thai, ...).
+const UNSUPPORTED = /[\u0900-\u0DFF\u0E00-\u0EFF\u1000-\u109F\u3040-\u30FF\u3400-\u9FFF\uAC00-\uD7AF]/;
+
+export class PdfScriptUnsupported extends Error {}
+
+export async function buildPdf(pairs: Pair[], rtl: boolean, title: string): Promise<Uint8Array> {
+  const all = pairs.map((p) => p.target).join("\n");
+  if (UNSUPPORTED.test(all)) throw new PdfScriptUnsupported("PDF export does not support this language yet.");
+  const { PDFDocument, rgb } = await import("pdf-lib");
+  const fontkit = (await import("@pdf-lib/fontkit")).default;
+  const doc = await PDFDocument.create();
+  doc.registerFontkit(fontkit);
+  doc.setTitle(title);
+  const needAr = ARABIC.test(all);
+  const needHe = HEBREW.test(all);
+  const [latin, latinBold, ar, he] = await Promise.all([
+    loadFont(FONTS.latin).then((b) => doc.embedFont(b, { subset: true })),
+    loadFont(FONTS.latinBold).then((b) => doc.embedFont(b, { subset: true })),
+    needAr ? loadFont(FONTS.arabic).then((b) => doc.embedFont(b, { subset: true })) : null,
+    needHe ? loadFont(FONTS.hebrew).then((b) => doc.embedFont(b, { subset: true })) : null,
+  ]);
+  type Font = typeof latin;
+  const fontFor = (ch: string, bold: boolean): Font =>
+    ar && ARABIC.test(ch) ? ar : he && HEBREW.test(ch) ? he : bold ? latinBold : latin;
+
+  // Split text into runs that share one font; neutral characters join the current run.
+  const runs = (text: string, bold: boolean) => {
+    const out: { text: string; font: Font; rtl: boolean }[] = [];
+    for (const ch of text) {
+      const neutral = /[\s.,;:!?()\-"'،؛؟]/.test(ch);
+      const f = neutral && out.length ? out[out.length - 1].font : fontFor(ch, bold);
+      const last = out[out.length - 1];
+      if (last && last.font === f) last.text += ch;
+      else out.push({ text: ch, font: f, rtl: f === ar || f === he });
+    }
+    return out;
+  };
+  const width = (text: string, size: number, bold: boolean) =>
+    runs(text, bold).reduce((w, r) => w + r.font.widthOfTextAtSize(r.text, size), 0);
+
+  const W = 595.28, H = 841.89, M = 56;
+  let page = doc.addPage([W, H]);
+  let y = H - M;
+  const color = rgb(0.13, 0.17, 0.22);
+
+  for (const { target, hint } of pairs) {
+    const h = Number(hint.match(/^h(\d)$/)?.[1] ?? 0);
+    const size = h === 1 ? 20 : h === 2 ? 16 : h ? 13.5 : 11;
+    const bold = h > 0;
+    const lead = size * 1.55;
+    // Word wrap
+    const lines: string[] = [];
+    let cur = "";
+    for (const word of target.split(/\s+/).filter(Boolean)) {
+      const next = cur ? `${cur} ${word}` : word;
+      if (width(next, size, bold) > W - 2 * M && cur) {
+        lines.push(cur);
+        cur = word;
+      } else cur = next;
+    }
+    if (cur) lines.push(cur);
+    y -= h ? size * 0.6 : 0;
+    for (const line of lines) {
+      if (y - lead < M) {
+        page = doc.addPage([W, H]);
+        y = H - M;
+      }
+      y -= lead;
+      const rs = runs(line, bold);
+      const total = rs.reduce((w, r) => w + r.font.widthOfTextAtSize(r.text, size), 0);
+      // RTL paragraphs: right-aligned, runs laid out right-to-left (each run is shaped by fontkit).
+      let x = rtl ? W - M : M;
+      if (rtl) {
+        for (const r of rs) {
+          const t = r.text.trim() ? r.text : r.text;
+          const w = r.font.widthOfTextAtSize(t, size);
+          x -= w;
+          page.drawText(t, { x, y, size, font: r.font, color });
+        }
+      } else {
+        for (const r of rs) {
+          page.drawText(r.text, { x, y, size, font: r.font, color });
+          x += r.font.widthOfTextAtSize(r.text, size);
+        }
+      }
+      void total;
+    }
+    y -= size * 0.6;
+  }
+  return doc.save();
+}

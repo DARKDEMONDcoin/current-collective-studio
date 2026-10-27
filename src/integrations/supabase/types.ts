@@ -1032,6 +1032,24 @@ export type Database = {
         }
         Relationships: []
       }
+      ct_internal_secrets: {
+        Row: {
+          created_at: string
+          key: string
+          value: string
+        }
+        Insert: {
+          created_at?: string
+          key: string
+          value: string
+        }
+        Update: {
+          created_at?: string
+          key?: string
+          value?: string
+        }
+        Relationships: []
+      }
       ct_jobs: {
         Row: {
           accepted_at: string | null
@@ -1046,8 +1064,11 @@ export type Database = {
           linguist_source: string
           payout_amount: number | null
           project_id: string
+          review_note: string | null
+          revision_count: number
           source_language: string
           status: string
+          submitted_at: string | null
           target_language: string
           word_count: number
         }
@@ -1064,8 +1085,11 @@ export type Database = {
           linguist_source?: string
           payout_amount?: number | null
           project_id: string
+          review_note?: string | null
+          revision_count?: number
           source_language: string
           status?: string
+          submitted_at?: string | null
           target_language: string
           word_count?: number
         }
@@ -1082,8 +1106,11 @@ export type Database = {
           linguist_source?: string
           payout_amount?: number | null
           project_id?: string
+          review_note?: string | null
+          revision_count?: number
           source_language?: string
           status?: string
+          submitted_at?: string | null
           target_language?: string
           word_count?: number
         }
@@ -1528,16 +1555,22 @@ export type Database = {
           attached_glossary_ids: string[]
           attached_style_guide_ids: string[]
           attached_tm_ids: string[]
+          attempts: number
           client_id: string
           created_at: string
           due_date: string | null
           failure_reason: string | null
           id: string
           idempotency_key: string | null
+          last_error: string | null
+          lease_until: string | null
           name: string
+          next_attempt_at: string
           notes: string | null
           ocr_confidence_warning: boolean
           organization_id: string
+          progress_done: number
+          progress_total: number
           source_language: string
           status: string
           target_languages: string[]
@@ -1549,16 +1582,22 @@ export type Database = {
           attached_glossary_ids?: string[]
           attached_style_guide_ids?: string[]
           attached_tm_ids?: string[]
+          attempts?: number
           client_id: string
           created_at?: string
           due_date?: string | null
           failure_reason?: string | null
           id?: string
           idempotency_key?: string | null
+          last_error?: string | null
+          lease_until?: string | null
           name: string
+          next_attempt_at?: string
           notes?: string | null
           ocr_confidence_warning?: boolean
           organization_id: string
+          progress_done?: number
+          progress_total?: number
           source_language: string
           status?: string
           target_languages?: string[]
@@ -1570,16 +1609,22 @@ export type Database = {
           attached_glossary_ids?: string[]
           attached_style_guide_ids?: string[]
           attached_tm_ids?: string[]
+          attempts?: number
           client_id?: string
           created_at?: string
           due_date?: string | null
           failure_reason?: string | null
           id?: string
           idempotency_key?: string | null
+          last_error?: string | null
+          lease_until?: string | null
           name?: string
+          next_attempt_at?: string
           notes?: string | null
           ocr_confidence_warning?: boolean
           organization_id?: string
+          progress_done?: number
+          progress_total?: number
           source_language?: string
           status?: string
           target_languages?: string[]
