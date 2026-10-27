@@ -121,6 +121,29 @@ function JobRow({
   const [actionPending, setActionPending] = useState(false);
 
   const isComplete = job.status === "COMPLETED";
+  const awaitingApproval = job.status === "SUBMITTED";
+  const [reviewBusy, setReviewBusy] = useState(false);
+  const [reviewMsg, setReviewMsg] = useState("");
+
+  async function approveJob() {
+    setReviewBusy(true); setReviewMsg("");
+    const res = await fetch(`/api/jobs/${job.id}/approve`, { method: "POST" });
+    if (res.ok) { window.location.reload(); return; }
+    setReviewMsg((await res.json().catch(() => ({})))?.error ?? "Could not approve. Please try again.");
+    setReviewBusy(false);
+  }
+
+  async function requestChanges() {
+    const note = window.prompt("What should the Linguist change?");
+    if (!note?.trim()) return;
+    setReviewBusy(true); setReviewMsg("");
+    const res = await fetch(`/api/jobs/${job.id}/request-changes`, {
+      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ note }),
+    });
+    if (res.ok) { window.location.reload(); return; }
+    setReviewMsg((await res.json().catch(() => ({})))?.error ?? "Could not send the request. Please try again.");
+    setReviewBusy(false);
+  }
   const hasLinguist = !!job.linguistId;
 
   const sourceFileType = docs[0]?.fileType ?? "pdf";
@@ -285,6 +308,28 @@ function JobRow({
         <td className="px-4 py-3">
           <div className="flex flex-col items-end gap-1.5">
             <div className="flex items-center gap-2 justify-end">
+            {awaitingApproval && (
+              <>
+                <button
+                  onClick={approveJob}
+                  disabled={reviewBusy}
+                  data-testid={`btn-approve-${job.id}`}
+                  className="text-xs font-semibold px-3 py-1.5 rounded-lg text-white disabled:opacity-60"
+                  style={{ background: "#00BDA5" }}
+                >
+                  {reviewBusy ? "…" : "Approve"}
+                </button>
+                <button
+                  onClick={requestChanges}
+                  disabled={reviewBusy}
+                  data-testid={`btn-request-changes-${job.id}`}
+                  className="text-xs px-3 py-1.5 rounded-lg border disabled:opacity-60"
+                  style={{ borderColor: "#CBD6E2", color: "#516F90" }}
+                >
+                  Request changes
+                </button>
+              </>
+            )}
             {isComplete && (
               <>
                 {/* Split download button — primary = original format, chevron = alternate formats */}
@@ -373,6 +418,7 @@ function JobRow({
               </button>
             )}
             </div>
+            {reviewMsg && <p className="text-[11px] text-red-500 max-w-[220px] text-right leading-tight">{reviewMsg}</p>}
             {downloadError && (
               <p className="text-[11px] text-red-500 max-w-[220px] text-right leading-tight" data-testid={`download-error-${job.id}`}>
                 {downloadError}

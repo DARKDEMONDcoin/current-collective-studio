@@ -172,6 +172,11 @@ export async function buildPdf(pairs: Pair[], rtl: boolean, title: string): Prom
     needHe ? loadFont(FONTS.hebrew).then((b) => doc.embedFont(b, { subset: true })) : null,
   ]);
   type Font = typeof latin;
+  const charsets = new Map<Font, Set<number>>();
+  const has = (f: Font, ch: string) => {
+    if (!charsets.has(f)) charsets.set(f, new Set(f.getCharacterSet()));
+    return charsets.get(f)!.has(ch.codePointAt(0)!);
+  };
   const fontFor = (ch: string, bold: boolean): Font =>
     ar && ARABIC.test(ch) ? ar : he && HEBREW.test(ch) ? he : bold ? latinBold : latin;
 
@@ -180,7 +185,8 @@ export async function buildPdf(pairs: Pair[], rtl: boolean, title: string): Prom
     const out: { text: string; font: Font; rtl: boolean }[] = [];
     for (const ch of text) {
       const neutral = /[\s.,;:!?()\-"'،؛؟]/.test(ch);
-      const f = neutral && out.length ? out[out.length - 1].font : fontFor(ch, bold);
+      const prev = out[out.length - 1]?.font;
+      const f = neutral && prev && has(prev, ch) ? prev : fontFor(ch, bold);
       const last = out[out.length - 1];
       if (last && last.font === f) last.text += ch;
       else out.push({ text: ch, font: f, rtl: f === ar || f === he });

@@ -281,7 +281,7 @@ export default function ProjectDetailPage({
           <ProcessingBanner projectId={project.id} status={project.status} />
           {project.status === "FAILED" && (
             <section className="rounded-2xl border p-4 text-sm bg-red-50 border-red-200 text-red-700">
-              This order could not be completed{project.failureReason ? "" : ""}. Any credits charged for it were refunded to your balance.
+              This order could not be completed. Any credits charged for it were refunded to your balance.
             </section>
           )}
 
