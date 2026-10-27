@@ -51,6 +51,20 @@ try {
   const prof = await ad.from("ct_profiles").select("user_id", { count: "exact", head: true });
   ok("admin can read all profiles", (prof.count ?? 0) >= 3, String(prof.count));
 
+  // Admin settings: only admins write; the server enforces them
+  const cw = await c.from("ct_admin_settings" as any).upsert({ key: "general", value: { ordersPaused: true } }).select();
+  ok("client cannot change platform settings", !!cw.error || !(cw.data ?? []).length);
+  ok("client cannot read AI usage", ((await c.from("ct_ai_usage" as any).select("id").limit(1)).data ?? []).length === 0);
+  const { data: prevGeneral } = await admin.from("ct_admin_settings" as any).select("value").eq("key", "general").maybeSingle();
+  const aw = await ad.from("ct_admin_settings" as any).upsert({ key: "general", value: { ordersPaused: true, pauseMessage: "QA pause" } }).select();
+  ok("admin can change platform settings", !aw.error && (aw.data ?? []).length === 1, aw.error?.message);
+  await new Promise((r) => setTimeout(r, 31_000)); // server caches settings for 30s
+  const paused = await api(C.tok)("/api/projects", { method: "POST", body: JSON.stringify({ name: "x", targetLanguages: ["Arabic"], segments: ["Hello"], wordCount: 1, workflowType: "CREDITS", idempotencyKey: crypto.randomUUID() }) });
+  ok("paused orders are refused with the admin message", paused.s === 503 && paused.j?.error === "QA pause", `${paused.s} ${JSON.stringify(paused.j)}`);
+  if (prevGeneral) await admin.from("ct_admin_settings" as any).update({ value: (prevGeneral as any).value }).eq("key", "general");
+  else await admin.from("ct_admin_settings" as any).delete().eq("key", "general");
+  await new Promise((r) => setTimeout(r, 31_000)); // let the server pick up the restored setting
+
   // Credit adjustment
   const b0 = await balance(orgC);
   let r: any = await admin.rpc("ct_admin_adjust_credits" as any, { _admin: C.id, _org: orgC, _amount: 500, _reason: "fake" });

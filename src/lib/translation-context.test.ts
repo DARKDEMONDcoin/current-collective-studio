@@ -30,3 +30,27 @@ describe("target language checks", () => {
     expect(checkSegment("Contentech starts on 1 January 2027.", "تبدأ Contentech في 1 يناير 2027.", dnt, false, "Arabic")).toEqual([]);
   });
 });
+
+import { normNumber, checkSegment as cs } from "./translation-context.server";
+describe("locale number formats", () => {
+  it("treats French 3 200 and English 3,200 as the same amount", () => {
+    expect(normNumber("3 200")).toBe(normNumber("3,200"));
+    expect(normNumber("3\u202f200,50")).toBe("3200.5");
+    expect(normNumber("3,200.50")).toBe("3200.5");
+  });
+  it("does not flag a correctly localized French amount", () => {
+    expect(cs("The fee is $3,200.50 for 12 pages.", "Les frais s'élèvent à 3\u202f200,50 $ pour 12 pages.", [], true, "French")).toEqual([]);
+  });
+  it("still flags a changed amount", () => {
+    expect(cs("The fee is $3,200.", "Les frais s'élèvent à 3\u202f300 $.", [], true, "French").join()).toMatch(/numbers/);
+  });
+});
+
+import { shapeArabic } from "./arabic-shape";
+describe("Arabic PDF shaping", () => {
+  it("uses joined letter forms and the lam-alef ligature", () => {
+    // بين = initial beh, medial yeh, final noon
+    expect([...shapeArabic("بين")].map((c) => c.codePointAt(0)!.toString(16))).toEqual(["fe91", "fef4", "fee6"]);
+    expect(shapeArabic("لا")).toBe("\ufefb");
+  });
+});

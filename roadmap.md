@@ -24,7 +24,8 @@
 - [x] Admin: routing monitor + rules (enforced on job visibility/accept), AI config (model + policy + corrective pass, enforced), email templates (saved; sending blocked on domain), plans, LLM usage (real token/cost log), site content, resources CMS, settings (order pause enforced). Unit tests + regression pass; new screens not yet opened signed-in
 - [ ] Card payments: built-in payments need a paid Lovable plan; alternative is connecting own Stripe key (user decision)
 - [ ] Emails: blocked until user connects a sender domain
-- [ ] Remaining doc issues: French number formatting, RTL table placement in some viewers, Hebrew PDF + RTL PPTX visual check
+- [x] French/locale number formats (prompt + checker understands "3 200,50"), Hebrew PDF bidi order fixed, Arabic PDF letter dots fixed (own shaping), Arabic PPTX + RTL Word table checked in LibreOffice render; names now written in target script. Reference scoring (OPUS-100, 60 sentences): chrF++ en-ar 42, ar-en 61, en-fr 57, en-he 54
+- [ ] Not yet checked: Word/Google Docs/Pages rendering of RTL tables (only LibreOffice), Hebrew PPTX, large real client documents
 - [ ] Signed-in UI pass as the owner's testing account (needs the owner to sign in; project uses its own Supabase so the sandbox cannot sign in as a real user)
 - [x] Older accounts (incl. testing account) had no Contentech workspace -> created on first dashboard visit (tested)
 - [x] Scanned-PDF OCR was broken (buffer emptied by PDF reader) -> fixed, 0% char error on EN image + AR scanned PDF

@@ -69,7 +69,22 @@ export function relevantTerms(ctx: TranslationContext, texts: string[]): Glossar
 // Western + Arabic-Indic + Persian digits normalized to 0-9.
 const toAscii = (s: string) =>
   s.replace(/[\u0660-\u0669]/g, (d) => String(d.charCodeAt(0) - 0x660)).replace(/[\u06F0-\u06F9]/g, (d) => String(d.charCodeAt(0) - 0x6f0));
-const numbers = (s: string) => (toAscii(s).match(/\d+(?:[.,]\d+)*/g) ?? []).map((n) => n.replace(/[.,](?=\d{3}\b)/g, "").replace(",", ".")).sort();
+// Locale-neutral numeric value: "3,200" (EN) = "3 200" / "3 200" (FR) = "3.200" (DE) = "3200";
+// "3 200,50" = "3,200.50" = "3200.5". A separator followed by exactly 3 digits is a thousands separator.
+export const normNumber = (n: string) => {
+  const parts = n.split(/[.,'\u00a0\u202f\u2009 ]/);
+  const seps = n.match(/[.,'\u00a0\u202f\u2009 ]/g) ?? [];
+  let int = parts[0], dec = "";
+  for (let i = 1; i < parts.length; i++) {
+    const isLast = i === parts.length - 1;
+    if (isLast && /[.,]/.test(seps[i - 1]) && parts[i].length !== 3) dec = parts[i];
+    else int += parts[i];
+  }
+  const v = dec ? `${int}.${dec}` : int;
+  return v.replace(/^0+(?=\d)/, "").replace(/(\.\d*?)0+$/, "$1").replace(/\.$/, "");
+};
+const numbers = (s: string) =>
+  (toAscii(s).match(/\d+(?:(?:[.,'\u00a0\u202f\u2009]| (?=\d{3}\b))\d+)*/g) ?? []).map(normNumber).sort();
 
 /** Returns a list of problems with one translated segment, empty when it passes. */
 const SCRIPT: [RegExp, RegExp][] = [
