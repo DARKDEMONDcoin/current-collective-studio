@@ -51,7 +51,8 @@ export function parseDocx(buf: Uint8Array): Segment[] {
 
 export async function parsePdf(buf: Uint8Array): Promise<{ segments: Segment[]; pages: number }> {
   const { extractText, getDocumentProxy } = await import("unpdf");
-  const pdf = await getDocumentProxy(buf);
+  // pdf.js transfers (empties) the buffer it is given; pass a copy so callers can reuse buf for OCR/storage.
+  const pdf = await getDocumentProxy(buf.slice());
   const { text, totalPages } = await extractText(pdf, { mergePages: false });
   const pages = Array.isArray(text) ? text : [text];
   return { segments: pages.flatMap((p) => parsePlainText(p)), pages: totalPages };
