@@ -14,6 +14,12 @@ export const Route = createFileRoute("/api/jobs/$id/accept")({
         const job = await loadJob(db, params.id);
         if (!job || !(await poolVisible(db, job, me.userId)))
           return Response.json({ message: "Job is no longer available" }, { status: 409 });
+        const { getSetting } = await import("@/lib/settings.server");
+        const { maxActiveJobsPerLinguist } = await getSetting("routing");
+        const { count: active } = await db.from("ct_jobs").select("id", { count: "exact", head: true })
+          .eq("linguist_id", me.userId).in("status", ["ACCEPTED", "IN_PROGRESS"]);
+        if ((active ?? 0) >= maxActiveJobsPerLinguist)
+          return Response.json({ message: `You already have ${active} active jobs. Finish one before accepting another.` }, { status: 409 });
         const { data: taken } = await db
           .from("ct_jobs")
           .update({ linguist_id: me.userId, status: "ACCEPTED", accepted_at: new Date().toISOString() })

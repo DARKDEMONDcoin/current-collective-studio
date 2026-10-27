@@ -21,7 +21,10 @@
 - [ ] Full UI test pass with QA account (blocked: sandbox can't sign in to this external Supabase)
 - [x] Translation quality: glossaries, TMs (exact reuse), style guides and client notes applied to AI + editor suggestions; per-segment validation (numbers, glossary, empty, untranslated, truncated) with one corrective pass. Tested EN→AR, AR→EN, EN→FR (real outputs) + unit tests + e2e-workflow 41/41.
 - [x] Admin panel core: overview, users/linguists (role grant/revoke), finance (balances, transactions, credit adjustments with reason), credit rates, credit packages, reviewer (linguist) rates with payout fixed at acceptance, admin activity log. e2e-admin 19/19 + signed-in UI test with temp admin.
-- [ ] Admin: routing monitor, AI config, notifications templates, plans, LLM usage, site content, resources CMS, settings (show "not available yet")
+- [x] Admin: routing monitor + rules (enforced on job visibility/accept), AI config (model + policy + corrective pass, enforced), email templates (saved; sending blocked on domain), plans, LLM usage (real token/cost log), site content, resources CMS, settings (order pause enforced). Unit tests + regression pass; new screens not yet opened signed-in
+- [ ] Card payments: built-in payments need a paid Lovable plan; alternative is connecting own Stripe key (user decision)
+- [ ] Emails: blocked until user connects a sender domain
+- [ ] Remaining doc issues: French number formatting, RTL table placement in some viewers, Hebrew PDF + RTL PPTX visual check
 - [ ] Signed-in UI pass as the owner's testing account (needs the owner to sign in; project uses its own Supabase so the sandbox cannot sign in as a real user)
 - [x] Older accounts (incl. testing account) had no Contentech workspace -> created on first dashboard visit (tested)
 - [x] Scanned-PDF OCR was broken (buffer emptied by PDF reader) -> fixed, 0% char error on EN image + AR scanned PDF

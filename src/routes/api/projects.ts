@@ -31,6 +31,8 @@ export const Route = createFileRoute("/api/projects")({
         if (!me) return unauthorized();
         const orgId = await myOrg(me);
         if (!orgId) return Response.json({ error: "No organization" }, { status: 400 });
+        const general = await (await import("@/lib/settings.server")).getSetting("general");
+        if (general.ordersPaused) return Response.json({ error: general.pauseMessage }, { status: 503 });
         const body = await request.json().catch(() => null);
         if (!body || typeof body !== "object")
           return Response.json({ error: "Invalid request" }, { status: 400 });

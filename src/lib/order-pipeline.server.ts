@@ -195,7 +195,7 @@ export async function translateChunk(texts: string[], source: string, target: st
     return issues.length ? issues.join("; ") : null;
   });
   const bad = fb.map((f, k) => (f ? k : -1)).filter((k) => k >= 0);
-  if (bad.length) {
+  if (bad.length && (await (await import("@/lib/settings.server")).getSetting("ai")).correctivePass) {
     try {
       const fixed = await translateBatch(bad.map((k) => sub[k]), source, target, { ...base, feedback: bad.map((k) => fb[k]) });
       bad.forEach((k, j) => {

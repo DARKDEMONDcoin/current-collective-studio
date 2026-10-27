@@ -31,12 +31,20 @@ import { Route as LocalePricingRouteImport } from './routes/$locale.pricing'
 import { Route as LocaleQualityRouteImport } from './routes/$locale.quality'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
+import { Route as AdminAiConfigRouteImport } from './routes/admin.ai-config'
 import { Route as AdminAuditRouteImport } from './routes/admin.audit'
+import { Route as AdminContentRouteImport } from './routes/admin.content'
 import { Route as AdminCreditPackagesRouteImport } from './routes/admin.credit-packages'
 import { Route as AdminCreditRatesRouteImport } from './routes/admin.credit-rates'
 import { Route as AdminFinanceRouteImport } from './routes/admin.finance'
 import { Route as AdminLinguistRatesRouteImport } from './routes/admin.linguist-rates'
 import { Route as AdminLinguistsRouteImport } from './routes/admin.linguists'
+import { Route as AdminLlmUsageRouteImport } from './routes/admin.llm-usage'
+import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
+import { Route as AdminPlansRouteImport } from './routes/admin.plans'
+import { Route as AdminResourcesRouteImport } from './routes/admin.resources'
+import { Route as AdminRoutingRouteImport } from './routes/admin.routing'
+import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as ApiApiConfigRouteImport } from './routes/api/api-config'
@@ -256,9 +264,19 @@ const AdminSplatRoute = AdminSplatRouteImport.update({
   path: '/$',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAiConfigRoute = AdminAiConfigRouteImport.update({
+  id: '/ai-config',
+  path: '/ai-config',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAuditRoute = AdminAuditRouteImport.update({
   id: '/audit',
   path: '/audit',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminContentRoute = AdminContentRouteImport.update({
+  id: '/content',
+  path: '/content',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminCreditPackagesRoute = AdminCreditPackagesRouteImport.update({
@@ -284,6 +302,36 @@ const AdminLinguistRatesRoute = AdminLinguistRatesRouteImport.update({
 const AdminLinguistsRoute = AdminLinguistsRouteImport.update({
   id: '/linguists',
   path: '/linguists',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminLlmUsageRoute = AdminLlmUsageRouteImport.update({
+  id: '/llm-usage',
+  path: '/llm-usage',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNotificationsRoute = AdminNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPlansRoute = AdminPlansRouteImport.update({
+  id: '/plans',
+  path: '/plans',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminResourcesRoute = AdminResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminRoutingRoute = AdminRoutingRouteImport.update({
+  id: '/routing',
+  path: '/routing',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSettingsRoute = AdminSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
@@ -864,12 +912,20 @@ export interface FileRoutesByFullPath {
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/ai-config': typeof AdminAiConfigRoute
   '/admin/audit': typeof AdminAuditRoute
+  '/admin/content': typeof AdminContentRoute
   '/admin/credit-packages': typeof AdminCreditPackagesRoute
   '/admin/credit-rates': typeof AdminCreditRatesRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/linguist-rates': typeof AdminLinguistRatesRoute
   '/admin/linguists': typeof AdminLinguistsRoute
+  '/admin/llm-usage': typeof AdminLlmUsageRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/plans': typeof AdminPlansRoute
+  '/admin/resources': typeof AdminResourcesRoute
+  '/admin/routing': typeof AdminRoutingRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/api-config': typeof ApiApiConfigRouteWithChildren
@@ -997,12 +1053,20 @@ export interface FileRoutesByTo {
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/ai-config': typeof AdminAiConfigRoute
   '/admin/audit': typeof AdminAuditRoute
+  '/admin/content': typeof AdminContentRoute
   '/admin/credit-packages': typeof AdminCreditPackagesRoute
   '/admin/credit-rates': typeof AdminCreditRatesRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/linguist-rates': typeof AdminLinguistRatesRoute
   '/admin/linguists': typeof AdminLinguistsRoute
+  '/admin/llm-usage': typeof AdminLlmUsageRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/plans': typeof AdminPlansRoute
+  '/admin/resources': typeof AdminResourcesRoute
+  '/admin/routing': typeof AdminRoutingRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/api-config': typeof ApiApiConfigRouteWithChildren
@@ -1136,12 +1200,20 @@ export interface FileRoutesById {
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/ai-config': typeof AdminAiConfigRoute
   '/admin/audit': typeof AdminAuditRoute
+  '/admin/content': typeof AdminContentRoute
   '/admin/credit-packages': typeof AdminCreditPackagesRoute
   '/admin/credit-rates': typeof AdminCreditRatesRoute
   '/admin/finance': typeof AdminFinanceRoute
   '/admin/linguist-rates': typeof AdminLinguistRatesRoute
   '/admin/linguists': typeof AdminLinguistsRoute
+  '/admin/llm-usage': typeof AdminLlmUsageRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
+  '/admin/plans': typeof AdminPlansRoute
+  '/admin/resources': typeof AdminResourcesRoute
+  '/admin/routing': typeof AdminRoutingRoute
+  '/admin/settings': typeof AdminSettingsRoute
   '/admin/users': typeof AdminUsersRoute
   '/admin_/login': typeof AdminLoginRoute
   '/api/api-config': typeof ApiApiConfigRouteWithChildren
@@ -1276,12 +1348,20 @@ export interface FileRouteTypes {
     | '/$locale/pricing'
     | '/$locale/quality'
     | '/admin/$'
+    | '/admin/ai-config'
     | '/admin/audit'
+    | '/admin/content'
     | '/admin/credit-packages'
     | '/admin/credit-rates'
     | '/admin/finance'
     | '/admin/linguist-rates'
     | '/admin/linguists'
+    | '/admin/llm-usage'
+    | '/admin/notifications'
+    | '/admin/plans'
+    | '/admin/resources'
+    | '/admin/routing'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin/login'
     | '/api/api-config'
@@ -1409,12 +1489,20 @@ export interface FileRouteTypes {
     | '/$locale/pricing'
     | '/$locale/quality'
     | '/admin/$'
+    | '/admin/ai-config'
     | '/admin/audit'
+    | '/admin/content'
     | '/admin/credit-packages'
     | '/admin/credit-rates'
     | '/admin/finance'
     | '/admin/linguist-rates'
     | '/admin/linguists'
+    | '/admin/llm-usage'
+    | '/admin/notifications'
+    | '/admin/plans'
+    | '/admin/resources'
+    | '/admin/routing'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin/login'
     | '/api/api-config'
@@ -1547,12 +1635,20 @@ export interface FileRouteTypes {
     | '/$locale/pricing'
     | '/$locale/quality'
     | '/admin/$'
+    | '/admin/ai-config'
     | '/admin/audit'
+    | '/admin/content'
     | '/admin/credit-packages'
     | '/admin/credit-rates'
     | '/admin/finance'
     | '/admin/linguist-rates'
     | '/admin/linguists'
+    | '/admin/llm-usage'
+    | '/admin/notifications'
+    | '/admin/plans'
+    | '/admin/resources'
+    | '/admin/routing'
+    | '/admin/settings'
     | '/admin/users'
     | '/admin_/login'
     | '/api/api-config'
@@ -1876,11 +1972,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSplatRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/ai-config': {
+      id: '/admin/ai-config'
+      path: '/ai-config'
+      fullPath: '/admin/ai-config'
+      preLoaderRoute: typeof AdminAiConfigRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/audit': {
       id: '/admin/audit'
       path: '/audit'
       fullPath: '/admin/audit'
       preLoaderRoute: typeof AdminAuditRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/content': {
+      id: '/admin/content'
+      path: '/content'
+      fullPath: '/admin/content'
+      preLoaderRoute: typeof AdminContentRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/credit-packages': {
@@ -1916,6 +2026,48 @@ declare module '@tanstack/react-router' {
       path: '/linguists'
       fullPath: '/admin/linguists'
       preLoaderRoute: typeof AdminLinguistsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/llm-usage': {
+      id: '/admin/llm-usage'
+      path: '/llm-usage'
+      fullPath: '/admin/llm-usage'
+      preLoaderRoute: typeof AdminLlmUsageRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/notifications': {
+      id: '/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminNotificationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/plans': {
+      id: '/admin/plans'
+      path: '/plans'
+      fullPath: '/admin/plans'
+      preLoaderRoute: typeof AdminPlansRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/resources': {
+      id: '/admin/resources'
+      path: '/resources'
+      fullPath: '/admin/resources'
+      preLoaderRoute: typeof AdminResourcesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/routing': {
+      id: '/admin/routing'
+      path: '/routing'
+      fullPath: '/admin/routing'
+      preLoaderRoute: typeof AdminRoutingRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/settings': {
+      id: '/admin/settings'
+      path: '/settings'
+      fullPath: '/admin/settings'
+      preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/users': {
@@ -2696,24 +2848,40 @@ const LocaleRouteWithChildren =
 
 interface AdminRouteChildren {
   AdminSplatRoute: typeof AdminSplatRoute
+  AdminAiConfigRoute: typeof AdminAiConfigRoute
   AdminAuditRoute: typeof AdminAuditRoute
+  AdminContentRoute: typeof AdminContentRoute
   AdminCreditPackagesRoute: typeof AdminCreditPackagesRoute
   AdminCreditRatesRoute: typeof AdminCreditRatesRoute
   AdminFinanceRoute: typeof AdminFinanceRoute
   AdminLinguistRatesRoute: typeof AdminLinguistRatesRoute
   AdminLinguistsRoute: typeof AdminLinguistsRoute
+  AdminLlmUsageRoute: typeof AdminLlmUsageRoute
+  AdminNotificationsRoute: typeof AdminNotificationsRoute
+  AdminPlansRoute: typeof AdminPlansRoute
+  AdminResourcesRoute: typeof AdminResourcesRoute
+  AdminRoutingRoute: typeof AdminRoutingRoute
+  AdminSettingsRoute: typeof AdminSettingsRoute
   AdminUsersRoute: typeof AdminUsersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminSplatRoute: AdminSplatRoute,
+  AdminAiConfigRoute: AdminAiConfigRoute,
   AdminAuditRoute: AdminAuditRoute,
+  AdminContentRoute: AdminContentRoute,
   AdminCreditPackagesRoute: AdminCreditPackagesRoute,
   AdminCreditRatesRoute: AdminCreditRatesRoute,
   AdminFinanceRoute: AdminFinanceRoute,
   AdminLinguistRatesRoute: AdminLinguistRatesRoute,
   AdminLinguistsRoute: AdminLinguistsRoute,
+  AdminLlmUsageRoute: AdminLlmUsageRoute,
+  AdminNotificationsRoute: AdminNotificationsRoute,
+  AdminPlansRoute: AdminPlansRoute,
+  AdminResourcesRoute: AdminResourcesRoute,
+  AdminRoutingRoute: AdminRoutingRoute,
+  AdminSettingsRoute: AdminSettingsRoute,
   AdminUsersRoute: AdminUsersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
