@@ -9,7 +9,7 @@ export const Route = createFileRoute("/api/departments/$id/members/$userId")({
         const ctx = await orgCtx(request);
         if (ctx instanceof Response) return ctx;
         const b = (await request.json().catch(() => ({}))) as Record<string, unknown>;
-        const d: Record<string, any> = {};
+        const d: any = {};
         if (b.role === "MEMBER" || b.role === "MANAGER") d.role = b.role;
         if (typeof b.canAccessTM === "boolean") d.can_access_tm = b.canAccessTM;
         if (typeof b.canAccessGlossary === "boolean") d.can_access_glossary = b.canAccessGlossary;

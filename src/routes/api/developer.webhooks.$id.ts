@@ -12,7 +12,7 @@ export const Route = createFileRoute("/api/developer/webhooks/$id")({
         const ctx = await orgCtx(request);
         if (ctx instanceof Response) return ctx;
         const b = (await request.json().catch(() => ({}))) as Record<string, unknown>;
-        const d: Record<string, any> = {};
+        const d: any = {};
         if (Array.isArray(b.events)) d.events = (b.events as string[]).filter((e) => ALL.includes(e));
         if (typeof b.isActive === "boolean") { d.is_active = b.isActive; if (b.isActive) d.failure_count = 0; }
         const { data } = await ctx.supabase.from("ct_webhook_subscriptions").update(d).eq("id", params.id).select(COLS).maybeSingle();
