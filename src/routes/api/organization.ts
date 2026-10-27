@@ -40,7 +40,7 @@ export const Route = createFileRoute("/api/organization")({
           const s = String(v).replace(/[\u0000-\u001F\u007F]/g, " ").trim();
           return s ? s.slice(0, max) : null;
         };
-        const data: Record<string, string | null> = {};
+        const data: { website_url?: string | null; industry?: string | null; company_bio?: string | null } = {};
         if (body.websiteUrl !== undefined) data.website_url = clean(body.websiteUrl, 300);
         if (body.industry !== undefined) data.industry = clean(body.industry, 120);
         if (body.companyBio !== undefined) {
