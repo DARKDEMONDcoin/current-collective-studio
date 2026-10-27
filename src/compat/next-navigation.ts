@@ -37,5 +37,5 @@ export function notFound(): never {
 // next/navigation useParams(): current route params as plain strings.
 import { useParams as useTsParams } from "@tanstack/react-router";
 export function useParams<T extends Record<string, string> = Record<string, string>>(): T {
-  return useTsParams({ strict: false }) as T;
+  return useTsParams({ strict: false } as never) as T;
 }
