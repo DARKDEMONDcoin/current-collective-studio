@@ -34,6 +34,18 @@ function makeMatcher(pairs: Pair[]) {
   };
 }
 
+const PPR_AFTER_BIDI = ["adjustRightInd", "snapToGrid", "spacing", "ind", "contextualSpacing", "mirrorIndents", "suppressOverlap", "jc", "textDirection", "textAlignment", "textboxTightWrap", "outlineLvl", "divId", "cnfStyle", "rPr", "sectPr", "pPrChange"];
+const RPR_AFTER_RTL = ["cs", "em", "lang", "eastAsianLayout", "specVanish", "oMath", "rPrChange"];
+const TBL_AFTER_BIDI = ["tblStyleRowBandSize", "tblStyleColBandSize", "tblW", "jc", "tblCellSpacing", "tblInd", "tblBorders", "shd", "tblLayout", "tblCellMar", "tblLook", "tblCaption", "tblDescription", "tblPrChange"];
+function insertBefore(inner: string, after: string[], el: string): string {
+  let at = -1;
+  for (const name of after) {
+    const m = inner.match(new RegExp(`<w:${name}[ />]`));
+    if (m && m.index !== undefined && (at < 0 || m.index < at)) at = m.index;
+  }
+  return at < 0 ? inner + el : inner.slice(0, at) + el + inner.slice(at);
+}
+
 // ── DOCX ────────────────────────────────────────────────────────
 function docxParagraph(p: string, target: string, rtl: boolean): string {
   let first = true;
@@ -44,11 +56,14 @@ function docxParagraph(p: string, target: string, rtl: boolean): string {
   });
   out = out.replace(/<w:tab\/>/g, "");
   if (rtl) {
-    if (/<w:pPr>/.test(out)) out = out.replace(/<w:pPr>/, "<w:pPr><w:bidi/>");
-    else if (/<w:pPr\/>/.test(out)) out = out.replace(/<w:pPr\/>/, "<w:pPr><w:bidi/></w:pPr>");
-    else out = out.replace(/^<w:p( [^>]*)?>/, (m) => `${m}<w:pPr><w:bidi/></w:pPr>`);
-    out = out.replace(/<w:rPr>/g, "<w:rPr><w:rtl/>");
-    out = out.replace(/<w:r>(?!<w:rPr>)/g, "<w:r><w:rPr><w:rtl/></w:rPr>");
+    // Insert in schema order so Word never reports the file as damaged.
+    out = out.replace(/<w:pPr>([\s\S]*?)<\/w:pPr>/, (m, inner) =>
+      inner.includes("<w:bidi") ? m : `<w:pPr>${insertBefore(inner, PPR_AFTER_BIDI, "<w:bidi/>")}</w:pPr>`);
+    out = out.replace(/<w:pPr\/>/, "<w:pPr><w:bidi/></w:pPr>");
+    if (!/<w:pPr>/.test(out)) out = out.replace(/^<w:p( [^>]*)?>/, (m) => `${m}<w:pPr><w:bidi/></w:pPr>`);
+    out = out.replace(/(<w:r(?: [^>]*)?>)<w:rPr>([\s\S]*?)<\/w:rPr>/g, (m, r, inner) =>
+      inner.includes("<w:rtl") ? m : `${r}<w:rPr>${insertBefore(inner, RPR_AFTER_RTL, "<w:rtl/>")}</w:rPr>`);
+    out = out.replace(/<w:r( [^>]*)?>(?!<w:rPr>)/g, (m) => `${m}<w:rPr><w:rtl/></w:rPr>`);
   }
   return out;
 }
@@ -71,8 +86,12 @@ export function translateDocx(original: Uint8Array, pairs: Pair[], rtl: boolean)
   files[part] = strToU8(doc);
   }
   if (rtl && files["word/document.xml"]) {
-    // Section-level RTL so page numbers, columns and table order flip too.
-    files["word/document.xml"] = strToU8(strFromU8(files["word/document.xml"]).replace(/<w:sectPr( [^>]*)?>(?![\s\S]*?<w:bidi\/>)/g, (m) => `${m}<w:bidi/>`));
+    // Tables read right-to-left (column order flips like in Word's RTL table option).
+    files["word/document.xml"] = strToU8(
+      strFromU8(files["word/document.xml"]).replace(/<w:tblPr>([\s\S]*?)<\/w:tblPr>/g, (m, inner) =>
+        inner.includes("<w:bidiVisual") ? m : `<w:tblPr>${insertBefore(inner, TBL_AFTER_BIDI, "<w:bidiVisual/>")}</w:tblPr>`,
+      ),
+    );
   }
   return { bytes: zipSync(files), matched };
 }
