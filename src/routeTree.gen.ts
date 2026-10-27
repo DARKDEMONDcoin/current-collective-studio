@@ -10,33 +10,555 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LocaleRouteImport } from './routes/$locale'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactSalesRouteImport } from './routes/contact-sales'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LinguistLoginRouteImport } from './routes/linguist-login'
+import { Route as LinguistRegisterRouteImport } from './routes/linguist-register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as PortalRouteImport } from './routes/portal'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ResourcesRouteImport } from './routes/resources'
+import { Route as SupportRouteImport } from './routes/support'
+import { Route as LocaleIndexRouteImport } from './routes/$locale.index'
+import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
+import { Route as LocalePricingRouteImport } from './routes/$locale.pricing'
+import { Route as LocaleQualityRouteImport } from './routes/$locale.quality'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
+import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
+import { Route as DashboardProjectsRouteImport } from './routes/dashboard.projects'
+import { Route as ProductAgencyRouteImport } from './routes/product.agency'
+import { Route as ProductCustomerRouteImport } from './routes/product.customer'
+import { Route as ProductLinguistRouteImport } from './routes/product.linguist'
+import { Route as ResourcesIndexRouteImport } from './routes/resources.index'
+import { Route as ResourcesSlugRouteImport } from './routes/resources.$slug'
+import { Route as ServicesAiQualityShieldRouteImport } from './routes/services.ai-quality-shield'
+import { Route as ServicesAiTrainingDataRouteImport } from './routes/services.ai-training-data'
+import { Route as ServicesContentechHumanRouteImport } from './routes/services.contentech-human'
+import { Route as ServicesLocalizationEngineeringRouteImport } from './routes/services.localization-engineering'
+import { Route as ApiAuthCheckOrgRouteImport } from './routes/api/auth/check-org'
+import { Route as ApiAuthRegisterRouteImport } from './routes/api/auth/register'
+import { Route as ApiAuthRegisterLinguistRouteImport } from './routes/api/auth/register-linguist'
+import { Route as ApiNotificationsIndexRouteImport } from './routes/api/notifications/index'
+import { Route as ApiNotificationsReadAllRouteImport } from './routes/api/notifications/read-all'
+import { Route as ApiNotificationsUnreadCountRouteImport } from './routes/api/notifications/unread-count'
+import { Route as DashboardBillingSuccessRouteImport } from './routes/dashboard.billing_.success'
+import { Route as ResourcesCategorySlugRouteImport } from './routes/resources.category.$slug'
+import { Route as ApiNotificationsIdReadRouteImport } from './routes/api/notifications/$id.read'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocaleRoute = LocaleRouteImport.update({
+  id: '/$locale',
+  path: '/$locale',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactSalesRoute = ContactSalesRouteImport.update({
+  id: '/contact-sales',
+  path: '/contact-sales',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LinguistLoginRoute = LinguistLoginRouteImport.update({
+  id: '/linguist-login',
+  path: '/linguist-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LinguistRegisterRoute = LinguistRegisterRouteImport.update({
+  id: '/linguist-register',
+  path: '/linguist-register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortalRoute = PortalRouteImport.update({
+  id: '/portal',
+  path: '/portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesRoute = ResourcesRouteImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SupportRoute = SupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocaleIndexRoute = LocaleIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleAboutRoute = LocaleAboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocalePricingRoute = LocalePricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const LocaleQualityRoute = LocaleQualityRouteImport.update({
+  id: '/quality',
+  path: '/quality',
+  getParentRoute: () => LocaleRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardBillingRoute = DashboardBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardProjectsRoute = DashboardProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const ProductAgencyRoute = ProductAgencyRouteImport.update({
+  id: '/product/agency',
+  path: '/product/agency',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductCustomerRoute = ProductCustomerRouteImport.update({
+  id: '/product/customer',
+  path: '/product/customer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductLinguistRoute = ProductLinguistRouteImport.update({
+  id: '/product/linguist',
+  path: '/product/linguist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResourcesIndexRoute = ResourcesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ResourcesRoute,
+} as any)
+const ResourcesSlugRoute = ResourcesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ResourcesRoute,
+} as any)
+const ServicesAiQualityShieldRoute = ServicesAiQualityShieldRouteImport.update({
+  id: '/services/ai-quality-shield',
+  path: '/services/ai-quality-shield',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesAiTrainingDataRoute = ServicesAiTrainingDataRouteImport.update({
+  id: '/services/ai-training-data',
+  path: '/services/ai-training-data',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesContentechHumanRoute = ServicesContentechHumanRouteImport.update({
+  id: '/services/contentech-human',
+  path: '/services/contentech-human',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesLocalizationEngineeringRoute =
+  ServicesLocalizationEngineeringRouteImport.update({
+    id: '/services/localization-engineering',
+    path: '/services/localization-engineering',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiAuthCheckOrgRoute = ApiAuthCheckOrgRouteImport.update({
+  id: '/api/auth/check-org',
+  path: '/api/auth/check-org',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthRegisterRoute = ApiAuthRegisterRouteImport.update({
+  id: '/api/auth/register',
+  path: '/api/auth/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthRegisterLinguistRoute = ApiAuthRegisterLinguistRouteImport.update({
+  id: '/api/auth/register-linguist',
+  path: '/api/auth/register-linguist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiNotificationsIndexRoute = ApiNotificationsIndexRouteImport.update({
+  id: '/api/notifications/',
+  path: '/api/notifications/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiNotificationsReadAllRoute = ApiNotificationsReadAllRouteImport.update({
+  id: '/api/notifications/read-all',
+  path: '/api/notifications/read-all',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiNotificationsUnreadCountRoute =
+  ApiNotificationsUnreadCountRouteImport.update({
+    id: '/api/notifications/unread-count',
+    path: '/api/notifications/unread-count',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const DashboardBillingSuccessRoute = DashboardBillingSuccessRouteImport.update({
+  id: '/billing_/success',
+  path: '/billing/success',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const ResourcesCategorySlugRoute = ResourcesCategorySlugRouteImport.update({
+  id: '/category/$slug',
+  path: '/category/$slug',
+  getParentRoute: () => ResourcesRoute,
+} as any)
+const ApiNotificationsIdReadRoute = ApiNotificationsIdReadRouteImport.update({
+  id: '/api/notifications/$id/read',
+  path: '/api/notifications/$id/read',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/$locale': typeof LocaleRouteWithChildren
+  '/about': typeof AboutRoute
+  '/contact-sales': typeof ContactSalesRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/linguist-login': typeof LinguistLoginRoute
+  '/linguist-register': typeof LinguistRegisterRoute
+  '/login': typeof LoginRoute
+  '/portal': typeof PortalRoute
+  '/pricing': typeof PricingRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/resources': typeof ResourcesRouteWithChildren
+  '/support': typeof SupportRoute
+  '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/pricing': typeof LocalePricingRoute
+  '/$locale/quality': typeof LocaleQualityRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/projects': typeof DashboardProjectsRoute
+  '/product/agency': typeof ProductAgencyRoute
+  '/product/customer': typeof ProductCustomerRoute
+  '/product/linguist': typeof ProductLinguistRoute
+  '/resources/$slug': typeof ResourcesSlugRoute
+  '/services/ai-quality-shield': typeof ServicesAiQualityShieldRoute
+  '/services/ai-training-data': typeof ServicesAiTrainingDataRoute
+  '/services/contentech-human': typeof ServicesContentechHumanRoute
+  '/services/localization-engineering': typeof ServicesLocalizationEngineeringRoute
+  '/$locale/': typeof LocaleIndexRoute
+  '/admin/': typeof AdminIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
+  '/api/auth/check-org': typeof ApiAuthCheckOrgRoute
+  '/api/auth/register': typeof ApiAuthRegisterRoute
+  '/api/auth/register-linguist': typeof ApiAuthRegisterLinguistRoute
+  '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
+  '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
+  '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
+  '/resources/category/$slug': typeof ResourcesCategorySlugRoute
+  '/api/notifications/': typeof ApiNotificationsIndexRoute
+  '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact-sales': typeof ContactSalesRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/linguist-login': typeof LinguistLoginRoute
+  '/linguist-register': typeof LinguistRegisterRoute
+  '/login': typeof LoginRoute
+  '/portal': typeof PortalRoute
+  '/pricing': typeof PricingRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/support': typeof SupportRoute
+  '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/pricing': typeof LocalePricingRoute
+  '/$locale/quality': typeof LocaleQualityRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/projects': typeof DashboardProjectsRoute
+  '/product/agency': typeof ProductAgencyRoute
+  '/product/customer': typeof ProductCustomerRoute
+  '/product/linguist': typeof ProductLinguistRoute
+  '/resources/$slug': typeof ResourcesSlugRoute
+  '/services/ai-quality-shield': typeof ServicesAiQualityShieldRoute
+  '/services/ai-training-data': typeof ServicesAiTrainingDataRoute
+  '/services/contentech-human': typeof ServicesContentechHumanRoute
+  '/services/localization-engineering': typeof ServicesLocalizationEngineeringRoute
+  '/$locale': typeof LocaleIndexRoute
+  '/admin': typeof AdminIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/resources': typeof ResourcesIndexRoute
+  '/api/auth/check-org': typeof ApiAuthCheckOrgRoute
+  '/api/auth/register': typeof ApiAuthRegisterRoute
+  '/api/auth/register-linguist': typeof ApiAuthRegisterLinguistRoute
+  '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
+  '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
+  '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
+  '/resources/category/$slug': typeof ResourcesCategorySlugRoute
+  '/api/notifications': typeof ApiNotificationsIndexRoute
+  '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/$locale': typeof LocaleRouteWithChildren
+  '/about': typeof AboutRoute
+  '/contact-sales': typeof ContactSalesRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/linguist-login': typeof LinguistLoginRoute
+  '/linguist-register': typeof LinguistRegisterRoute
+  '/login': typeof LoginRoute
+  '/portal': typeof PortalRoute
+  '/pricing': typeof PricingRoute
+  '/register': typeof RegisterRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/resources': typeof ResourcesRouteWithChildren
+  '/support': typeof SupportRoute
+  '/$locale/about': typeof LocaleAboutRoute
+  '/$locale/pricing': typeof LocalePricingRoute
+  '/$locale/quality': typeof LocaleQualityRoute
+  '/admin/login': typeof AdminLoginRoute
+  '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/projects': typeof DashboardProjectsRoute
+  '/product/agency': typeof ProductAgencyRoute
+  '/product/customer': typeof ProductCustomerRoute
+  '/product/linguist': typeof ProductLinguistRoute
+  '/resources/$slug': typeof ResourcesSlugRoute
+  '/services/ai-quality-shield': typeof ServicesAiQualityShieldRoute
+  '/services/ai-training-data': typeof ServicesAiTrainingDataRoute
+  '/services/contentech-human': typeof ServicesContentechHumanRoute
+  '/services/localization-engineering': typeof ServicesLocalizationEngineeringRoute
+  '/$locale/': typeof LocaleIndexRoute
+  '/admin/': typeof AdminIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/resources/': typeof ResourcesIndexRoute
+  '/api/auth/check-org': typeof ApiAuthCheckOrgRoute
+  '/api/auth/register': typeof ApiAuthRegisterRoute
+  '/api/auth/register-linguist': typeof ApiAuthRegisterLinguistRoute
+  '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
+  '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
+  '/dashboard/billing_/success': typeof DashboardBillingSuccessRoute
+  '/resources/category/$slug': typeof ResourcesCategorySlugRoute
+  '/api/notifications/': typeof ApiNotificationsIndexRoute
+  '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/$locale'
+    | '/about'
+    | '/contact-sales'
+    | '/dashboard'
+    | '/forgot-password'
+    | '/linguist-login'
+    | '/linguist-register'
+    | '/login'
+    | '/portal'
+    | '/pricing'
+    | '/register'
+    | '/reset-password'
+    | '/resources'
+    | '/support'
+    | '/$locale/about'
+    | '/$locale/pricing'
+    | '/$locale/quality'
+    | '/admin/login'
+    | '/dashboard/billing'
+    | '/dashboard/projects'
+    | '/product/agency'
+    | '/product/customer'
+    | '/product/linguist'
+    | '/resources/$slug'
+    | '/services/ai-quality-shield'
+    | '/services/ai-training-data'
+    | '/services/contentech-human'
+    | '/services/localization-engineering'
+    | '/$locale/'
+    | '/admin/'
+    | '/dashboard/'
+    | '/resources/'
+    | '/api/auth/check-org'
+    | '/api/auth/register'
+    | '/api/auth/register-linguist'
+    | '/api/notifications/read-all'
+    | '/api/notifications/unread-count'
+    | '/dashboard/billing/success'
+    | '/resources/category/$slug'
+    | '/api/notifications/'
+    | '/api/notifications/$id/read'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/contact-sales'
+    | '/forgot-password'
+    | '/linguist-login'
+    | '/linguist-register'
+    | '/login'
+    | '/portal'
+    | '/pricing'
+    | '/register'
+    | '/reset-password'
+    | '/support'
+    | '/$locale/about'
+    | '/$locale/pricing'
+    | '/$locale/quality'
+    | '/admin/login'
+    | '/dashboard/billing'
+    | '/dashboard/projects'
+    | '/product/agency'
+    | '/product/customer'
+    | '/product/linguist'
+    | '/resources/$slug'
+    | '/services/ai-quality-shield'
+    | '/services/ai-training-data'
+    | '/services/contentech-human'
+    | '/services/localization-engineering'
+    | '/$locale'
+    | '/admin'
+    | '/dashboard'
+    | '/resources'
+    | '/api/auth/check-org'
+    | '/api/auth/register'
+    | '/api/auth/register-linguist'
+    | '/api/notifications/read-all'
+    | '/api/notifications/unread-count'
+    | '/dashboard/billing/success'
+    | '/resources/category/$slug'
+    | '/api/notifications'
+    | '/api/notifications/$id/read'
+  id:
+    | '__root__'
+    | '/'
+    | '/$locale'
+    | '/about'
+    | '/contact-sales'
+    | '/dashboard'
+    | '/forgot-password'
+    | '/linguist-login'
+    | '/linguist-register'
+    | '/login'
+    | '/portal'
+    | '/pricing'
+    | '/register'
+    | '/reset-password'
+    | '/resources'
+    | '/support'
+    | '/$locale/about'
+    | '/$locale/pricing'
+    | '/$locale/quality'
+    | '/admin/login'
+    | '/dashboard/billing'
+    | '/dashboard/projects'
+    | '/product/agency'
+    | '/product/customer'
+    | '/product/linguist'
+    | '/resources/$slug'
+    | '/services/ai-quality-shield'
+    | '/services/ai-training-data'
+    | '/services/contentech-human'
+    | '/services/localization-engineering'
+    | '/$locale/'
+    | '/admin/'
+    | '/dashboard/'
+    | '/resources/'
+    | '/api/auth/check-org'
+    | '/api/auth/register'
+    | '/api/auth/register-linguist'
+    | '/api/notifications/read-all'
+    | '/api/notifications/unread-count'
+    | '/dashboard/billing_/success'
+    | '/resources/category/$slug'
+    | '/api/notifications/'
+    | '/api/notifications/$id/read'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LocaleRoute: typeof LocaleRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  ContactSalesRoute: typeof ContactSalesRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LinguistLoginRoute: typeof LinguistLoginRoute
+  LinguistRegisterRoute: typeof LinguistRegisterRoute
+  LoginRoute: typeof LoginRoute
+  PortalRoute: typeof PortalRoute
+  PricingRoute: typeof PricingRoute
+  RegisterRoute: typeof RegisterRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  ResourcesRoute: typeof ResourcesRouteWithChildren
+  SupportRoute: typeof SupportRoute
+  AdminLoginRoute: typeof AdminLoginRoute
+  ProductAgencyRoute: typeof ProductAgencyRoute
+  ProductCustomerRoute: typeof ProductCustomerRoute
+  ProductLinguistRoute: typeof ProductLinguistRoute
+  ServicesAiQualityShieldRoute: typeof ServicesAiQualityShieldRoute
+  ServicesAiTrainingDataRoute: typeof ServicesAiTrainingDataRoute
+  ServicesContentechHumanRoute: typeof ServicesContentechHumanRoute
+  ServicesLocalizationEngineeringRoute: typeof ServicesLocalizationEngineeringRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+  ApiAuthCheckOrgRoute: typeof ApiAuthCheckOrgRoute
+  ApiAuthRegisterRoute: typeof ApiAuthRegisterRoute
+  ApiAuthRegisterLinguistRoute: typeof ApiAuthRegisterLinguistRoute
+  ApiNotificationsReadAllRoute: typeof ApiNotificationsReadAllRoute
+  ApiNotificationsUnreadCountRoute: typeof ApiNotificationsUnreadCountRoute
+  ApiNotificationsIndexRoute: typeof ApiNotificationsIndexRoute
+  ApiNotificationsIdReadRoute: typeof ApiNotificationsIdReadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +570,379 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/$locale': {
+      id: '/$locale'
+      path: '/$locale'
+      fullPath: '/$locale'
+      preLoaderRoute: typeof LocaleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact-sales': {
+      id: '/contact-sales'
+      path: '/contact-sales'
+      fullPath: '/contact-sales'
+      preLoaderRoute: typeof ContactSalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/linguist-login': {
+      id: '/linguist-login'
+      path: '/linguist-login'
+      fullPath: '/linguist-login'
+      preLoaderRoute: typeof LinguistLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/linguist-register': {
+      id: '/linguist-register'
+      path: '/linguist-register'
+      fullPath: '/linguist-register'
+      preLoaderRoute: typeof LinguistRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portal': {
+      id: '/portal'
+      path: '/portal'
+      fullPath: '/portal'
+      preLoaderRoute: typeof PortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources': {
+      id: '/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof ResourcesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/support': {
+      id: '/support'
+      path: '/support'
+      fullPath: '/support'
+      preLoaderRoute: typeof SupportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$locale/': {
+      id: '/$locale/'
+      path: '/'
+      fullPath: '/$locale/'
+      preLoaderRoute: typeof LocaleIndexRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/about': {
+      id: '/$locale/about'
+      path: '/about'
+      fullPath: '/$locale/about'
+      preLoaderRoute: typeof LocaleAboutRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/pricing': {
+      id: '/$locale/pricing'
+      path: '/pricing'
+      fullPath: '/$locale/pricing'
+      preLoaderRoute: typeof LocalePricingRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/$locale/quality': {
+      id: '/$locale/quality'
+      path: '/quality'
+      fullPath: '/$locale/quality'
+      preLoaderRoute: typeof LocaleQualityRouteImport
+      parentRoute: typeof LocaleRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/billing': {
+      id: '/dashboard/billing'
+      path: '/billing'
+      fullPath: '/dashboard/billing'
+      preLoaderRoute: typeof DashboardBillingRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/projects': {
+      id: '/dashboard/projects'
+      path: '/projects'
+      fullPath: '/dashboard/projects'
+      preLoaderRoute: typeof DashboardProjectsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/product/agency': {
+      id: '/product/agency'
+      path: '/product/agency'
+      fullPath: '/product/agency'
+      preLoaderRoute: typeof ProductAgencyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/customer': {
+      id: '/product/customer'
+      path: '/product/customer'
+      fullPath: '/product/customer'
+      preLoaderRoute: typeof ProductCustomerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/product/linguist': {
+      id: '/product/linguist'
+      path: '/product/linguist'
+      fullPath: '/product/linguist'
+      preLoaderRoute: typeof ProductLinguistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resources/': {
+      id: '/resources/'
+      path: '/'
+      fullPath: '/resources/'
+      preLoaderRoute: typeof ResourcesIndexRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
+    '/resources/$slug': {
+      id: '/resources/$slug'
+      path: '/$slug'
+      fullPath: '/resources/$slug'
+      preLoaderRoute: typeof ResourcesSlugRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
+    '/services/ai-quality-shield': {
+      id: '/services/ai-quality-shield'
+      path: '/services/ai-quality-shield'
+      fullPath: '/services/ai-quality-shield'
+      preLoaderRoute: typeof ServicesAiQualityShieldRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/ai-training-data': {
+      id: '/services/ai-training-data'
+      path: '/services/ai-training-data'
+      fullPath: '/services/ai-training-data'
+      preLoaderRoute: typeof ServicesAiTrainingDataRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/contentech-human': {
+      id: '/services/contentech-human'
+      path: '/services/contentech-human'
+      fullPath: '/services/contentech-human'
+      preLoaderRoute: typeof ServicesContentechHumanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/localization-engineering': {
+      id: '/services/localization-engineering'
+      path: '/services/localization-engineering'
+      fullPath: '/services/localization-engineering'
+      preLoaderRoute: typeof ServicesLocalizationEngineeringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/check-org': {
+      id: '/api/auth/check-org'
+      path: '/api/auth/check-org'
+      fullPath: '/api/auth/check-org'
+      preLoaderRoute: typeof ApiAuthCheckOrgRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/register': {
+      id: '/api/auth/register'
+      path: '/api/auth/register'
+      fullPath: '/api/auth/register'
+      preLoaderRoute: typeof ApiAuthRegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/register-linguist': {
+      id: '/api/auth/register-linguist'
+      path: '/api/auth/register-linguist'
+      fullPath: '/api/auth/register-linguist'
+      preLoaderRoute: typeof ApiAuthRegisterLinguistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/notifications/': {
+      id: '/api/notifications/'
+      path: '/api/notifications'
+      fullPath: '/api/notifications/'
+      preLoaderRoute: typeof ApiNotificationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/notifications/read-all': {
+      id: '/api/notifications/read-all'
+      path: '/api/notifications/read-all'
+      fullPath: '/api/notifications/read-all'
+      preLoaderRoute: typeof ApiNotificationsReadAllRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/notifications/unread-count': {
+      id: '/api/notifications/unread-count'
+      path: '/api/notifications/unread-count'
+      fullPath: '/api/notifications/unread-count'
+      preLoaderRoute: typeof ApiNotificationsUnreadCountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/billing_/success': {
+      id: '/dashboard/billing_/success'
+      path: '/billing/success'
+      fullPath: '/dashboard/billing/success'
+      preLoaderRoute: typeof DashboardBillingSuccessRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/resources/category/$slug': {
+      id: '/resources/category/$slug'
+      path: '/category/$slug'
+      fullPath: '/resources/category/$slug'
+      preLoaderRoute: typeof ResourcesCategorySlugRouteImport
+      parentRoute: typeof ResourcesRoute
+    }
+    '/api/notifications/$id/read': {
+      id: '/api/notifications/$id/read'
+      path: '/api/notifications/$id/read'
+      fullPath: '/api/notifications/$id/read'
+      preLoaderRoute: typeof ApiNotificationsIdReadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface LocaleRouteChildren {
+  LocaleAboutRoute: typeof LocaleAboutRoute
+  LocalePricingRoute: typeof LocalePricingRoute
+  LocaleQualityRoute: typeof LocaleQualityRoute
+  LocaleIndexRoute: typeof LocaleIndexRoute
+}
+
+const LocaleRouteChildren: LocaleRouteChildren = {
+  LocaleAboutRoute: LocaleAboutRoute,
+  LocalePricingRoute: LocalePricingRoute,
+  LocaleQualityRoute: LocaleQualityRoute,
+  LocaleIndexRoute: LocaleIndexRoute,
+}
+
+const LocaleRouteWithChildren =
+  LocaleRoute._addFileChildren(LocaleRouteChildren)
+
+interface DashboardRouteChildren {
+  DashboardBillingRoute: typeof DashboardBillingRoute
+  DashboardProjectsRoute: typeof DashboardProjectsRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardBillingSuccessRoute: typeof DashboardBillingSuccessRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardBillingRoute: DashboardBillingRoute,
+  DashboardProjectsRoute: DashboardProjectsRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardBillingSuccessRoute: DashboardBillingSuccessRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
+interface ResourcesRouteChildren {
+  ResourcesSlugRoute: typeof ResourcesSlugRoute
+  ResourcesIndexRoute: typeof ResourcesIndexRoute
+  ResourcesCategorySlugRoute: typeof ResourcesCategorySlugRoute
+}
+
+const ResourcesRouteChildren: ResourcesRouteChildren = {
+  ResourcesSlugRoute: ResourcesSlugRoute,
+  ResourcesIndexRoute: ResourcesIndexRoute,
+  ResourcesCategorySlugRoute: ResourcesCategorySlugRoute,
+}
+
+const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
+  ResourcesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LocaleRoute: LocaleRouteWithChildren,
+  AboutRoute: AboutRoute,
+  ContactSalesRoute: ContactSalesRoute,
+  DashboardRoute: DashboardRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LinguistLoginRoute: LinguistLoginRoute,
+  LinguistRegisterRoute: LinguistRegisterRoute,
+  LoginRoute: LoginRoute,
+  PortalRoute: PortalRoute,
+  PricingRoute: PricingRoute,
+  RegisterRoute: RegisterRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  ResourcesRoute: ResourcesRouteWithChildren,
+  SupportRoute: SupportRoute,
+  AdminLoginRoute: AdminLoginRoute,
+  ProductAgencyRoute: ProductAgencyRoute,
+  ProductCustomerRoute: ProductCustomerRoute,
+  ProductLinguistRoute: ProductLinguistRoute,
+  ServicesAiQualityShieldRoute: ServicesAiQualityShieldRoute,
+  ServicesAiTrainingDataRoute: ServicesAiTrainingDataRoute,
+  ServicesContentechHumanRoute: ServicesContentechHumanRoute,
+  ServicesLocalizationEngineeringRoute: ServicesLocalizationEngineeringRoute,
+  AdminIndexRoute: AdminIndexRoute,
+  ApiAuthCheckOrgRoute: ApiAuthCheckOrgRoute,
+  ApiAuthRegisterRoute: ApiAuthRegisterRoute,
+  ApiAuthRegisterLinguistRoute: ApiAuthRegisterLinguistRoute,
+  ApiNotificationsReadAllRoute: ApiNotificationsReadAllRoute,
+  ApiNotificationsUnreadCountRoute: ApiNotificationsUnreadCountRoute,
+  ApiNotificationsIndexRoute: ApiNotificationsIndexRoute,
+  ApiNotificationsIdReadRoute: ApiNotificationsIdReadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
