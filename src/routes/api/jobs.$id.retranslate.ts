@@ -19,9 +19,14 @@ export const Route = createFileRoute("/api/jobs/$id/retranslate")({
           ? segs.filter((s) => s.id === body.segmentId)
           : segs.filter((s) => !s.translatedText).slice(0, 40);
         if (!pick.length) return Response.json({ translated: 0 });
-        const { translateBatch } = await import("@/lib/ai.server");
+        const { translateChunk } = await import("@/lib/order-pipeline.server");
+        const { loadTranslationContext } = await import("@/lib/translation-context.server");
         try {
-          const out = await translateBatch(pick.map((s) => s.sourceText), job.source_language, job.target_language, {});
+          const { data: project } = await db.from("ct_projects")
+            .select("organization_id,source_language,notes,attached_glossary_ids,attached_tm_ids,attached_style_guide_ids")
+            .eq("id", job.project_id).single();
+          const ctx = await loadTranslationContext(db, project as any, job.target_language);
+          const out = await translateChunk(pick.map((s) => s.sourceText), job.source_language, job.target_language, ctx, {});
           await db.from("ct_segment_translations").upsert(
             pick.map((s, i) => ({ segment_id: s.id, job_id: job.id, target_text: out[i], status: "TRANSLATED" })),
             { onConflict: "segment_id,job_id" },

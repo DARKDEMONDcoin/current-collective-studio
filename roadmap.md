@@ -19,3 +19,7 @@
 - [ ] Linguist payout rates (payout shows 0 until admin rates exist), segment comments/issue logging, QA report, Linguist profile page, Linguist Studio
 - [ ] Emails (needs sender domain) + Stripe credit purchases (needs paid plan or own Stripe key)
 - [ ] Full UI test pass with QA account (blocked: sandbox can't sign in to this external Supabase)
+- [x] Translation quality: glossaries, TMs (exact reuse), style guides and client notes applied to AI + editor suggestions; per-segment validation (numbers, glossary, empty, untranslated, truncated) with one corrective pass. Tested EN→AR, AR→EN, EN→FR (real outputs) + unit tests + e2e-workflow 41/41.
+- [ ] Admin panel (/admin)
+- [ ] Full QA pass signed in as the testing account (needs owner approval to sign in as that user)
+- [ ] Translation QA for DOCX tables/footnotes, Hebrew, OCR accuracy benchmark
