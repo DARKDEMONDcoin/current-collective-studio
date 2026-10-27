@@ -29,7 +29,7 @@ import { Route as LocaleAboutRouteImport } from './routes/$locale.about'
 import { Route as LocalePricingRouteImport } from './routes/$locale.pricing'
 import { Route as LocaleQualityRouteImport } from './routes/$locale.quality'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminLoginRouteImport } from './routes/admin_.login'
 import { Route as ApiApiConfigRouteImport } from './routes/api/api-config'
 import { Route as ApiClientAccountsRouteImport } from './routes/api/client-accounts'
 import { Route as ApiCreditPackagesRouteImport } from './routes/api/credit-packages'
@@ -238,7 +238,7 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/admin/login',
+  id: '/admin_/login',
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
@@ -1063,7 +1063,7 @@ export interface FileRoutesById {
   '/$locale/about': typeof LocaleAboutRoute
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
-  '/admin/login': typeof AdminLoginRoute
+  '/admin_/login': typeof AdminLoginRoute
   '/api/api-config': typeof ApiApiConfigRouteWithChildren
   '/api/client-accounts': typeof ApiClientAccountsRouteWithChildren
   '/api/credit-packages': typeof ApiCreditPackagesRoute
@@ -1448,7 +1448,7 @@ export interface FileRouteTypes {
     | '/$locale/about'
     | '/$locale/pricing'
     | '/$locale/quality'
-    | '/admin/login'
+    | '/admin_/login'
     | '/api/api-config'
     | '/api/client-accounts'
     | '/api/credit-packages'
@@ -1756,8 +1756,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/login': {
-      id: '/admin/login'
+    '/admin_/login': {
+      id: '/admin_/login'
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
