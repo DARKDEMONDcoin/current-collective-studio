@@ -59,7 +59,6 @@ import { Route as PortalAssignmentsRouteImport } from './routes/portal.assignmen
 import { Route as PortalEarningsRouteImport } from './routes/portal.earnings'
 import { Route as PortalNotificationsRouteImport } from './routes/portal.notifications'
 import { Route as PortalProfileRouteImport } from './routes/portal.profile'
-import { Route as PortalStudioRouteImport } from './routes/portal.studio'
 import { Route as ProductAgencyRouteImport } from './routes/product.agency'
 import { Route as ProductCustomerRouteImport } from './routes/product.customer'
 import { Route as ProductLinguistRouteImport } from './routes/product.linguist'
@@ -104,6 +103,8 @@ import { Route as DashboardOrganizationTeamsRouteImport } from './routes/dashboa
 import { Route as DashboardProjectsIdRouteImport } from './routes/dashboard.projects_.$id'
 import { Route as DashboardSettingsNotificationsRouteImport } from './routes/dashboard.settings_.notifications'
 import { Route as PortalJobsIndexRouteImport } from './routes/portal.jobs.index'
+import { Route as PortalStudioIndexRouteImport } from './routes/portal.studio.index'
+import { Route as PortalStudioSplatRouteImport } from './routes/portal.studio.$'
 import { Route as ResourcesCategorySlugRouteImport } from './routes/resources.category.$slug'
 import { Route as ApiDepartmentsIdInviteRouteImport } from './routes/api/departments.$id.invite'
 import { Route as ApiDepartmentsIdMembersRouteImport } from './routes/api/departments.$id.members'
@@ -386,11 +387,6 @@ const PortalProfileRoute = PortalProfileRouteImport.update({
   path: '/profile',
   getParentRoute: () => PortalRoute,
 } as any)
-const PortalStudioRoute = PortalStudioRouteImport.update({
-  id: '/studio',
-  path: '/studio',
-  getParentRoute: () => PortalRoute,
-} as any)
 const ProductAgencyRoute = ProductAgencyRouteImport.update({
   id: '/product/agency',
   path: '/product/agency',
@@ -624,6 +620,16 @@ const PortalJobsIndexRoute = PortalJobsIndexRouteImport.update({
   path: '/jobs/',
   getParentRoute: () => PortalRoute,
 } as any)
+const PortalStudioIndexRoute = PortalStudioIndexRouteImport.update({
+  id: '/studio/',
+  path: '/studio/',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalStudioSplatRoute = PortalStudioSplatRouteImport.update({
+  id: '/studio/$',
+  path: '/studio/$',
+  getParentRoute: () => PortalRoute,
+} as any)
 const ResourcesCategorySlugRoute = ResourcesCategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
@@ -830,7 +836,6 @@ export interface FileRoutesByFullPath {
   '/portal/earnings': typeof PortalEarningsRoute
   '/portal/notifications': typeof PortalNotificationsRoute
   '/portal/profile': typeof PortalProfileRoute
-  '/portal/studio': typeof PortalStudioRoute
   '/product/agency': typeof ProductAgencyRoute
   '/product/customer': typeof ProductCustomerRoute
   '/product/linguist': typeof ProductLinguistRoute
@@ -875,11 +880,13 @@ export interface FileRoutesByFullPath {
   '/dashboard/organization/teams': typeof DashboardOrganizationTeamsRoute
   '/dashboard/projects/$id': typeof DashboardProjectsIdRoute
   '/dashboard/settings/notifications': typeof DashboardSettingsNotificationsRoute
+  '/portal/studio/$': typeof PortalStudioSplatRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
   '/dashboard/ocr-requests/': typeof DashboardOcrRequestsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
   '/portal/jobs/': typeof PortalJobsIndexRoute
+  '/portal/studio/': typeof PortalStudioIndexRoute
   '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
   '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
   '/api/developer/keys/$id': typeof ApiDeveloperKeysIdRoute
@@ -954,7 +961,6 @@ export interface FileRoutesByTo {
   '/portal/earnings': typeof PortalEarningsRoute
   '/portal/notifications': typeof PortalNotificationsRoute
   '/portal/profile': typeof PortalProfileRoute
-  '/portal/studio': typeof PortalStudioRoute
   '/product/agency': typeof ProductAgencyRoute
   '/product/customer': typeof ProductCustomerRoute
   '/product/linguist': typeof ProductLinguistRoute
@@ -999,11 +1005,13 @@ export interface FileRoutesByTo {
   '/dashboard/organization/teams': typeof DashboardOrganizationTeamsRoute
   '/dashboard/projects/$id': typeof DashboardProjectsIdRoute
   '/dashboard/settings/notifications': typeof DashboardSettingsNotificationsRoute
+  '/portal/studio/$': typeof PortalStudioSplatRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications': typeof ApiNotificationsIndexRoute
   '/dashboard/ocr-requests': typeof DashboardOcrRequestsIndexRoute
   '/dashboard/organization': typeof DashboardOrganizationIndexRoute
   '/portal/jobs': typeof PortalJobsIndexRoute
+  '/portal/studio': typeof PortalStudioIndexRoute
   '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
   '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
   '/api/developer/keys/$id': typeof ApiDeveloperKeysIdRoute
@@ -1083,7 +1091,6 @@ export interface FileRoutesById {
   '/portal/earnings': typeof PortalEarningsRoute
   '/portal/notifications': typeof PortalNotificationsRoute
   '/portal/profile': typeof PortalProfileRoute
-  '/portal/studio': typeof PortalStudioRoute
   '/product/agency': typeof ProductAgencyRoute
   '/product/customer': typeof ProductCustomerRoute
   '/product/linguist': typeof ProductLinguistRoute
@@ -1128,11 +1135,13 @@ export interface FileRoutesById {
   '/dashboard/organization/teams': typeof DashboardOrganizationTeamsRoute
   '/dashboard/projects_/$id': typeof DashboardProjectsIdRoute
   '/dashboard/settings_/notifications': typeof DashboardSettingsNotificationsRoute
+  '/portal/studio/$': typeof PortalStudioSplatRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
   '/dashboard/ocr-requests/': typeof DashboardOcrRequestsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
   '/portal/jobs/': typeof PortalJobsIndexRoute
+  '/portal/studio/': typeof PortalStudioIndexRoute
   '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
   '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
   '/api/developer/keys/$id': typeof ApiDeveloperKeysIdRoute
@@ -1213,7 +1222,6 @@ export interface FileRouteTypes {
     | '/portal/earnings'
     | '/portal/notifications'
     | '/portal/profile'
-    | '/portal/studio'
     | '/product/agency'
     | '/product/customer'
     | '/product/linguist'
@@ -1258,11 +1266,13 @@ export interface FileRouteTypes {
     | '/dashboard/organization/teams'
     | '/dashboard/projects/$id'
     | '/dashboard/settings/notifications'
+    | '/portal/studio/$'
     | '/resources/category/$slug'
     | '/api/notifications/'
     | '/dashboard/ocr-requests/'
     | '/dashboard/organization/'
     | '/portal/jobs/'
+    | '/portal/studio/'
     | '/api/departments/$id/invite'
     | '/api/departments/$id/members'
     | '/api/developer/keys/$id'
@@ -1337,7 +1347,6 @@ export interface FileRouteTypes {
     | '/portal/earnings'
     | '/portal/notifications'
     | '/portal/profile'
-    | '/portal/studio'
     | '/product/agency'
     | '/product/customer'
     | '/product/linguist'
@@ -1382,11 +1391,13 @@ export interface FileRouteTypes {
     | '/dashboard/organization/teams'
     | '/dashboard/projects/$id'
     | '/dashboard/settings/notifications'
+    | '/portal/studio/$'
     | '/resources/category/$slug'
     | '/api/notifications'
     | '/dashboard/ocr-requests'
     | '/dashboard/organization'
     | '/portal/jobs'
+    | '/portal/studio'
     | '/api/departments/$id/invite'
     | '/api/departments/$id/members'
     | '/api/developer/keys/$id'
@@ -1465,7 +1476,6 @@ export interface FileRouteTypes {
     | '/portal/earnings'
     | '/portal/notifications'
     | '/portal/profile'
-    | '/portal/studio'
     | '/product/agency'
     | '/product/customer'
     | '/product/linguist'
@@ -1510,11 +1520,13 @@ export interface FileRouteTypes {
     | '/dashboard/organization/teams'
     | '/dashboard/projects_/$id'
     | '/dashboard/settings_/notifications'
+    | '/portal/studio/$'
     | '/resources/category/$slug'
     | '/api/notifications/'
     | '/dashboard/ocr-requests/'
     | '/dashboard/organization/'
     | '/portal/jobs/'
+    | '/portal/studio/'
     | '/api/departments/$id/invite'
     | '/api/departments/$id/members'
     | '/api/developer/keys/$id'
@@ -1954,13 +1966,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalProfileRouteImport
       parentRoute: typeof PortalRoute
     }
-    '/portal/studio': {
-      id: '/portal/studio'
-      path: '/studio'
-      fullPath: '/portal/studio'
-      preLoaderRoute: typeof PortalStudioRouteImport
-      parentRoute: typeof PortalRoute
-    }
     '/product/agency': {
       id: '/product/agency'
       path: '/product/agency'
@@ -2269,6 +2274,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PortalJobsIndexRouteImport
       parentRoute: typeof PortalRoute
     }
+    '/portal/studio/': {
+      id: '/portal/studio/'
+      path: '/studio'
+      fullPath: '/portal/studio/'
+      preLoaderRoute: typeof PortalStudioIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/studio/$': {
+      id: '/portal/studio/$'
+      path: '/studio/$'
+      fullPath: '/portal/studio/$'
+      preLoaderRoute: typeof PortalStudioSplatRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/resources/category/$slug': {
       id: '/resources/category/$slug'
       path: '/category/$slug'
@@ -2569,9 +2588,10 @@ interface PortalRouteChildren {
   PortalEarningsRoute: typeof PortalEarningsRoute
   PortalNotificationsRoute: typeof PortalNotificationsRoute
   PortalProfileRoute: typeof PortalProfileRoute
-  PortalStudioRoute: typeof PortalStudioRoute
   PortalIndexRoute: typeof PortalIndexRoute
+  PortalStudioSplatRoute: typeof PortalStudioSplatRoute
   PortalJobsIndexRoute: typeof PortalJobsIndexRoute
+  PortalStudioIndexRoute: typeof PortalStudioIndexRoute
   PortalJobsIdIndexRoute: typeof PortalJobsIdIndexRoute
 }
 
@@ -2580,9 +2600,10 @@ const PortalRouteChildren: PortalRouteChildren = {
   PortalEarningsRoute: PortalEarningsRoute,
   PortalNotificationsRoute: PortalNotificationsRoute,
   PortalProfileRoute: PortalProfileRoute,
-  PortalStudioRoute: PortalStudioRoute,
   PortalIndexRoute: PortalIndexRoute,
+  PortalStudioSplatRoute: PortalStudioSplatRoute,
   PortalJobsIndexRoute: PortalJobsIndexRoute,
+  PortalStudioIndexRoute: PortalStudioIndexRoute,
   PortalJobsIdIndexRoute: PortalJobsIdIndexRoute,
 }
 
