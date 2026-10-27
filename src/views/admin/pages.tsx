@@ -9,10 +9,10 @@ import {
   getAdminRates, saveCreditRate, saveLinguistRate, savePackage, getAdminAudit,
 } from "@/lib/admin.functions";
 
-const card = "bg-white rounded-2xl border border-gray-200";
-const fmtDate = (s: string) => new Date(s).toLocaleString();
+export const card = "bg-white rounded-2xl border border-gray-200";
+export const fmtDate = (s: string) => new Date(s).toLocaleString();
 
-function Page({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
+export function Page({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto">
       <div className="mb-6">
@@ -24,7 +24,7 @@ function Page({ title, sub, children }: { title: string; sub: string; children: 
   );
 }
 
-function Loading({ error }: { error?: unknown }) {
+export function Loading({ error }: { error?: unknown }) {
   if (error) return <div className={`${card} p-6 text-sm text-red-600`}>{error instanceof Error ? error.message : "Could not load data."}</div>;
   return <div className="p-10 flex justify-center"><Loader2 className="w-6 h-6 animate-spin text-teal" /></div>;
 }
