@@ -74,6 +74,13 @@ export const Route = createFileRoute("/api/projects")({
           return Response.json({ error: "Could not create the project." }, { status: 500 });
         }
         const r = data as { id?: string; error?: string; required?: number; balance?: number; duplicate?: boolean };
+        if (r.error === "WORKFLOW_UNAVAILABLE")
+          return Response.json(
+            { error: "Using your own AI key (BYOK) is not available yet. Please choose system credits." },
+            { status: 400 },
+          );
+        if (r.error === "RATE_NOT_CONFIGURED")
+          return Response.json({ error: "Pricing for this service is not set up yet. Please contact support." }, { status: 503 });
         if (r.error === "INSUFFICIENT_CREDITS")
           return Response.json(
             {
