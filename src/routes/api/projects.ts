@@ -66,6 +66,10 @@ export const Route = createFileRoute("/api/projects")({
           attachedStyleGuideIds: Array.isArray(body.attachedStyleGuideIds) ? body.attachedStyleGuideIds : [],
           ocrConfidenceWarning: !!body.ocrConfidenceWarning,
           idempotencyKey: typeof body.idempotencyKey === "string" ? body.idempotencyKey.slice(0, 100) : null,
+          // Original file saved by /api/upload/analyze; only accept paths inside this organization's folder.
+          storedPath: [body.docxStoredPath, body.pptxStoredPath, body.pdfStoredPath].find(
+            (x: unknown) => typeof x === "string" && x.startsWith(`${orgId}/`) && !x.includes(".."),
+          ) ?? null,
         };
         if (!payload.name || payload.targetLanguages.length === 0)
           return Response.json({ error: "Project name and target languages are required" }, { status: 400 });
@@ -97,17 +101,11 @@ export const Route = createFileRoute("/api/projects")({
             },
             { status: 402 },
           );
+        // Start translating right away; anything that doesn't fit in this request keeps
+        // running in the background (project page polling + the 1-minute scheduler).
         if (!r.duplicate) {
-          const { runOrderPipeline } = await import("@/lib/order-pipeline.server");
-          const run = await runOrderPipeline(r.id!);
-          if (!run.ok)
-            return Response.json(
-              {
-                error: `AI translation failed, so the order was stopped.${run.refunded ? ` ${run.refunded} credits were refunded to your balance.` : ""} Please try again.`,
-                projectId: r.id,
-              },
-              { status: 502 },
-            );
+          const { processProject } = await import("@/lib/order-pipeline.server");
+          await processProject(r.id!, 20_000).catch((e) => console.error("[projects] first step", e));
         }
         const { data: project } = await me.supabase
           .from("ct_projects")
