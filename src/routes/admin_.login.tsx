@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import AuthLayout from "@/views/auth/layout";
 import View from "@/views/auth/admin-login";
 
-export const Route = createFileRoute("/admin/login")({
+export const Route = createFileRoute("/admin_/login")({
   head: () => ({
     meta: [
       { title: "Administrator Sign In — Contentech" },
