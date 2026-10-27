@@ -5,6 +5,7 @@
 //  - PDF: a real PDF (pdf-lib) with the translated text re-flowed on A4 pages; Arabic and
 //    Hebrew are shaped and right-aligned. The original PDF's page layout cannot be rebuilt.
 import { unzipSync, zipSync, strFromU8, strToU8 } from "fflate";
+import { docxTextParts } from "@/lib/doc-parse.server";
 
 export type Pair = { source: string; target: string; hint: string };
 
@@ -33,6 +34,20 @@ function makeMatcher(pairs: Pair[]) {
   };
 }
 
+const PPR_AFTER_BIDI = ["adjustRightInd", "snapToGrid", "spacing", "ind", "contextualSpacing", "mirrorIndents", "suppressOverlap", "jc", "textDirection", "textAlignment", "textboxTightWrap", "outlineLvl", "divId", "cnfStyle", "rPr", "sectPr", "pPrChange"];
+const RPR_AFTER_RTL = ["cs", "em", "lang", "eastAsianLayout", "specVanish", "oMath", "rPrChange"];
+const TBL_AFTER_BIDI = ["tblStyleRowBandSize", "tblStyleColBandSize", "tblW", "jc", "tblCellSpacing", "tblInd", "tblBorders", "shd", "tblLayout", "tblCellMar", "tblLook", "tblCaption", "tblDescription", "tblPrChange"];
+// Word treats jc left/right as logical (start/end) in bidi paragraphs and tables, so alignment needs no change.
+const mirrorJc = (x: string) => x;
+function insertBefore(inner: string, after: string[], el: string): string {
+  let at = -1;
+  for (const name of after) {
+    const m = inner.match(new RegExp(`<w:${name}[ />]`));
+    if (m && m.index !== undefined && (at < 0 || m.index < at)) at = m.index;
+  }
+  return at < 0 ? inner + el : inner.slice(0, at) + el + inner.slice(at);
+}
+
 // ── DOCX ────────────────────────────────────────────────────────
 function docxParagraph(p: string, target: string, rtl: boolean): string {
   let first = true;
@@ -43,22 +58,29 @@ function docxParagraph(p: string, target: string, rtl: boolean): string {
   });
   out = out.replace(/<w:tab\/>/g, "");
   if (rtl) {
-    if (/<w:pPr>/.test(out)) out = out.replace(/<w:pPr>/, "<w:pPr><w:bidi/>");
-    else if (/<w:pPr\/>/.test(out)) out = out.replace(/<w:pPr\/>/, "<w:pPr><w:bidi/></w:pPr>");
-    else out = out.replace(/^<w:p( [^>]*)?>/, (m) => `${m}<w:pPr><w:bidi/></w:pPr>`);
-    out = out.replace(/<w:rPr>/g, "<w:rPr><w:rtl/>");
-    out = out.replace(/<w:r>(?!<w:rPr>)/g, "<w:r><w:rPr><w:rtl/></w:rPr>");
+    // Insert in schema order so Word never reports the file as damaged.
+    out = out.replace(/<w:pPr>([\s\S]*?)<\/w:pPr>/, (_m, inner) => {
+      // An explicit LTR flag (w:bidi w:val="0") must be overridden, not kept.
+      inner = inner.replace(/<w:bidi(?: [^>]*)?\/>/g, "");
+      inner = mirrorJc(inner.replace(/<w:rPr>[\s\S]*$/, "")) + (inner.match(/<w:rPr>[\s\S]*$/)?.[0] ?? "");
+      return `<w:pPr>${insertBefore(inner, PPR_AFTER_BIDI, "<w:bidi/>")}</w:pPr>`;
+    });
+    out = out.replace(/<w:pPr\/>/, "<w:pPr><w:bidi/></w:pPr>");
+    if (!/<w:pPr>/.test(out)) out = out.replace(/^<w:p( [^>]*)?>/, (m) => `${m}<w:pPr><w:bidi/></w:pPr>`);
+    out = out.replace(/(<w:r(?: [^>]*)?>)<w:rPr>([\s\S]*?)<\/w:rPr>/g, (m, r, inner) =>
+      inner.includes("<w:rtl") ? m : `${r}<w:rPr>${insertBefore(inner, RPR_AFTER_RTL, "<w:rtl/>")}</w:rPr>`);
+    out = out.replace(/<w:r( [^>]*)?>(?!<w:rPr>)/g, (m) => `${m}<w:rPr><w:rtl/></w:rPr>`);
   }
   return out;
 }
 
 export function translateDocx(original: Uint8Array, pairs: Pair[], rtl: boolean): { bytes: Uint8Array; matched: number } {
   const files = unzipSync(original);
-  const xml = files["word/document.xml"];
-  if (!xml) throw new Error("Not a Word document");
+  if (!files["word/document.xml"]) throw new Error("Not a Word document");
   const match = makeMatcher(pairs);
   let matched = 0;
-  const doc = strFromU8(xml).replace(/<w:p[ >][\s\S]*?<\/w:p>/g, (p) => {
+  for (const part of docxTextParts(files)) {
+  const doc = strFromU8(files[part]).replace(/<w:p[ >][\s\S]*?<\/w:p>/g, (p) => {
     const text = decodeXml(
       [...p.matchAll(/<w:t(?: [^>]*)?>([\s\S]*?)<\/w:t>|<w:tab\/>/g)].map((t) => (t[1] === undefined ? " " : t[1])).join(""),
     );
@@ -67,7 +89,16 @@ export function translateDocx(original: Uint8Array, pairs: Pair[], rtl: boolean)
     matched++;
     return docxParagraph(p, target, rtl);
   });
-  files["word/document.xml"] = strToU8(doc);
+  files[part] = strToU8(doc);
+  }
+  if (rtl && files["word/document.xml"]) {
+    // Tables read right-to-left (column order flips like in Word's RTL table option).
+    files["word/document.xml"] = strToU8(
+      strFromU8(files["word/document.xml"]).replace(/<w:tblPr>([\s\S]*?)<\/w:tblPr>/g, (m, inner) =>
+        inner.includes("<w:bidiVisual") ? m : `<w:tblPr>${insertBefore(mirrorJc(inner), TBL_AFTER_BIDI, "<w:bidiVisual/>")}</w:tblPr>`,
+      ),
+    );
+  }
   return { bytes: zipSync(files), matched };
 }
 

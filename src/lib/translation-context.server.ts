@@ -72,7 +72,20 @@ const toAscii = (s: string) =>
 const numbers = (s: string) => (toAscii(s).match(/\d+(?:[.,]\d+)*/g) ?? []).map((n) => n.replace(/[.,](?=\d{3}\b)/g, "").replace(",", ".")).sort();
 
 /** Returns a list of problems with one translated segment, empty when it passes. */
-export function checkSegment(source: string, out: string, terms: GlossaryTerm[], sameScript: boolean): string[] {
+const SCRIPT: [RegExp, RegExp][] = [
+  [/^(arabic|persian|farsi|urdu|ar|fa|ur)\b/i, /[\u0600-\u06FF]/],
+  [/^(hebrew|he)\b/i, /[\u0590-\u05FF]/],
+  [/^(russian|ukrainian|bulgarian|serbian|ru|uk)\b/i, /[\u0400-\u04FF]/],
+  [/^(greek|el)\b/i, /[\u0370-\u03FF]/],
+  [/^(chinese|japanese|zh|ja)\b/i, /[\u3040-\u30FF\u4E00-\u9FFF]/],
+  [/^(korean|ko)\b/i, /[\uAC00-\uD7AF]/],
+  [/^(hindi|hi)\b/i, /[\u0900-\u097F]/],
+  [/^(thai|th)\b/i, /[\u0E00-\u0E7F]/],
+];
+const LETTERS = /[A-Za-z\u00C0-\u024F\u0370-\u03FF\u0400-\u04FF\u0590-\u05FF\u0600-\u06FF\u0900-\u097F\u0E00-\u0E7F\u3040-\u30FF\u4E00-\u9FFF\uAC00-\uD7AF]/g;
+const MONTHS = /\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/;
+
+export function checkSegment(source: string, out: string, terms: GlossaryTerm[], sameScript: boolean, target = ""): string[] {
   const issues: string[] = [];
   const src = source.trim();
   const tgt = (out ?? "").trim();
@@ -84,6 +97,16 @@ export function checkSegment(source: string, out: string, terms: GlossaryTerm[],
   for (const t of terms) {
     const present = t.caseSensitive ? src.includes(t.term) : src.toLowerCase().includes(t.term.toLowerCase());
     if (present && t.target && !tgt.toLowerCase().includes(t.target.toLowerCase())) issues.push(`glossary term "${t.term}" must be "${t.target}"`);
+  }
+  const script = SCRIPT.find(([l]) => l.test(target.trim()))?.[1];
+  if (script && tgt) {
+    // Protected names/terms are allowed to stay in Latin; the rest must be in the target script.
+    let rest = tgt;
+    for (const t of terms) if (t.dnt) rest = rest.split(t.term).join("");
+    const letters = rest.match(LETTERS)?.length ?? 0;
+    const inScript = [...rest].filter((c) => script.test(c)).length;
+    if (letters >= 4 && inScript / letters < 0.3 && /[A-Za-z\u0600-\u06FF\u0590-\u05FF]{4}/.test(src)) issues.push(`not written in ${target}`);
+    if (MONTHS.test(tgt) && !MONTHS.test(src.replace(MONTHS, "")) && MONTHS.test(src)) issues.push("month names must be translated");
   }
   const ratio = tgt.length / Math.max(1, src.length);
   if (src.length > 80 && ratio < 0.25) issues.push("translation looks truncated");

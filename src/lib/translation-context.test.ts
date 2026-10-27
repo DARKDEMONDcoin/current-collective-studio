@@ -17,3 +17,16 @@ describe("translation validation", () => {
     expect(checkSegment("Hello world", "", [], false)).toEqual(["empty translation"]);
   });
 });
+
+describe("target language checks", () => {
+  it("flags Arabic text delivered for a Hebrew order", () => {
+    expect(checkSegment("Keep all client data confidential.", "الحفاظ على سرية جميع بيانات العميل.", [], false, "Hebrew").join()).toMatch(/not written in Hebrew/);
+  });
+  it("flags English month names left in an Arabic translation", () => {
+    expect(checkSegment("Starts on 1 January 2027.", "يبدأ في 1 January 2027.", [], false, "Arabic").join()).toMatch(/month/);
+  });
+  it("accepts a correct Arabic sentence with a protected brand name", () => {
+    const dnt = [{ term: "Contentech", target: "Contentech", dnt: true, caseSensitive: true }];
+    expect(checkSegment("Contentech starts on 1 January 2027.", "تبدأ Contentech في 1 يناير 2027.", dnt, false, "Arabic")).toEqual([]);
+  });
+});

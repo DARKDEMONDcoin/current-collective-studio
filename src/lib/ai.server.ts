@@ -45,10 +45,11 @@ async function translateOnce(texts: string[], source: string, target: string, co
       `Rules:\n` +
       `1. Translate the complete meaning of every sentence; never omit, summarize or add content.\n` +
       `2. Write natural, fluent, grammatical ${target} with correct punctuation for that language (e.g. Arabic uses ، ؛ ؟).\n` +
-      `3. Keep every number, date, amount, currency, percentage, code, URL, email and product/person name exact; you may localize digit shapes only if the style guide asks.\n` +
+      `3. Keep every number, amount, currency symbol, percentage, code, URL, email and company/product/person name exact. In dates keep the digits but translate month and weekday names into ${target} (e.g. "1 January 2027" → Arabic "1 يناير 2027"). Localize digit shapes only if the style guide asks.\n` +
       `4. Keep inline markers, placeholders ({x}, %s, <tags>), bullets and leading numbering exactly.\n` +
       `5. Segments are consecutive parts of one document: keep terminology consistent between them.\n` +
       `6. If a segment is only a number, code or proper name, return it unchanged.\n` +
+      `8. Every output must be written in ${target}, even if the client instructions or style guide mention another language.\n` +
       `7. If an item has a "fix" note, a previous attempt had that problem — correct it.\n` +
       `Return JSON {"translations": string[]} with exactly ${texts.length} items in the same order. No commentary.\n\n${ctx}`,
     input: JSON.stringify(input),
