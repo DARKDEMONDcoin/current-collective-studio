@@ -1,8 +1,7 @@
-"use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "@/compat/next-auth";
+import { useRouter, useSearchParams } from "@/compat/next-navigation";
 import {
   Upload,
   Loader2,
@@ -33,7 +32,7 @@ import {
 import { SiGoogledrive, SiDropbox } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import Link from "@/compat/next-link";
 
 type WizardStep =
   | "upload"

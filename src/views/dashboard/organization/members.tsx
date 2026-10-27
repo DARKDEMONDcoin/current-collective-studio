@@ -1,7 +1,6 @@
-"use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/compat/next-auth";
 import { Users, Pencil, Check } from "lucide-react";
 
 interface OrgMember {
