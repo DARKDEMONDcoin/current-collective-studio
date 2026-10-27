@@ -200,7 +200,7 @@ export async function buildPdf(pairs: Pair[], rtl: boolean, title: string): Prom
   const [latin, latinBold, ar, he] = await Promise.all([
     loadFont(FONTS.latin).then((b) => doc.embedFont(b, { subset: true })),
     loadFont(FONTS.latinBold).then((b) => doc.embedFont(b, { subset: true })),
-    needAr ? loadFont(FONTS.arabic).then((b) => doc.embedFont(b, { subset: true })) : null,
+    needAr ? loadFont(FONTS.arabic).then((b) => doc.embedFont(b, { subset: true, features: { ccmp: false } as any })) : null,
     needHe ? loadFont(FONTS.hebrew).then((b) => doc.embedFont(b, { subset: true })) : null,
   ]);
   type Font = typeof latin;
