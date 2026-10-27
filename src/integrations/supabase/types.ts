@@ -3124,11 +3124,12 @@ export type Database = {
       can_edit_org: { Args: { _org: string }; Returns: boolean }
       create_workspace: { Args: { _name: string }; Returns: string }
       ct_admin_adjust_credits: {
-        Args: { _amount: number; _org: string; _reason: string }
+        Args: { _admin: string; _amount: number; _org: string; _reason: string }
         Returns: Json
       }
       ct_admin_set_role: {
         Args: {
+          _admin: string
           _grant: boolean
           _role: Database["public"]["Enums"]["ct_role"]
           _user: string
