@@ -6,5 +6,6 @@
 - [ ] Wizard extras: cloud file pickers (need Google/Dropbox/OneDrive app keys), scanned-PDF OCR, BYOK keys
 - [ ] Stage 3: linguist portal + side-by-side translation editor, TM, glossaries, Linguist Studio
 - [ ] Stage 4: admin panel (users, AI config/routing, finance, plans, CMS content)
-- [ ] Stage 5: AI pre-translation, PDF/OCR pipeline (original used Python — needs a replacement), Stripe, email, WordPress/Contentful, webhooks, cron
+- [x] Stage 5a: AI translation per target language, scanned PDF/image OCR, order execution + automatic refund on failure, DOCX download (tested against the live DB with a temporary account)
+- [ ] Stage 5b: Stripe credit purchases + webhooks, transactional emails, BYOK keys, OCR per-page charge, background processing for very large documents, WordPress/Contentful, cron
 - [ ] Existing data: original Postgres records (users, projects, content) not yet imported — waiting on CSV export from user
