@@ -45,3 +45,12 @@ describe("locale number formats", () => {
     expect(cs("The fee is $3,200.", "Les frais s'élèvent à 3\u202f300 $.", [], true, "French").join()).toMatch(/numbers/);
   });
 });
+
+import { shapeArabic } from "./arabic-shape";
+describe("Arabic PDF shaping", () => {
+  it("uses joined letter forms and the lam-alef ligature", () => {
+    // بين = initial beh, medial yeh, final noon
+    expect([...shapeArabic("بين")].map((c) => c.codePointAt(0)!.toString(16))).toEqual(["fe91", "fef4", "fee6"]);
+    expect(shapeArabic("لا")).toBe("\ufefb");
+  });
+});
