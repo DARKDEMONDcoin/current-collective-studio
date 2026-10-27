@@ -4,16 +4,18 @@
 - [x] Stage 2b-1: order wizard (TXT/DOCX/text PDF upload, word count, language pairs, workflow, credit charge), project detail, organization general + business context, members, linguist team / join requests
 - [ ] Stage 2b-2: notifications page, settings, glossary/memory/style guides (wizard asset pickers return empty until then), integrations, developer, clients, teams, linguists
 - [ ] Wizard extras: cloud file pickers (need Google/Dropbox/OneDrive app keys), scanned-PDF OCR, BYOK keys
-- [ ] Stage 3: linguist portal + side-by-side translation editor, TM, glossaries, Linguist Studio
+- [~] Stage 3: Linguist Portal (dashboard, job feed, job detail, editor, assignments, earnings, notifications) done; Studio + profile show 'Coming soon'
 - [ ] Stage 4: admin panel (users, AI config/routing, finance, plans, CMS content)
 - [x] Stage 5a: AI translation per target language, scanned PDF/image OCR, order execution + automatic refund on failure, DOCX download (tested against the live DB with a temporary account)
-- [ ] Stage 5b: Stripe credit purchases + webhooks, transactional emails, BYOK keys, OCR per-page charge, background processing for very large documents, WordPress/Contentful, cron
+- [ ] Stage 5b: Stripe credit purchases + webhooks, transactional emails, BYOK keys, WordPress/Contentful
 - [ ] Existing data: original Postgres records (users, projects, content) not yet imported — waiting on CSV export from user
 - [x] QA account abdallamohamed55xx@gmail.com: free orders via ct_test_entitlements (server-enforced; `testBilling: true` in order body uses real billing on its own balance)
 - [x] Client pages: Clients, Teams, Linguists, TM, Glossaries, Style Guides, OCR Requests (+detail), Integrations, Developer, Notifications, Settings (API tested: scripts/e2e-client-portal.ts)
 - [ ] Team/linguist email invitations, WordPress/Contentful connectors, bring-your-own AI keys (need email domain / vault)
 - [x] Linguist ratings/favourites/blocking + OCR per-page billing (favourites untested: no linguists exist yet)
-- [ ] original-format downloads (DOCX/PDF/PPTX); background processing + progress
-- [ ] AI+Human end-to-end: linguist assignment, review/approval, never Completed before human work
+- [x] Original-format downloads: DOCX/PPTX rebuilt from the original file (layout kept, RTL), real PDF (Latin/Cyrillic/Arabic/Hebrew; CJK/Indic -> Word only) — tested (scripts/e2e-workflow.ts)
+- [x] Background processing: resumable batches, single-worker lease, progress bar, 3 retries with backoff, refund once on final failure, 1-minute scheduler (scheduler only runs against the PUBLISHED site) — tested except live scheduler
+- [x] AI+Human end-to-end: pool rules (internal/preferred/blocked), accept once, editor save, submit needs every segment, client approve / request changes, project Completed only when all jobs approved — API tested; portal screens untested signed-in
+- [ ] Linguist payout rates (payout shows 0 until admin rates exist), segment comments/issue logging, QA report, Linguist profile page, Linguist Studio
 - [ ] Emails (needs sender domain) + Stripe credit purchases (needs paid plan or own Stripe key)
 - [ ] Full UI test pass with QA account (blocked: sandbox can't sign in to this external Supabase)
