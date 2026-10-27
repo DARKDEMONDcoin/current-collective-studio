@@ -17,3 +17,5 @@
 - tsconfig strictness flags are relaxed to match the original project. Why: imported code was written with `strict: false`.
 - Browser `fetch("/api/...")` gets the Supabase bearer token added by `src/compat/fetch-auth.ts`; server routes verify it with `requireApiUser` (src/lib/api-auth.ts). Why: original pages used cookie sessions.
 - DB rows are converted to the original camelCase Prisma shape with `camel()` (src/lib/ct-shape.ts) before reaching views. Why: views keep their original field names.
+- Project creation goes through the `ct_create_project` DB function (service-role only, called from `/api/projects` after verifying the caller). Why: credit debit, project, jobs, document and segments must commit atomically.
+- Document text extraction lives in `src/lib/doc-parse.server.ts` (fflate for DOCX, unpdf for PDF). Why: the original Python parsers cannot run on the Worker runtime.
