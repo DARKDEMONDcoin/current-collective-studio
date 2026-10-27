@@ -13,8 +13,6 @@ export const Route = createFileRoute("/api/client-accounts")({
           .select("*, ct_translation_memories(count), ct_glossaries(count), ct_style_guides(count)")
           .order("created_at", { ascending: false });
         if (error) return jerr("Could not load clients", 500);
-        const { data: projects } = await ctx.supabase.from("ct_projects").select("id").limit(1);
-        void projects;
         return Response.json(
           (data ?? []).map((a: any) => ({
             ...camel({ ...a, ct_translation_memories: undefined, ct_glossaries: undefined, ct_style_guides: undefined }),
