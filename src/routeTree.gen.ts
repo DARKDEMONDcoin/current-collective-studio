@@ -30,6 +30,9 @@ import { Route as LocalePricingRouteImport } from './routes/$locale.pricing'
 import { Route as LocaleQualityRouteImport } from './routes/$locale.quality'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as ApiCreditPackagesRouteImport } from './routes/api/credit-packages'
+import { Route as ApiOrganizationRouteImport } from './routes/api/organization'
+import { Route as ApiProjectsRouteImport } from './routes/api/projects'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
 import { Route as DashboardProjectsRouteImport } from './routes/dashboard.projects'
@@ -48,6 +51,7 @@ import { Route as ApiAuthRegisterLinguistRouteImport } from './routes/api/auth/r
 import { Route as ApiNotificationsIndexRouteImport } from './routes/api/notifications/index'
 import { Route as ApiNotificationsReadAllRouteImport } from './routes/api/notifications/read-all'
 import { Route as ApiNotificationsUnreadCountRouteImport } from './routes/api/notifications/unread-count'
+import { Route as ApiUploadAnalyzeRouteImport } from './routes/api/upload/analyze'
 import { Route as DashboardBillingSuccessRouteImport } from './routes/dashboard.billing_.success'
 import { Route as ResourcesCategorySlugRouteImport } from './routes/resources.category.$slug'
 import { Route as ApiNotificationsIdReadRouteImport } from './routes/api/notifications/$id.read'
@@ -157,6 +161,21 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
   path: '/admin/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiCreditPackagesRoute = ApiCreditPackagesRouteImport.update({
+  id: '/api/credit-packages',
+  path: '/api/credit-packages',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiOrganizationRoute = ApiOrganizationRouteImport.update({
+  id: '/api/organization',
+  path: '/api/organization',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiProjectsRoute = ApiProjectsRouteImport.update({
+  id: '/api/projects',
+  path: '/api/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -249,6 +268,11 @@ const ApiNotificationsUnreadCountRoute =
     path: '/api/notifications/unread-count',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiUploadAnalyzeRoute = ApiUploadAnalyzeRouteImport.update({
+  id: '/api/upload/analyze',
+  path: '/api/upload/analyze',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardBillingSuccessRoute = DashboardBillingSuccessRouteImport.update({
   id: '/billing_/success',
   path: '/billing/success',
@@ -285,6 +309,9 @@ export interface FileRoutesByFullPath {
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/credit-packages': typeof ApiCreditPackagesRoute
+  '/api/organization': typeof ApiOrganizationRoute
+  '/api/projects': typeof ApiProjectsRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
   '/product/agency': typeof ProductAgencyRoute
@@ -304,6 +331,7 @@ export interface FileRoutesByFullPath {
   '/api/auth/register-linguist': typeof ApiAuthRegisterLinguistRoute
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
+  '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
@@ -326,6 +354,9 @@ export interface FileRoutesByTo {
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/credit-packages': typeof ApiCreditPackagesRoute
+  '/api/organization': typeof ApiOrganizationRoute
+  '/api/projects': typeof ApiProjectsRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
   '/product/agency': typeof ProductAgencyRoute
@@ -345,6 +376,7 @@ export interface FileRoutesByTo {
   '/api/auth/register-linguist': typeof ApiAuthRegisterLinguistRoute
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
+  '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications': typeof ApiNotificationsIndexRoute
@@ -371,6 +403,9 @@ export interface FileRoutesById {
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/credit-packages': typeof ApiCreditPackagesRoute
+  '/api/organization': typeof ApiOrganizationRoute
+  '/api/projects': typeof ApiProjectsRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
   '/product/agency': typeof ProductAgencyRoute
@@ -390,6 +425,7 @@ export interface FileRoutesById {
   '/api/auth/register-linguist': typeof ApiAuthRegisterLinguistRoute
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
+  '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing_/success': typeof DashboardBillingSuccessRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
@@ -417,6 +453,9 @@ export interface FileRouteTypes {
     | '/$locale/pricing'
     | '/$locale/quality'
     | '/admin/login'
+    | '/api/credit-packages'
+    | '/api/organization'
+    | '/api/projects'
     | '/dashboard/billing'
     | '/dashboard/projects'
     | '/product/agency'
@@ -436,6 +475,7 @@ export interface FileRouteTypes {
     | '/api/auth/register-linguist'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
+    | '/api/upload/analyze'
     | '/dashboard/billing/success'
     | '/resources/category/$slug'
     | '/api/notifications/'
@@ -458,6 +498,9 @@ export interface FileRouteTypes {
     | '/$locale/pricing'
     | '/$locale/quality'
     | '/admin/login'
+    | '/api/credit-packages'
+    | '/api/organization'
+    | '/api/projects'
     | '/dashboard/billing'
     | '/dashboard/projects'
     | '/product/agency'
@@ -477,6 +520,7 @@ export interface FileRouteTypes {
     | '/api/auth/register-linguist'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
+    | '/api/upload/analyze'
     | '/dashboard/billing/success'
     | '/resources/category/$slug'
     | '/api/notifications'
@@ -502,6 +546,9 @@ export interface FileRouteTypes {
     | '/$locale/pricing'
     | '/$locale/quality'
     | '/admin/login'
+    | '/api/credit-packages'
+    | '/api/organization'
+    | '/api/projects'
     | '/dashboard/billing'
     | '/dashboard/projects'
     | '/product/agency'
@@ -521,6 +568,7 @@ export interface FileRouteTypes {
     | '/api/auth/register-linguist'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
+    | '/api/upload/analyze'
     | '/dashboard/billing_/success'
     | '/resources/category/$slug'
     | '/api/notifications/'
@@ -544,6 +592,9 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRouteWithChildren
   SupportRoute: typeof SupportRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  ApiCreditPackagesRoute: typeof ApiCreditPackagesRoute
+  ApiOrganizationRoute: typeof ApiOrganizationRoute
+  ApiProjectsRoute: typeof ApiProjectsRoute
   ProductAgencyRoute: typeof ProductAgencyRoute
   ProductCustomerRoute: typeof ProductCustomerRoute
   ProductLinguistRoute: typeof ProductLinguistRoute
@@ -557,6 +608,7 @@ export interface RootRouteChildren {
   ApiAuthRegisterLinguistRoute: typeof ApiAuthRegisterLinguistRoute
   ApiNotificationsReadAllRoute: typeof ApiNotificationsReadAllRoute
   ApiNotificationsUnreadCountRoute: typeof ApiNotificationsUnreadCountRoute
+  ApiUploadAnalyzeRoute: typeof ApiUploadAnalyzeRoute
   ApiNotificationsIndexRoute: typeof ApiNotificationsIndexRoute
   ApiNotificationsIdReadRoute: typeof ApiNotificationsIdReadRoute
 }
@@ -710,6 +762,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/credit-packages': {
+      id: '/api/credit-packages'
+      path: '/api/credit-packages'
+      fullPath: '/api/credit-packages'
+      preLoaderRoute: typeof ApiCreditPackagesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/organization': {
+      id: '/api/organization'
+      path: '/api/organization'
+      fullPath: '/api/organization'
+      preLoaderRoute: typeof ApiOrganizationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/projects': {
+      id: '/api/projects'
+      path: '/api/projects'
+      fullPath: '/api/projects'
+      preLoaderRoute: typeof ApiProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/': {
       id: '/dashboard/'
       path: '/'
@@ -836,6 +909,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiNotificationsUnreadCountRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/upload/analyze': {
+      id: '/api/upload/analyze'
+      path: '/api/upload/analyze'
+      fullPath: '/api/upload/analyze'
+      preLoaderRoute: typeof ApiUploadAnalyzeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/billing_/success': {
       id: '/dashboard/billing_/success'
       path: '/billing/success'
@@ -928,6 +1008,9 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRouteWithChildren,
   SupportRoute: SupportRoute,
   AdminLoginRoute: AdminLoginRoute,
+  ApiCreditPackagesRoute: ApiCreditPackagesRoute,
+  ApiOrganizationRoute: ApiOrganizationRoute,
+  ApiProjectsRoute: ApiProjectsRoute,
   ProductAgencyRoute: ProductAgencyRoute,
   ProductCustomerRoute: ProductCustomerRoute,
   ProductLinguistRoute: ProductLinguistRoute,
@@ -941,6 +1024,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAuthRegisterLinguistRoute: ApiAuthRegisterLinguistRoute,
   ApiNotificationsReadAllRoute: ApiNotificationsReadAllRoute,
   ApiNotificationsUnreadCountRoute: ApiNotificationsUnreadCountRoute,
+  ApiUploadAnalyzeRoute: ApiUploadAnalyzeRoute,
   ApiNotificationsIndexRoute: ApiNotificationsIndexRoute,
   ApiNotificationsIdReadRoute: ApiNotificationsIdReadRoute,
 }
