@@ -1,3 +1,4 @@
+import { shapeArabic } from "./arabic-shape";
 // Builds the translated deliverable for a job.
 //  - DOCX / PPTX with an original file: the original package is reopened and only the
 //    paragraph text is swapped, so styles, tables, images, slide layout stay intact.
@@ -232,7 +233,8 @@ export async function buildPdf(pairs: Pair[], rtl: boolean, title: string): Prom
   let y = H - M;
   const color = rgb(0.13, 0.17, 0.22);
 
-  for (const { target, hint } of pairs) {
+  for (const { target: raw, hint } of pairs) {
+    const target = ARABIC.test(raw) ? shapeArabic(raw) : raw;
     const h = Number(hint.match(/^h(\d)$/)?.[1] ?? 0);
     const size = h === 1 ? 20 : h === 2 ? 16 : h ? 13.5 : 11;
     const bold = h > 0;
