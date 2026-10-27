@@ -199,6 +199,7 @@ export default function DashboardSidebar({ user, orgPlan = "STARTER", featureFla
     { href: "/admin/llm-usage", icon: BarChart2, label: "LLM Usage" },
     { href: "/admin/content", icon: FileText, label: "Site Content" },
     { href: "/admin/resources", icon: BookOpen, label: "Resources CMS" },
+    { href: "/admin/audit", icon: ShieldCheck, label: "Admin Activity" },
     { href: "/admin/settings", icon: Settings, label: "Settings" },
   ];
 

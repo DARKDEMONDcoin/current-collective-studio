@@ -1,18 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { NextStage } from "@/components/next-stage";
+import { AdminOverview } from "@/views/admin/pages";
 
 export const Route = createFileRoute("/admin/")({
-  ssr: false,
   head: () => ({
     meta: [
-      { title: "Admin Panel — Contentech" },
-      { name: "description", content: "Contentech Admin Panel." },
-      { property: "og:title", content: "Admin Panel — Contentech" },
-      { property: "og:description", content: "Contentech Admin Panel." },
+      { title: "Admin Dashboard — Contentech Admin" },
+      { name: "description", content: "Contentech platform overview." },
+      { property: "og:title", content: "Admin Dashboard — Contentech Admin" },
+      { property: "og:description", content: "Contentech platform overview." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
   }),
-  component: () => <NextStage area="Admin Panel" loginHref="/admin/login" />,
+  component: () => <AdminOverview />,
 });
