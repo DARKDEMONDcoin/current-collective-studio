@@ -33,6 +33,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as ApiApiConfigRouteImport } from './routes/api/api-config'
 import { Route as ApiClientAccountsRouteImport } from './routes/api/client-accounts'
 import { Route as ApiCreditPackagesRouteImport } from './routes/api/credit-packages'
+import { Route as ApiDepartmentsRouteImport } from './routes/api/departments'
 import { Route as ApiGlossaryRouteImport } from './routes/api/glossary'
 import { Route as ApiOrgMembersRouteImport } from './routes/api/org-members'
 import { Route as ApiOrganizationRouteImport } from './routes/api/organization'
@@ -53,21 +54,44 @@ import { Route as ServicesAiQualityShieldRouteImport } from './routes/services.a
 import { Route as ServicesAiTrainingDataRouteImport } from './routes/services.ai-training-data'
 import { Route as ServicesContentechHumanRouteImport } from './routes/services.contentech-human'
 import { Route as ServicesLocalizationEngineeringRouteImport } from './routes/services.localization-engineering'
+import { Route as ApiApiConfigIdRouteImport } from './routes/api/api-config.$id'
 import { Route as ApiAuthCheckOrgRouteImport } from './routes/api/auth/check-org'
 import { Route as ApiAuthRegisterRouteImport } from './routes/api/auth/register'
 import { Route as ApiAuthRegisterLinguistRouteImport } from './routes/api/auth/register-linguist'
+import { Route as ApiClientAccountsIdRouteImport } from './routes/api/client-accounts.$id'
+import { Route as ApiDepartmentsIdRouteImport } from './routes/api/departments.$id'
+import { Route as ApiDeveloperKeysRouteImport } from './routes/api/developer.keys'
+import { Route as ApiDeveloperWebhooksRouteImport } from './routes/api/developer.webhooks'
+import { Route as ApiGlossaryIdRouteImport } from './routes/api/glossary.$id'
+import { Route as ApiIntegrationsCloudStatusRouteImport } from './routes/api/integrations.cloud-status'
 import { Route as ApiNotificationsIndexRouteImport } from './routes/api/notifications/index'
 import { Route as ApiNotificationsReadAllRouteImport } from './routes/api/notifications/read-all'
 import { Route as ApiNotificationsUnreadCountRouteImport } from './routes/api/notifications/unread-count'
 import { Route as ApiOrganizationJoinRequestsRouteImport } from './routes/api/organization.join-requests'
+import { Route as ApiOrganizationLinguistsRouteImport } from './routes/api/organization.linguists'
+import { Route as ApiStyleGuidesIdRouteImport } from './routes/api/style-guides.$id'
+import { Route as ApiStyleGuidesGenerateRouteImport } from './routes/api/style-guides.generate'
+import { Route as ApiTmIdRouteImport } from './routes/api/tm.$id'
 import { Route as ApiUploadAnalyzeRouteImport } from './routes/api/upload/analyze'
 import { Route as DashboardBillingSuccessRouteImport } from './routes/dashboard.billing_.success'
 import { Route as DashboardOrganizationIndexRouteImport } from './routes/dashboard.organization.index'
 import { Route as DashboardOrganizationMembersRouteImport } from './routes/dashboard.organization.members'
 import { Route as DashboardProjectsIdRouteImport } from './routes/dashboard.projects_.$id'
 import { Route as ResourcesCategorySlugRouteImport } from './routes/resources.category.$slug'
+import { Route as ApiDepartmentsIdInviteRouteImport } from './routes/api/departments.$id.invite'
+import { Route as ApiDepartmentsIdMembersRouteImport } from './routes/api/departments.$id.members'
+import { Route as ApiDeveloperKeysIdRouteImport } from './routes/api/developer.keys.$id'
+import { Route as ApiDeveloperWebhooksIdRouteImport } from './routes/api/developer.webhooks.$id'
+import { Route as ApiGlossaryIdImportRouteImport } from './routes/api/glossary.$id.import'
+import { Route as ApiGlossaryIdTermsRouteImport } from './routes/api/glossary.$id.terms'
 import { Route as ApiJobsIdDeliverRouteImport } from './routes/api/jobs.$id.deliver'
+import { Route as ApiLinguistsIdBlacklistRouteImport } from './routes/api/linguists.$id.blacklist'
+import { Route as ApiLinguistsIdFavoriteRouteImport } from './routes/api/linguists.$id.favorite'
 import { Route as ApiNotificationsIdReadRouteImport } from './routes/api/notifications/$id.read'
+import { Route as ApiOrganizationLinguistsIdRouteImport } from './routes/api/organization.linguists.$id'
+import { Route as ApiOrganizationLinguistsInviteRouteImport } from './routes/api/organization.linguists.invite'
+import { Route as ApiTmIdImportRouteImport } from './routes/api/tm.$id.import'
+import { Route as ApiDepartmentsIdMembersUserIdRouteImport } from './routes/api/departments.$id.members.$userId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -189,6 +213,11 @@ const ApiCreditPackagesRoute = ApiCreditPackagesRouteImport.update({
   path: '/api/credit-packages',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiDepartmentsRoute = ApiDepartmentsRouteImport.update({
+  id: '/api/departments',
+  path: '/api/departments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiGlossaryRoute = ApiGlossaryRouteImport.update({
   id: '/api/glossary',
   path: '/api/glossary',
@@ -290,6 +319,11 @@ const ServicesLocalizationEngineeringRoute =
     path: '/services/localization-engineering',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiApiConfigIdRoute = ApiApiConfigIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiApiConfigRoute,
+} as any)
 const ApiAuthCheckOrgRoute = ApiAuthCheckOrgRouteImport.update({
   id: '/api/auth/check-org',
   path: '/api/auth/check-org',
@@ -305,6 +339,37 @@ const ApiAuthRegisterLinguistRoute = ApiAuthRegisterLinguistRouteImport.update({
   path: '/api/auth/register-linguist',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiClientAccountsIdRoute = ApiClientAccountsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiClientAccountsRoute,
+} as any)
+const ApiDepartmentsIdRoute = ApiDepartmentsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiDepartmentsRoute,
+} as any)
+const ApiDeveloperKeysRoute = ApiDeveloperKeysRouteImport.update({
+  id: '/api/developer/keys',
+  path: '/api/developer/keys',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiDeveloperWebhooksRoute = ApiDeveloperWebhooksRouteImport.update({
+  id: '/api/developer/webhooks',
+  path: '/api/developer/webhooks',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiGlossaryIdRoute = ApiGlossaryIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiGlossaryRoute,
+} as any)
+const ApiIntegrationsCloudStatusRoute =
+  ApiIntegrationsCloudStatusRouteImport.update({
+    id: '/api/integrations/cloud-status',
+    path: '/api/integrations/cloud-status',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiNotificationsIndexRoute = ApiNotificationsIndexRouteImport.update({
   id: '/api/notifications/',
   path: '/api/notifications/',
@@ -327,6 +392,27 @@ const ApiOrganizationJoinRequestsRoute =
     path: '/join-requests',
     getParentRoute: () => ApiOrganizationRoute,
   } as any)
+const ApiOrganizationLinguistsRoute =
+  ApiOrganizationLinguistsRouteImport.update({
+    id: '/linguists',
+    path: '/linguists',
+    getParentRoute: () => ApiOrganizationRoute,
+  } as any)
+const ApiStyleGuidesIdRoute = ApiStyleGuidesIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiStyleGuidesRoute,
+} as any)
+const ApiStyleGuidesGenerateRoute = ApiStyleGuidesGenerateRouteImport.update({
+  id: '/generate',
+  path: '/generate',
+  getParentRoute: () => ApiStyleGuidesRoute,
+} as any)
+const ApiTmIdRoute = ApiTmIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiTmRoute,
+} as any)
 const ApiUploadAnalyzeRoute = ApiUploadAnalyzeRouteImport.update({
   id: '/api/upload/analyze',
   path: '/api/upload/analyze',
@@ -359,9 +445,49 @@ const ResourcesCategorySlugRoute = ResourcesCategorySlugRouteImport.update({
   path: '/category/$slug',
   getParentRoute: () => ResourcesRoute,
 } as any)
+const ApiDepartmentsIdInviteRoute = ApiDepartmentsIdInviteRouteImport.update({
+  id: '/invite',
+  path: '/invite',
+  getParentRoute: () => ApiDepartmentsIdRoute,
+} as any)
+const ApiDepartmentsIdMembersRoute = ApiDepartmentsIdMembersRouteImport.update({
+  id: '/members',
+  path: '/members',
+  getParentRoute: () => ApiDepartmentsIdRoute,
+} as any)
+const ApiDeveloperKeysIdRoute = ApiDeveloperKeysIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiDeveloperKeysRoute,
+} as any)
+const ApiDeveloperWebhooksIdRoute = ApiDeveloperWebhooksIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiDeveloperWebhooksRoute,
+} as any)
+const ApiGlossaryIdImportRoute = ApiGlossaryIdImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => ApiGlossaryIdRoute,
+} as any)
+const ApiGlossaryIdTermsRoute = ApiGlossaryIdTermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => ApiGlossaryIdRoute,
+} as any)
 const ApiJobsIdDeliverRoute = ApiJobsIdDeliverRouteImport.update({
   id: '/api/jobs/$id/deliver',
   path: '/api/jobs/$id/deliver',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLinguistsIdBlacklistRoute = ApiLinguistsIdBlacklistRouteImport.update({
+  id: '/api/linguists/$id/blacklist',
+  path: '/api/linguists/$id/blacklist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiLinguistsIdFavoriteRoute = ApiLinguistsIdFavoriteRouteImport.update({
+  id: '/api/linguists/$id/favorite',
+  path: '/api/linguists/$id/favorite',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiNotificationsIdReadRoute = ApiNotificationsIdReadRouteImport.update({
@@ -369,6 +495,29 @@ const ApiNotificationsIdReadRoute = ApiNotificationsIdReadRouteImport.update({
   path: '/api/notifications/$id/read',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiOrganizationLinguistsIdRoute =
+  ApiOrganizationLinguistsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => ApiOrganizationLinguistsRoute,
+  } as any)
+const ApiOrganizationLinguistsInviteRoute =
+  ApiOrganizationLinguistsInviteRouteImport.update({
+    id: '/invite',
+    path: '/invite',
+    getParentRoute: () => ApiOrganizationLinguistsRoute,
+  } as any)
+const ApiTmIdImportRoute = ApiTmIdImportRouteImport.update({
+  id: '/import',
+  path: '/import',
+  getParentRoute: () => ApiTmIdRoute,
+} as any)
+const ApiDepartmentsIdMembersUserIdRoute =
+  ApiDepartmentsIdMembersUserIdRouteImport.update({
+    id: '/$userId',
+    path: '/$userId',
+    getParentRoute: () => ApiDepartmentsIdMembersRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -390,15 +539,16 @@ export interface FileRoutesByFullPath {
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
   '/admin/login': typeof AdminLoginRoute
-  '/api/api-config': typeof ApiApiConfigRoute
-  '/api/client-accounts': typeof ApiClientAccountsRoute
+  '/api/api-config': typeof ApiApiConfigRouteWithChildren
+  '/api/client-accounts': typeof ApiClientAccountsRouteWithChildren
   '/api/credit-packages': typeof ApiCreditPackagesRoute
-  '/api/glossary': typeof ApiGlossaryRoute
+  '/api/departments': typeof ApiDepartmentsRouteWithChildren
+  '/api/glossary': typeof ApiGlossaryRouteWithChildren
   '/api/org-members': typeof ApiOrgMembersRoute
   '/api/organization': typeof ApiOrganizationRouteWithChildren
   '/api/projects': typeof ApiProjectsRoute
-  '/api/style-guides': typeof ApiStyleGuidesRoute
-  '/api/tm': typeof ApiTmRoute
+  '/api/style-guides': typeof ApiStyleGuidesRouteWithChildren
+  '/api/tm': typeof ApiTmRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
   '/dashboard/team': typeof DashboardTeamRoute
@@ -415,12 +565,23 @@ export interface FileRoutesByFullPath {
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/api/api-config/$id': typeof ApiApiConfigIdRoute
   '/api/auth/check-org': typeof ApiAuthCheckOrgRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
   '/api/auth/register-linguist': typeof ApiAuthRegisterLinguistRoute
+  '/api/client-accounts/$id': typeof ApiClientAccountsIdRoute
+  '/api/departments/$id': typeof ApiDepartmentsIdRouteWithChildren
+  '/api/developer/keys': typeof ApiDeveloperKeysRouteWithChildren
+  '/api/developer/webhooks': typeof ApiDeveloperWebhooksRouteWithChildren
+  '/api/glossary/$id': typeof ApiGlossaryIdRouteWithChildren
+  '/api/integrations/cloud-status': typeof ApiIntegrationsCloudStatusRoute
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
+  '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
+  '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
+  '/api/style-guides/generate': typeof ApiStyleGuidesGenerateRoute
+  '/api/tm/$id': typeof ApiTmIdRouteWithChildren
   '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
   '/dashboard/organization/members': typeof DashboardOrganizationMembersRoute
@@ -428,8 +589,20 @@ export interface FileRoutesByFullPath {
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
+  '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
+  '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
+  '/api/developer/keys/$id': typeof ApiDeveloperKeysIdRoute
+  '/api/developer/webhooks/$id': typeof ApiDeveloperWebhooksIdRoute
+  '/api/glossary/$id/import': typeof ApiGlossaryIdImportRoute
+  '/api/glossary/$id/terms': typeof ApiGlossaryIdTermsRoute
   '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
+  '/api/linguists/$id/blacklist': typeof ApiLinguistsIdBlacklistRoute
+  '/api/linguists/$id/favorite': typeof ApiLinguistsIdFavoriteRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
+  '/api/organization/linguists/$id': typeof ApiOrganizationLinguistsIdRoute
+  '/api/organization/linguists/invite': typeof ApiOrganizationLinguistsInviteRoute
+  '/api/tm/$id/import': typeof ApiTmIdImportRoute
+  '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -448,15 +621,16 @@ export interface FileRoutesByTo {
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
   '/admin/login': typeof AdminLoginRoute
-  '/api/api-config': typeof ApiApiConfigRoute
-  '/api/client-accounts': typeof ApiClientAccountsRoute
+  '/api/api-config': typeof ApiApiConfigRouteWithChildren
+  '/api/client-accounts': typeof ApiClientAccountsRouteWithChildren
   '/api/credit-packages': typeof ApiCreditPackagesRoute
-  '/api/glossary': typeof ApiGlossaryRoute
+  '/api/departments': typeof ApiDepartmentsRouteWithChildren
+  '/api/glossary': typeof ApiGlossaryRouteWithChildren
   '/api/org-members': typeof ApiOrgMembersRoute
   '/api/organization': typeof ApiOrganizationRouteWithChildren
   '/api/projects': typeof ApiProjectsRoute
-  '/api/style-guides': typeof ApiStyleGuidesRoute
-  '/api/tm': typeof ApiTmRoute
+  '/api/style-guides': typeof ApiStyleGuidesRouteWithChildren
+  '/api/tm': typeof ApiTmRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
   '/dashboard/team': typeof DashboardTeamRoute
@@ -473,12 +647,23 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/resources': typeof ResourcesIndexRoute
+  '/api/api-config/$id': typeof ApiApiConfigIdRoute
   '/api/auth/check-org': typeof ApiAuthCheckOrgRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
   '/api/auth/register-linguist': typeof ApiAuthRegisterLinguistRoute
+  '/api/client-accounts/$id': typeof ApiClientAccountsIdRoute
+  '/api/departments/$id': typeof ApiDepartmentsIdRouteWithChildren
+  '/api/developer/keys': typeof ApiDeveloperKeysRouteWithChildren
+  '/api/developer/webhooks': typeof ApiDeveloperWebhooksRouteWithChildren
+  '/api/glossary/$id': typeof ApiGlossaryIdRouteWithChildren
+  '/api/integrations/cloud-status': typeof ApiIntegrationsCloudStatusRoute
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
+  '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
+  '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
+  '/api/style-guides/generate': typeof ApiStyleGuidesGenerateRoute
+  '/api/tm/$id': typeof ApiTmIdRouteWithChildren
   '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
   '/dashboard/organization/members': typeof DashboardOrganizationMembersRoute
@@ -486,8 +671,20 @@ export interface FileRoutesByTo {
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications': typeof ApiNotificationsIndexRoute
   '/dashboard/organization': typeof DashboardOrganizationIndexRoute
+  '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
+  '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
+  '/api/developer/keys/$id': typeof ApiDeveloperKeysIdRoute
+  '/api/developer/webhooks/$id': typeof ApiDeveloperWebhooksIdRoute
+  '/api/glossary/$id/import': typeof ApiGlossaryIdImportRoute
+  '/api/glossary/$id/terms': typeof ApiGlossaryIdTermsRoute
   '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
+  '/api/linguists/$id/blacklist': typeof ApiLinguistsIdBlacklistRoute
+  '/api/linguists/$id/favorite': typeof ApiLinguistsIdFavoriteRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
+  '/api/organization/linguists/$id': typeof ApiOrganizationLinguistsIdRoute
+  '/api/organization/linguists/invite': typeof ApiOrganizationLinguistsInviteRoute
+  '/api/tm/$id/import': typeof ApiTmIdImportRoute
+  '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -510,15 +707,16 @@ export interface FileRoutesById {
   '/$locale/pricing': typeof LocalePricingRoute
   '/$locale/quality': typeof LocaleQualityRoute
   '/admin/login': typeof AdminLoginRoute
-  '/api/api-config': typeof ApiApiConfigRoute
-  '/api/client-accounts': typeof ApiClientAccountsRoute
+  '/api/api-config': typeof ApiApiConfigRouteWithChildren
+  '/api/client-accounts': typeof ApiClientAccountsRouteWithChildren
   '/api/credit-packages': typeof ApiCreditPackagesRoute
-  '/api/glossary': typeof ApiGlossaryRoute
+  '/api/departments': typeof ApiDepartmentsRouteWithChildren
+  '/api/glossary': typeof ApiGlossaryRouteWithChildren
   '/api/org-members': typeof ApiOrgMembersRoute
   '/api/organization': typeof ApiOrganizationRouteWithChildren
   '/api/projects': typeof ApiProjectsRoute
-  '/api/style-guides': typeof ApiStyleGuidesRoute
-  '/api/tm': typeof ApiTmRoute
+  '/api/style-guides': typeof ApiStyleGuidesRouteWithChildren
+  '/api/tm': typeof ApiTmRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
   '/dashboard/team': typeof DashboardTeamRoute
@@ -535,12 +733,23 @@ export interface FileRoutesById {
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/resources/': typeof ResourcesIndexRoute
+  '/api/api-config/$id': typeof ApiApiConfigIdRoute
   '/api/auth/check-org': typeof ApiAuthCheckOrgRoute
   '/api/auth/register': typeof ApiAuthRegisterRoute
   '/api/auth/register-linguist': typeof ApiAuthRegisterLinguistRoute
+  '/api/client-accounts/$id': typeof ApiClientAccountsIdRoute
+  '/api/departments/$id': typeof ApiDepartmentsIdRouteWithChildren
+  '/api/developer/keys': typeof ApiDeveloperKeysRouteWithChildren
+  '/api/developer/webhooks': typeof ApiDeveloperWebhooksRouteWithChildren
+  '/api/glossary/$id': typeof ApiGlossaryIdRouteWithChildren
+  '/api/integrations/cloud-status': typeof ApiIntegrationsCloudStatusRoute
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
+  '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
+  '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
+  '/api/style-guides/generate': typeof ApiStyleGuidesGenerateRoute
+  '/api/tm/$id': typeof ApiTmIdRouteWithChildren
   '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing_/success': typeof DashboardBillingSuccessRoute
   '/dashboard/organization/members': typeof DashboardOrganizationMembersRoute
@@ -548,8 +757,20 @@ export interface FileRoutesById {
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
+  '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
+  '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
+  '/api/developer/keys/$id': typeof ApiDeveloperKeysIdRoute
+  '/api/developer/webhooks/$id': typeof ApiDeveloperWebhooksIdRoute
+  '/api/glossary/$id/import': typeof ApiGlossaryIdImportRoute
+  '/api/glossary/$id/terms': typeof ApiGlossaryIdTermsRoute
   '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
+  '/api/linguists/$id/blacklist': typeof ApiLinguistsIdBlacklistRoute
+  '/api/linguists/$id/favorite': typeof ApiLinguistsIdFavoriteRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
+  '/api/organization/linguists/$id': typeof ApiOrganizationLinguistsIdRoute
+  '/api/organization/linguists/invite': typeof ApiOrganizationLinguistsInviteRoute
+  '/api/tm/$id/import': typeof ApiTmIdImportRoute
+  '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -576,6 +797,7 @@ export interface FileRouteTypes {
     | '/api/api-config'
     | '/api/client-accounts'
     | '/api/credit-packages'
+    | '/api/departments'
     | '/api/glossary'
     | '/api/org-members'
     | '/api/organization'
@@ -598,12 +820,23 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/dashboard/'
     | '/resources/'
+    | '/api/api-config/$id'
     | '/api/auth/check-org'
     | '/api/auth/register'
     | '/api/auth/register-linguist'
+    | '/api/client-accounts/$id'
+    | '/api/departments/$id'
+    | '/api/developer/keys'
+    | '/api/developer/webhooks'
+    | '/api/glossary/$id'
+    | '/api/integrations/cloud-status'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
     | '/api/organization/join-requests'
+    | '/api/organization/linguists'
+    | '/api/style-guides/$id'
+    | '/api/style-guides/generate'
+    | '/api/tm/$id'
     | '/api/upload/analyze'
     | '/dashboard/billing/success'
     | '/dashboard/organization/members'
@@ -611,8 +844,20 @@ export interface FileRouteTypes {
     | '/resources/category/$slug'
     | '/api/notifications/'
     | '/dashboard/organization/'
+    | '/api/departments/$id/invite'
+    | '/api/departments/$id/members'
+    | '/api/developer/keys/$id'
+    | '/api/developer/webhooks/$id'
+    | '/api/glossary/$id/import'
+    | '/api/glossary/$id/terms'
     | '/api/jobs/$id/deliver'
+    | '/api/linguists/$id/blacklist'
+    | '/api/linguists/$id/favorite'
     | '/api/notifications/$id/read'
+    | '/api/organization/linguists/$id'
+    | '/api/organization/linguists/invite'
+    | '/api/tm/$id/import'
+    | '/api/departments/$id/members/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -634,6 +879,7 @@ export interface FileRouteTypes {
     | '/api/api-config'
     | '/api/client-accounts'
     | '/api/credit-packages'
+    | '/api/departments'
     | '/api/glossary'
     | '/api/org-members'
     | '/api/organization'
@@ -656,12 +902,23 @@ export interface FileRouteTypes {
     | '/admin'
     | '/dashboard'
     | '/resources'
+    | '/api/api-config/$id'
     | '/api/auth/check-org'
     | '/api/auth/register'
     | '/api/auth/register-linguist'
+    | '/api/client-accounts/$id'
+    | '/api/departments/$id'
+    | '/api/developer/keys'
+    | '/api/developer/webhooks'
+    | '/api/glossary/$id'
+    | '/api/integrations/cloud-status'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
     | '/api/organization/join-requests'
+    | '/api/organization/linguists'
+    | '/api/style-guides/$id'
+    | '/api/style-guides/generate'
+    | '/api/tm/$id'
     | '/api/upload/analyze'
     | '/dashboard/billing/success'
     | '/dashboard/organization/members'
@@ -669,8 +926,20 @@ export interface FileRouteTypes {
     | '/resources/category/$slug'
     | '/api/notifications'
     | '/dashboard/organization'
+    | '/api/departments/$id/invite'
+    | '/api/departments/$id/members'
+    | '/api/developer/keys/$id'
+    | '/api/developer/webhooks/$id'
+    | '/api/glossary/$id/import'
+    | '/api/glossary/$id/terms'
     | '/api/jobs/$id/deliver'
+    | '/api/linguists/$id/blacklist'
+    | '/api/linguists/$id/favorite'
     | '/api/notifications/$id/read'
+    | '/api/organization/linguists/$id'
+    | '/api/organization/linguists/invite'
+    | '/api/tm/$id/import'
+    | '/api/departments/$id/members/$userId'
   id:
     | '__root__'
     | '/'
@@ -695,6 +964,7 @@ export interface FileRouteTypes {
     | '/api/api-config'
     | '/api/client-accounts'
     | '/api/credit-packages'
+    | '/api/departments'
     | '/api/glossary'
     | '/api/org-members'
     | '/api/organization'
@@ -717,12 +987,23 @@ export interface FileRouteTypes {
     | '/admin/'
     | '/dashboard/'
     | '/resources/'
+    | '/api/api-config/$id'
     | '/api/auth/check-org'
     | '/api/auth/register'
     | '/api/auth/register-linguist'
+    | '/api/client-accounts/$id'
+    | '/api/departments/$id'
+    | '/api/developer/keys'
+    | '/api/developer/webhooks'
+    | '/api/glossary/$id'
+    | '/api/integrations/cloud-status'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
     | '/api/organization/join-requests'
+    | '/api/organization/linguists'
+    | '/api/style-guides/$id'
+    | '/api/style-guides/generate'
+    | '/api/tm/$id'
     | '/api/upload/analyze'
     | '/dashboard/billing_/success'
     | '/dashboard/organization/members'
@@ -730,8 +1011,20 @@ export interface FileRouteTypes {
     | '/resources/category/$slug'
     | '/api/notifications/'
     | '/dashboard/organization/'
+    | '/api/departments/$id/invite'
+    | '/api/departments/$id/members'
+    | '/api/developer/keys/$id'
+    | '/api/developer/webhooks/$id'
+    | '/api/glossary/$id/import'
+    | '/api/glossary/$id/terms'
     | '/api/jobs/$id/deliver'
+    | '/api/linguists/$id/blacklist'
+    | '/api/linguists/$id/favorite'
     | '/api/notifications/$id/read'
+    | '/api/organization/linguists/$id'
+    | '/api/organization/linguists/invite'
+    | '/api/tm/$id/import'
+    | '/api/departments/$id/members/$userId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -751,15 +1044,16 @@ export interface RootRouteChildren {
   ResourcesRoute: typeof ResourcesRouteWithChildren
   SupportRoute: typeof SupportRoute
   AdminLoginRoute: typeof AdminLoginRoute
-  ApiApiConfigRoute: typeof ApiApiConfigRoute
-  ApiClientAccountsRoute: typeof ApiClientAccountsRoute
+  ApiApiConfigRoute: typeof ApiApiConfigRouteWithChildren
+  ApiClientAccountsRoute: typeof ApiClientAccountsRouteWithChildren
   ApiCreditPackagesRoute: typeof ApiCreditPackagesRoute
-  ApiGlossaryRoute: typeof ApiGlossaryRoute
+  ApiDepartmentsRoute: typeof ApiDepartmentsRouteWithChildren
+  ApiGlossaryRoute: typeof ApiGlossaryRouteWithChildren
   ApiOrgMembersRoute: typeof ApiOrgMembersRoute
   ApiOrganizationRoute: typeof ApiOrganizationRouteWithChildren
   ApiProjectsRoute: typeof ApiProjectsRoute
-  ApiStyleGuidesRoute: typeof ApiStyleGuidesRoute
-  ApiTmRoute: typeof ApiTmRoute
+  ApiStyleGuidesRoute: typeof ApiStyleGuidesRouteWithChildren
+  ApiTmRoute: typeof ApiTmRouteWithChildren
   ProductAgencyRoute: typeof ProductAgencyRoute
   ProductCustomerRoute: typeof ProductCustomerRoute
   ProductLinguistRoute: typeof ProductLinguistRoute
@@ -771,11 +1065,16 @@ export interface RootRouteChildren {
   ApiAuthCheckOrgRoute: typeof ApiAuthCheckOrgRoute
   ApiAuthRegisterRoute: typeof ApiAuthRegisterRoute
   ApiAuthRegisterLinguistRoute: typeof ApiAuthRegisterLinguistRoute
+  ApiDeveloperKeysRoute: typeof ApiDeveloperKeysRouteWithChildren
+  ApiDeveloperWebhooksRoute: typeof ApiDeveloperWebhooksRouteWithChildren
+  ApiIntegrationsCloudStatusRoute: typeof ApiIntegrationsCloudStatusRoute
   ApiNotificationsReadAllRoute: typeof ApiNotificationsReadAllRoute
   ApiNotificationsUnreadCountRoute: typeof ApiNotificationsUnreadCountRoute
   ApiUploadAnalyzeRoute: typeof ApiUploadAnalyzeRoute
   ApiNotificationsIndexRoute: typeof ApiNotificationsIndexRoute
   ApiJobsIdDeliverRoute: typeof ApiJobsIdDeliverRoute
+  ApiLinguistsIdBlacklistRoute: typeof ApiLinguistsIdBlacklistRoute
+  ApiLinguistsIdFavoriteRoute: typeof ApiLinguistsIdFavoriteRoute
   ApiNotificationsIdReadRoute: typeof ApiNotificationsIdReadRoute
 }
 
@@ -949,6 +1248,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCreditPackagesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/departments': {
+      id: '/api/departments'
+      path: '/api/departments'
+      fullPath: '/api/departments'
+      preLoaderRoute: typeof ApiDepartmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/glossary': {
       id: '/api/glossary'
       path: '/api/glossary'
@@ -1089,6 +1395,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesLocalizationEngineeringRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/api-config/$id': {
+      id: '/api/api-config/$id'
+      path: '/$id'
+      fullPath: '/api/api-config/$id'
+      preLoaderRoute: typeof ApiApiConfigIdRouteImport
+      parentRoute: typeof ApiApiConfigRoute
+    }
     '/api/auth/check-org': {
       id: '/api/auth/check-org'
       path: '/api/auth/check-org'
@@ -1108,6 +1421,48 @@ declare module '@tanstack/react-router' {
       path: '/api/auth/register-linguist'
       fullPath: '/api/auth/register-linguist'
       preLoaderRoute: typeof ApiAuthRegisterLinguistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/client-accounts/$id': {
+      id: '/api/client-accounts/$id'
+      path: '/$id'
+      fullPath: '/api/client-accounts/$id'
+      preLoaderRoute: typeof ApiClientAccountsIdRouteImport
+      parentRoute: typeof ApiClientAccountsRoute
+    }
+    '/api/departments/$id': {
+      id: '/api/departments/$id'
+      path: '/$id'
+      fullPath: '/api/departments/$id'
+      preLoaderRoute: typeof ApiDepartmentsIdRouteImport
+      parentRoute: typeof ApiDepartmentsRoute
+    }
+    '/api/developer/keys': {
+      id: '/api/developer/keys'
+      path: '/api/developer/keys'
+      fullPath: '/api/developer/keys'
+      preLoaderRoute: typeof ApiDeveloperKeysRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/developer/webhooks': {
+      id: '/api/developer/webhooks'
+      path: '/api/developer/webhooks'
+      fullPath: '/api/developer/webhooks'
+      preLoaderRoute: typeof ApiDeveloperWebhooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/glossary/$id': {
+      id: '/api/glossary/$id'
+      path: '/$id'
+      fullPath: '/api/glossary/$id'
+      preLoaderRoute: typeof ApiGlossaryIdRouteImport
+      parentRoute: typeof ApiGlossaryRoute
+    }
+    '/api/integrations/cloud-status': {
+      id: '/api/integrations/cloud-status'
+      path: '/api/integrations/cloud-status'
+      fullPath: '/api/integrations/cloud-status'
+      preLoaderRoute: typeof ApiIntegrationsCloudStatusRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/notifications/': {
@@ -1137,6 +1492,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/organization/join-requests'
       preLoaderRoute: typeof ApiOrganizationJoinRequestsRouteImport
       parentRoute: typeof ApiOrganizationRoute
+    }
+    '/api/organization/linguists': {
+      id: '/api/organization/linguists'
+      path: '/linguists'
+      fullPath: '/api/organization/linguists'
+      preLoaderRoute: typeof ApiOrganizationLinguistsRouteImport
+      parentRoute: typeof ApiOrganizationRoute
+    }
+    '/api/style-guides/$id': {
+      id: '/api/style-guides/$id'
+      path: '/$id'
+      fullPath: '/api/style-guides/$id'
+      preLoaderRoute: typeof ApiStyleGuidesIdRouteImport
+      parentRoute: typeof ApiStyleGuidesRoute
+    }
+    '/api/style-guides/generate': {
+      id: '/api/style-guides/generate'
+      path: '/generate'
+      fullPath: '/api/style-guides/generate'
+      preLoaderRoute: typeof ApiStyleGuidesGenerateRouteImport
+      parentRoute: typeof ApiStyleGuidesRoute
+    }
+    '/api/tm/$id': {
+      id: '/api/tm/$id'
+      path: '/$id'
+      fullPath: '/api/tm/$id'
+      preLoaderRoute: typeof ApiTmIdRouteImport
+      parentRoute: typeof ApiTmRoute
     }
     '/api/upload/analyze': {
       id: '/api/upload/analyze'
@@ -1180,11 +1563,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesCategorySlugRouteImport
       parentRoute: typeof ResourcesRoute
     }
+    '/api/departments/$id/invite': {
+      id: '/api/departments/$id/invite'
+      path: '/invite'
+      fullPath: '/api/departments/$id/invite'
+      preLoaderRoute: typeof ApiDepartmentsIdInviteRouteImport
+      parentRoute: typeof ApiDepartmentsIdRoute
+    }
+    '/api/departments/$id/members': {
+      id: '/api/departments/$id/members'
+      path: '/members'
+      fullPath: '/api/departments/$id/members'
+      preLoaderRoute: typeof ApiDepartmentsIdMembersRouteImport
+      parentRoute: typeof ApiDepartmentsIdRoute
+    }
+    '/api/developer/keys/$id': {
+      id: '/api/developer/keys/$id'
+      path: '/$id'
+      fullPath: '/api/developer/keys/$id'
+      preLoaderRoute: typeof ApiDeveloperKeysIdRouteImport
+      parentRoute: typeof ApiDeveloperKeysRoute
+    }
+    '/api/developer/webhooks/$id': {
+      id: '/api/developer/webhooks/$id'
+      path: '/$id'
+      fullPath: '/api/developer/webhooks/$id'
+      preLoaderRoute: typeof ApiDeveloperWebhooksIdRouteImport
+      parentRoute: typeof ApiDeveloperWebhooksRoute
+    }
+    '/api/glossary/$id/import': {
+      id: '/api/glossary/$id/import'
+      path: '/import'
+      fullPath: '/api/glossary/$id/import'
+      preLoaderRoute: typeof ApiGlossaryIdImportRouteImport
+      parentRoute: typeof ApiGlossaryIdRoute
+    }
+    '/api/glossary/$id/terms': {
+      id: '/api/glossary/$id/terms'
+      path: '/terms'
+      fullPath: '/api/glossary/$id/terms'
+      preLoaderRoute: typeof ApiGlossaryIdTermsRouteImport
+      parentRoute: typeof ApiGlossaryIdRoute
+    }
     '/api/jobs/$id/deliver': {
       id: '/api/jobs/$id/deliver'
       path: '/api/jobs/$id/deliver'
       fullPath: '/api/jobs/$id/deliver'
       preLoaderRoute: typeof ApiJobsIdDeliverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/linguists/$id/blacklist': {
+      id: '/api/linguists/$id/blacklist'
+      path: '/api/linguists/$id/blacklist'
+      fullPath: '/api/linguists/$id/blacklist'
+      preLoaderRoute: typeof ApiLinguistsIdBlacklistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/linguists/$id/favorite': {
+      id: '/api/linguists/$id/favorite'
+      path: '/api/linguists/$id/favorite'
+      fullPath: '/api/linguists/$id/favorite'
+      preLoaderRoute: typeof ApiLinguistsIdFavoriteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/notifications/$id/read': {
@@ -1193,6 +1632,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/notifications/$id/read'
       preLoaderRoute: typeof ApiNotificationsIdReadRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/api/organization/linguists/$id': {
+      id: '/api/organization/linguists/$id'
+      path: '/$id'
+      fullPath: '/api/organization/linguists/$id'
+      preLoaderRoute: typeof ApiOrganizationLinguistsIdRouteImport
+      parentRoute: typeof ApiOrganizationLinguistsRoute
+    }
+    '/api/organization/linguists/invite': {
+      id: '/api/organization/linguists/invite'
+      path: '/invite'
+      fullPath: '/api/organization/linguists/invite'
+      preLoaderRoute: typeof ApiOrganizationLinguistsInviteRouteImport
+      parentRoute: typeof ApiOrganizationLinguistsRoute
+    }
+    '/api/tm/$id/import': {
+      id: '/api/tm/$id/import'
+      path: '/import'
+      fullPath: '/api/tm/$id/import'
+      preLoaderRoute: typeof ApiTmIdImportRouteImport
+      parentRoute: typeof ApiTmIdRoute
+    }
+    '/api/departments/$id/members/$userId': {
+      id: '/api/departments/$id/members/$userId'
+      path: '/$userId'
+      fullPath: '/api/departments/$id/members/$userId'
+      preLoaderRoute: typeof ApiDepartmentsIdMembersUserIdRouteImport
+      parentRoute: typeof ApiDepartmentsIdMembersRoute
     }
   }
 }
@@ -1258,17 +1725,180 @@ const ResourcesRouteWithChildren = ResourcesRoute._addFileChildren(
   ResourcesRouteChildren,
 )
 
+interface ApiApiConfigRouteChildren {
+  ApiApiConfigIdRoute: typeof ApiApiConfigIdRoute
+}
+
+const ApiApiConfigRouteChildren: ApiApiConfigRouteChildren = {
+  ApiApiConfigIdRoute: ApiApiConfigIdRoute,
+}
+
+const ApiApiConfigRouteWithChildren = ApiApiConfigRoute._addFileChildren(
+  ApiApiConfigRouteChildren,
+)
+
+interface ApiClientAccountsRouteChildren {
+  ApiClientAccountsIdRoute: typeof ApiClientAccountsIdRoute
+}
+
+const ApiClientAccountsRouteChildren: ApiClientAccountsRouteChildren = {
+  ApiClientAccountsIdRoute: ApiClientAccountsIdRoute,
+}
+
+const ApiClientAccountsRouteWithChildren =
+  ApiClientAccountsRoute._addFileChildren(ApiClientAccountsRouteChildren)
+
+interface ApiDepartmentsIdMembersRouteChildren {
+  ApiDepartmentsIdMembersUserIdRoute: typeof ApiDepartmentsIdMembersUserIdRoute
+}
+
+const ApiDepartmentsIdMembersRouteChildren: ApiDepartmentsIdMembersRouteChildren =
+  {
+    ApiDepartmentsIdMembersUserIdRoute: ApiDepartmentsIdMembersUserIdRoute,
+  }
+
+const ApiDepartmentsIdMembersRouteWithChildren =
+  ApiDepartmentsIdMembersRoute._addFileChildren(
+    ApiDepartmentsIdMembersRouteChildren,
+  )
+
+interface ApiDepartmentsIdRouteChildren {
+  ApiDepartmentsIdInviteRoute: typeof ApiDepartmentsIdInviteRoute
+  ApiDepartmentsIdMembersRoute: typeof ApiDepartmentsIdMembersRouteWithChildren
+}
+
+const ApiDepartmentsIdRouteChildren: ApiDepartmentsIdRouteChildren = {
+  ApiDepartmentsIdInviteRoute: ApiDepartmentsIdInviteRoute,
+  ApiDepartmentsIdMembersRoute: ApiDepartmentsIdMembersRouteWithChildren,
+}
+
+const ApiDepartmentsIdRouteWithChildren =
+  ApiDepartmentsIdRoute._addFileChildren(ApiDepartmentsIdRouteChildren)
+
+interface ApiDepartmentsRouteChildren {
+  ApiDepartmentsIdRoute: typeof ApiDepartmentsIdRouteWithChildren
+}
+
+const ApiDepartmentsRouteChildren: ApiDepartmentsRouteChildren = {
+  ApiDepartmentsIdRoute: ApiDepartmentsIdRouteWithChildren,
+}
+
+const ApiDepartmentsRouteWithChildren = ApiDepartmentsRoute._addFileChildren(
+  ApiDepartmentsRouteChildren,
+)
+
+interface ApiGlossaryIdRouteChildren {
+  ApiGlossaryIdImportRoute: typeof ApiGlossaryIdImportRoute
+  ApiGlossaryIdTermsRoute: typeof ApiGlossaryIdTermsRoute
+}
+
+const ApiGlossaryIdRouteChildren: ApiGlossaryIdRouteChildren = {
+  ApiGlossaryIdImportRoute: ApiGlossaryIdImportRoute,
+  ApiGlossaryIdTermsRoute: ApiGlossaryIdTermsRoute,
+}
+
+const ApiGlossaryIdRouteWithChildren = ApiGlossaryIdRoute._addFileChildren(
+  ApiGlossaryIdRouteChildren,
+)
+
+interface ApiGlossaryRouteChildren {
+  ApiGlossaryIdRoute: typeof ApiGlossaryIdRouteWithChildren
+}
+
+const ApiGlossaryRouteChildren: ApiGlossaryRouteChildren = {
+  ApiGlossaryIdRoute: ApiGlossaryIdRouteWithChildren,
+}
+
+const ApiGlossaryRouteWithChildren = ApiGlossaryRoute._addFileChildren(
+  ApiGlossaryRouteChildren,
+)
+
+interface ApiOrganizationLinguistsRouteChildren {
+  ApiOrganizationLinguistsIdRoute: typeof ApiOrganizationLinguistsIdRoute
+  ApiOrganizationLinguistsInviteRoute: typeof ApiOrganizationLinguistsInviteRoute
+}
+
+const ApiOrganizationLinguistsRouteChildren: ApiOrganizationLinguistsRouteChildren =
+  {
+    ApiOrganizationLinguistsIdRoute: ApiOrganizationLinguistsIdRoute,
+    ApiOrganizationLinguistsInviteRoute: ApiOrganizationLinguistsInviteRoute,
+  }
+
+const ApiOrganizationLinguistsRouteWithChildren =
+  ApiOrganizationLinguistsRoute._addFileChildren(
+    ApiOrganizationLinguistsRouteChildren,
+  )
+
 interface ApiOrganizationRouteChildren {
   ApiOrganizationJoinRequestsRoute: typeof ApiOrganizationJoinRequestsRoute
+  ApiOrganizationLinguistsRoute: typeof ApiOrganizationLinguistsRouteWithChildren
 }
 
 const ApiOrganizationRouteChildren: ApiOrganizationRouteChildren = {
   ApiOrganizationJoinRequestsRoute: ApiOrganizationJoinRequestsRoute,
+  ApiOrganizationLinguistsRoute: ApiOrganizationLinguistsRouteWithChildren,
 }
 
 const ApiOrganizationRouteWithChildren = ApiOrganizationRoute._addFileChildren(
   ApiOrganizationRouteChildren,
 )
+
+interface ApiStyleGuidesRouteChildren {
+  ApiStyleGuidesIdRoute: typeof ApiStyleGuidesIdRoute
+  ApiStyleGuidesGenerateRoute: typeof ApiStyleGuidesGenerateRoute
+}
+
+const ApiStyleGuidesRouteChildren: ApiStyleGuidesRouteChildren = {
+  ApiStyleGuidesIdRoute: ApiStyleGuidesIdRoute,
+  ApiStyleGuidesGenerateRoute: ApiStyleGuidesGenerateRoute,
+}
+
+const ApiStyleGuidesRouteWithChildren = ApiStyleGuidesRoute._addFileChildren(
+  ApiStyleGuidesRouteChildren,
+)
+
+interface ApiTmIdRouteChildren {
+  ApiTmIdImportRoute: typeof ApiTmIdImportRoute
+}
+
+const ApiTmIdRouteChildren: ApiTmIdRouteChildren = {
+  ApiTmIdImportRoute: ApiTmIdImportRoute,
+}
+
+const ApiTmIdRouteWithChildren =
+  ApiTmIdRoute._addFileChildren(ApiTmIdRouteChildren)
+
+interface ApiTmRouteChildren {
+  ApiTmIdRoute: typeof ApiTmIdRouteWithChildren
+}
+
+const ApiTmRouteChildren: ApiTmRouteChildren = {
+  ApiTmIdRoute: ApiTmIdRouteWithChildren,
+}
+
+const ApiTmRouteWithChildren = ApiTmRoute._addFileChildren(ApiTmRouteChildren)
+
+interface ApiDeveloperKeysRouteChildren {
+  ApiDeveloperKeysIdRoute: typeof ApiDeveloperKeysIdRoute
+}
+
+const ApiDeveloperKeysRouteChildren: ApiDeveloperKeysRouteChildren = {
+  ApiDeveloperKeysIdRoute: ApiDeveloperKeysIdRoute,
+}
+
+const ApiDeveloperKeysRouteWithChildren =
+  ApiDeveloperKeysRoute._addFileChildren(ApiDeveloperKeysRouteChildren)
+
+interface ApiDeveloperWebhooksRouteChildren {
+  ApiDeveloperWebhooksIdRoute: typeof ApiDeveloperWebhooksIdRoute
+}
+
+const ApiDeveloperWebhooksRouteChildren: ApiDeveloperWebhooksRouteChildren = {
+  ApiDeveloperWebhooksIdRoute: ApiDeveloperWebhooksIdRoute,
+}
+
+const ApiDeveloperWebhooksRouteWithChildren =
+  ApiDeveloperWebhooksRoute._addFileChildren(ApiDeveloperWebhooksRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -1287,15 +1917,16 @@ const rootRouteChildren: RootRouteChildren = {
   ResourcesRoute: ResourcesRouteWithChildren,
   SupportRoute: SupportRoute,
   AdminLoginRoute: AdminLoginRoute,
-  ApiApiConfigRoute: ApiApiConfigRoute,
-  ApiClientAccountsRoute: ApiClientAccountsRoute,
+  ApiApiConfigRoute: ApiApiConfigRouteWithChildren,
+  ApiClientAccountsRoute: ApiClientAccountsRouteWithChildren,
   ApiCreditPackagesRoute: ApiCreditPackagesRoute,
-  ApiGlossaryRoute: ApiGlossaryRoute,
+  ApiDepartmentsRoute: ApiDepartmentsRouteWithChildren,
+  ApiGlossaryRoute: ApiGlossaryRouteWithChildren,
   ApiOrgMembersRoute: ApiOrgMembersRoute,
   ApiOrganizationRoute: ApiOrganizationRouteWithChildren,
   ApiProjectsRoute: ApiProjectsRoute,
-  ApiStyleGuidesRoute: ApiStyleGuidesRoute,
-  ApiTmRoute: ApiTmRoute,
+  ApiStyleGuidesRoute: ApiStyleGuidesRouteWithChildren,
+  ApiTmRoute: ApiTmRouteWithChildren,
   ProductAgencyRoute: ProductAgencyRoute,
   ProductCustomerRoute: ProductCustomerRoute,
   ProductLinguistRoute: ProductLinguistRoute,
@@ -1307,11 +1938,16 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAuthCheckOrgRoute: ApiAuthCheckOrgRoute,
   ApiAuthRegisterRoute: ApiAuthRegisterRoute,
   ApiAuthRegisterLinguistRoute: ApiAuthRegisterLinguistRoute,
+  ApiDeveloperKeysRoute: ApiDeveloperKeysRouteWithChildren,
+  ApiDeveloperWebhooksRoute: ApiDeveloperWebhooksRouteWithChildren,
+  ApiIntegrationsCloudStatusRoute: ApiIntegrationsCloudStatusRoute,
   ApiNotificationsReadAllRoute: ApiNotificationsReadAllRoute,
   ApiNotificationsUnreadCountRoute: ApiNotificationsUnreadCountRoute,
   ApiUploadAnalyzeRoute: ApiUploadAnalyzeRoute,
   ApiNotificationsIndexRoute: ApiNotificationsIndexRoute,
   ApiJobsIdDeliverRoute: ApiJobsIdDeliverRoute,
+  ApiLinguistsIdBlacklistRoute: ApiLinguistsIdBlacklistRoute,
+  ApiLinguistsIdFavoriteRoute: ApiLinguistsIdFavoriteRoute,
   ApiNotificationsIdReadRoute: ApiNotificationsIdReadRoute,
 }
 export const routeTree = rootRouteImport

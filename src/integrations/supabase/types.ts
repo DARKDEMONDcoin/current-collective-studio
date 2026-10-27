@@ -503,6 +503,97 @@ export type Database = {
           },
         ]
       }
+      ct_api_keys: {
+        Row: {
+          created_at: string
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          key_hash: string
+          key_prefix: string
+          last_used_at: string | null
+          name: string
+          organization_id: string
+          permissions: string[]
+        }
+        Insert: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          key_hash: string
+          key_prefix: string
+          last_used_at?: string | null
+          name: string
+          organization_id: string
+          permissions?: string[]
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          key_hash?: string
+          key_prefix?: string
+          last_used_at?: string | null
+          name?: string
+          organization_id?: string
+          permissions?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_api_keys_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_client_accounts: {
+        Row: {
+          company_bio: string | null
+          created_at: string
+          id: string
+          industry: string | null
+          name: string
+          notes: string | null
+          organization_id: string
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          company_bio?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          name: string
+          notes?: string | null
+          organization_id: string
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          company_bio?: string | null
+          created_at?: string
+          id?: string
+          industry?: string | null
+          name?: string
+          notes?: string | null
+          organization_id?: string
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_client_accounts_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ct_credit_packages: {
         Row: {
           bonus_credits: number
@@ -620,6 +711,92 @@ export type Database = {
           },
         ]
       }
+      ct_department_members: {
+        Row: {
+          can_access_glossary: boolean
+          can_access_tm: boolean
+          department_id: string
+          id: string
+          joined_at: string
+          organization_id: string
+          requires_approval: boolean
+          role: string
+          user_id: string
+        }
+        Insert: {
+          can_access_glossary?: boolean
+          can_access_tm?: boolean
+          department_id: string
+          id?: string
+          joined_at?: string
+          organization_id: string
+          requires_approval?: boolean
+          role?: string
+          user_id: string
+        }
+        Update: {
+          can_access_glossary?: boolean
+          can_access_tm?: boolean
+          department_id?: string
+          id?: string
+          joined_at?: string
+          organization_id?: string
+          requires_approval?: boolean
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_department_members_department_id_fkey"
+            columns: ["department_id"]
+            isOneToOne: false
+            referencedRelation: "ct_departments"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ct_department_members_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_departments: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          organization_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          organization_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          organization_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_departments_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ct_documents: {
         Row: {
           created_at: string
@@ -704,6 +881,111 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "ct_favorite_linguists_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_glossaries: {
+        Row: {
+          client_account_id: string | null
+          created_at: string
+          id: string
+          languages: string[]
+          name: string
+          organization_id: string
+          term_count: number
+          updated_at: string
+        }
+        Insert: {
+          client_account_id?: string | null
+          created_at?: string
+          id?: string
+          languages?: string[]
+          name: string
+          organization_id: string
+          term_count?: number
+          updated_at?: string
+        }
+        Update: {
+          client_account_id?: string | null
+          created_at?: string
+          id?: string
+          languages?: string[]
+          name?: string
+          organization_id?: string
+          term_count?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_glossaries_client_account_id_fkey"
+            columns: ["client_account_id"]
+            isOneToOne: false
+            referencedRelation: "ct_client_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ct_glossaries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_glossary_terms: {
+        Row: {
+          case_sensitive: boolean
+          created_at: string
+          definition: string | null
+          do_not_translate: boolean
+          glossary_id: string
+          id: string
+          keep_uppercase: boolean
+          notes: string | null
+          organization_id: string
+          term: string
+          translations: Json
+        }
+        Insert: {
+          case_sensitive?: boolean
+          created_at?: string
+          definition?: string | null
+          do_not_translate?: boolean
+          glossary_id: string
+          id?: string
+          keep_uppercase?: boolean
+          notes?: string | null
+          organization_id: string
+          term: string
+          translations?: Json
+        }
+        Update: {
+          case_sensitive?: boolean
+          created_at?: string
+          definition?: string | null
+          do_not_translate?: boolean
+          glossary_id?: string
+          id?: string
+          keep_uppercase?: boolean
+          notes?: string | null
+          organization_id?: string
+          term?: string
+          translations?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_glossary_terms_glossary_id_fkey"
+            columns: ["glossary_id"]
+            isOneToOne: false
+            referencedRelation: "ct_glossaries"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ct_glossary_terms_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "ct_organizations"
@@ -843,6 +1125,179 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "ct_join_requests_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_linguist_blacklist: {
+        Row: {
+          created_at: string
+          customer_id: string
+          id: string
+          linguist_id: string
+          organization_id: string
+          reason: string | null
+        }
+        Insert: {
+          created_at?: string
+          customer_id: string
+          id?: string
+          linguist_id: string
+          organization_id: string
+          reason?: string | null
+        }
+        Update: {
+          created_at?: string
+          customer_id?: string
+          id?: string
+          linguist_id?: string
+          organization_id?: string
+          reason?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_linguist_blacklist_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_linguist_reviews: {
+        Row: {
+          comment: string | null
+          created_at: string
+          id: string
+          job_id: string
+          linguist_id: string
+          organization_id: string
+          rating: number
+          reviewer_id: string
+        }
+        Insert: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          job_id: string
+          linguist_id: string
+          organization_id: string
+          rating: number
+          reviewer_id: string
+        }
+        Update: {
+          comment?: string | null
+          created_at?: string
+          id?: string
+          job_id?: string
+          linguist_id?: string
+          organization_id?: string
+          rating?: number
+          reviewer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_linguist_reviews_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: true
+            referencedRelation: "ct_jobs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ct_linguist_reviews_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_ocr_requests: {
+        Row: {
+          avg_confidence: number
+          client_account_id: string | null
+          created_at: string
+          created_by_id: string
+          credits_charged: number
+          extracted_text: string | null
+          id: string
+          idempotency_key: string | null
+          name: string | null
+          notes: string | null
+          organization_id: string
+          page_count: number
+          provider: string
+          source_file_url: string
+          source_filename: string
+          source_language: string | null
+          source_mime_type: string | null
+          status: string
+          updated_at: string
+          verified_text: string | null
+          word_count: number
+          workflow_type: string
+        }
+        Insert: {
+          avg_confidence?: number
+          client_account_id?: string | null
+          created_at?: string
+          created_by_id: string
+          credits_charged?: number
+          extracted_text?: string | null
+          id?: string
+          idempotency_key?: string | null
+          name?: string | null
+          notes?: string | null
+          organization_id: string
+          page_count?: number
+          provider?: string
+          source_file_url?: string
+          source_filename: string
+          source_language?: string | null
+          source_mime_type?: string | null
+          status?: string
+          updated_at?: string
+          verified_text?: string | null
+          word_count?: number
+          workflow_type?: string
+        }
+        Update: {
+          avg_confidence?: number
+          client_account_id?: string | null
+          created_at?: string
+          created_by_id?: string
+          credits_charged?: number
+          extracted_text?: string | null
+          id?: string
+          idempotency_key?: string | null
+          name?: string | null
+          notes?: string | null
+          organization_id?: string
+          page_count?: number
+          provider?: string
+          source_file_url?: string
+          source_filename?: string
+          source_language?: string | null
+          source_mime_type?: string | null
+          status?: string
+          updated_at?: string
+          verified_text?: string | null
+          word_count?: number
+          workflow_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_ocr_requests_client_account_id_fkey"
+            columns: ["client_account_id"]
+            isOneToOne: false
+            referencedRelation: "ct_client_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ct_ocr_requests_organization_id_fkey"
             columns: ["organization_id"]
             isOneToOne: false
             referencedRelation: "ct_organizations"
@@ -1412,6 +1867,57 @@ export type Database = {
         }
         Relationships: []
       }
+      ct_style_guides: {
+        Row: {
+          client_account_id: string | null
+          content: string
+          created_at: string
+          file_name: string
+          id: string
+          mime_type: string
+          name: string
+          organization_id: string
+          updated_at: string
+        }
+        Insert: {
+          client_account_id?: string | null
+          content?: string
+          created_at?: string
+          file_name?: string
+          id?: string
+          mime_type?: string
+          name: string
+          organization_id: string
+          updated_at?: string
+        }
+        Update: {
+          client_account_id?: string | null
+          content?: string
+          created_at?: string
+          file_name?: string
+          id?: string
+          mime_type?: string
+          name?: string
+          organization_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_style_guides_client_account_id_fkey"
+            columns: ["client_account_id"]
+            isOneToOne: false
+            referencedRelation: "ct_client_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ct_style_guides_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ct_test_entitlements: {
         Row: {
           active: boolean
@@ -1433,6 +1939,108 @@ export type Database = {
         }
         Relationships: []
       }
+      ct_tm_entries: {
+        Row: {
+          context: string | null
+          created_at: string
+          created_by: string
+          id: string
+          organization_id: string
+          source_text: string
+          target_text: string
+          tm_id: string
+          usage_count: number
+        }
+        Insert: {
+          context?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id: string
+          source_text: string
+          target_text: string
+          tm_id: string
+          usage_count?: number
+        }
+        Update: {
+          context?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          organization_id?: string
+          source_text?: string
+          target_text?: string
+          tm_id?: string
+          usage_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_tm_entries_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ct_tm_entries_tm_id_fkey"
+            columns: ["tm_id"]
+            isOneToOne: false
+            referencedRelation: "ct_translation_memories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ct_translation_memories: {
+        Row: {
+          client_account_id: string | null
+          created_at: string
+          entry_count: number
+          id: string
+          name: string
+          organization_id: string
+          source_language: string
+          target_language: string
+          updated_at: string
+        }
+        Insert: {
+          client_account_id?: string | null
+          created_at?: string
+          entry_count?: number
+          id?: string
+          name: string
+          organization_id: string
+          source_language: string
+          target_language: string
+          updated_at?: string
+        }
+        Update: {
+          client_account_id?: string | null
+          created_at?: string
+          entry_count?: number
+          id?: string
+          name?: string
+          organization_id?: string
+          source_language?: string
+          target_language?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_translation_memories_client_account_id_fkey"
+            columns: ["client_account_id"]
+            isOneToOne: false
+            referencedRelation: "ct_client_accounts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ct_translation_memories_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ct_user_roles: {
         Row: {
           created_at: string
@@ -1453,6 +2061,50 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      ct_webhook_subscriptions: {
+        Row: {
+          created_at: string
+          events: string[]
+          failure_count: number
+          id: string
+          is_active: boolean
+          last_fired_at: string | null
+          organization_id: string
+          secret: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          events?: string[]
+          failure_count?: number
+          id?: string
+          is_active?: boolean
+          last_fired_at?: string | null
+          organization_id: string
+          secret: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          events?: string[]
+          failure_count?: number
+          id?: string
+          is_active?: boolean
+          last_fired_at?: string | null
+          organization_id?: string
+          secret?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ct_webhook_subscriptions_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "ct_organizations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       document_chunks: {
         Row: {
@@ -2372,6 +3024,10 @@ export type Database = {
       can_edit_campaign: { Args: { _c: string }; Returns: boolean }
       can_edit_org: { Args: { _org: string }; Returns: boolean }
       create_workspace: { Args: { _name: string }; Returns: string }
+      ct_charge_ocr: {
+        Args: { _org: string; _user: string; p: Json }
+        Returns: Json
+      }
       ct_create_project: {
         Args: { _org: string; _user: string; p: Json }
         Returns: Json
@@ -2388,6 +3044,7 @@ export type Database = {
         Returns: boolean
       }
       ct_is_test_user: { Args: { _user: string }; Returns: boolean }
+      ct_my_org: { Args: never; Returns: string }
       ct_refund_project: {
         Args: { _project: string; _reason: string }
         Returns: number

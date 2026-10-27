@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { requireApiUser, unauthorized } from "@/lib/api-auth";
 
-// Placeholder until this feature is migrated (see roadmap.md): returns an empty list.
+// Bring-your-own AI keys are not offered yet: storing customer provider keys needs a secure vault.
+// Lists stay empty and saving returns a clear message.
 export const Route = createFileRoute("/api/api-config")({
   server: {
     handlers: {
@@ -9,6 +10,11 @@ export const Route = createFileRoute("/api/api-config")({
         const me = await requireApiUser(request);
         if (!me) return unauthorized();
         return Response.json([]);
+      },
+      POST: async ({ request }) => {
+        const me = await requireApiUser(request);
+        if (!me) return unauthorized();
+        return Response.json({ error: "Using your own AI provider keys is not available yet. All translations run on Contentech's built-in AI." }, { status: 501 });
       },
     },
   },

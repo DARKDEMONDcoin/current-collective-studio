@@ -12,13 +12,15 @@ export const Route = createFileRoute("/api/notifications/")({
           Math.max(Number(new URL(request.url).searchParams.get("limit")) || 20, 1),
           100,
         );
-        const { data } = await me.supabase
+        const page = Math.max(Number(new URL(request.url).searchParams.get("page")) || 1, 1);
+        const from = (page - 1) * limit;
+        const { data, count } = await me.supabase
           .from("ct_in_app_notifications")
-          .select("*")
+          .select("*", { count: "exact" })
           .eq("user_id", me.userId)
           .order("created_at", { ascending: false })
-          .limit(limit);
-        return Response.json({ notifications: camel(data ?? []) });
+          .range(from, from + limit - 1);
+        return Response.json({ notifications: camel(data ?? []), total: count ?? 0, page, limit });
       },
     },
   },
