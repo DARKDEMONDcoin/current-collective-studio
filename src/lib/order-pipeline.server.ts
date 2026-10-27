@@ -181,7 +181,7 @@ const LATIN = /^(english|french|german|spanish|italian|portuguese|dutch|swedish|
 
 /** TM exact matches are reused verbatim; the rest goes to AI with glossary/style
  *  context, then each output is validated and failing segments get one corrective pass. */
-async function translateChunk(texts: string[], source: string, target: string, ctx: Awaited<ReturnType<typeof loadTranslationContext>>, org: { industry?: string | null; companyBio?: string | null }) {
+export async function translateChunk(texts: string[], source: string, target: string, ctx: Awaited<ReturnType<typeof loadTranslationContext>>, org: { industry?: string | null; companyBio?: string | null }) {
   const out: string[] = texts.map((t) => tmLookup(ctx, t) ?? "");
   const idx = texts.map((_, i) => i).filter((i) => !out[i]);
   if (!idx.length) return out;
