@@ -29,7 +29,7 @@ import {
   Eye,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useSession } from "@/compat/next-auth-react";
+import { useSession } from "@/compat/next-auth";
 import { useTranslation } from "@/lib/i18n/client";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
