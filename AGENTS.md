@@ -21,3 +21,4 @@
 - Order execution lives in `src/lib/order-pipeline.server.ts`; any AI failure calls `ct_refund_project` (refunds net USAGE once, marks FAILED). Why: a failed order must never keep the client's credits.
 - AI calls go through `@lovable.dev/ai-gateway` in `src/lib/ai.server.ts` (translation + scanned PDF/image OCR). Why: Worker-safe, no provider keys in code.
 - Document text extraction lives in `src/lib/doc-parse.server.ts` (fflate for DOCX, unpdf for PDF). Why: the original Python parsers cannot run on the Worker runtime.
+- Free QA access is a row in `ct_test_entitlements` (service-role writes only), checked inside `ct_create_project`; orders still log a zero-amount TEST_USAGE transaction. Why: entitlement must be server-enforced and unforgeable, separate from admin roles.
