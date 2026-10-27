@@ -32,7 +32,12 @@ export async function poolVisible(db: Db, job: any, userId: string): Promise<boo
   ]);
   if (blocked?.length) return false;
   if (job.linguist_source === "INTERNAL") return me?.organization_id === p.organization_id;
-  const exclusive = job.exclusive_until && new Date(job.exclusive_until).getTime() > Date.now();
+  // Preferred jobs without an explicit window stay with favourites for the admin-set number of hours.
+  const { getSetting } = await import("./settings.server");
+  const windowEnd = job.exclusive_until
+    ? new Date(job.exclusive_until).getTime()
+    : new Date(job.created_at).getTime() + (await getSetting("routing")).preferredWindowHours * 3600_000;
+  const exclusive = windowEnd > Date.now();
   if ((job.linguist_source === "PREFERRED" || job.status === "EXCLUSIVE") && exclusive) return !!fav?.length;
   return true;
 }
