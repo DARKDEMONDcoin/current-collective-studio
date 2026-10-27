@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/portal/studio")({
+export const Route = createFileRoute("/portal/studio/")({
   head: () => ({ meta: [{ title: "Linguist Portal — Contentech" }, { name: "robots", content: "noindex" }] }),
   component: () => (
     <div className="p-8 max-w-3xl mx-auto">

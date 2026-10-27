@@ -54,6 +54,12 @@ import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settin
 import { Route as DashboardStyleGuidesRouteImport } from './routes/dashboard.style-guides'
 import { Route as DashboardTeamRouteImport } from './routes/dashboard.team'
 import { Route as DashboardWizardRouteImport } from './routes/dashboard.wizard'
+import { Route as PortalIndexRouteImport } from './routes/portal.index'
+import { Route as PortalAssignmentsRouteImport } from './routes/portal.assignments'
+import { Route as PortalEarningsRouteImport } from './routes/portal.earnings'
+import { Route as PortalNotificationsRouteImport } from './routes/portal.notifications'
+import { Route as PortalProfileRouteImport } from './routes/portal.profile'
+import { Route as PortalStudioRouteImport } from './routes/portal.studio'
 import { Route as ProductAgencyRouteImport } from './routes/product.agency'
 import { Route as ProductCustomerRouteImport } from './routes/product.customer'
 import { Route as ProductLinguistRouteImport } from './routes/product.linguist'
@@ -97,6 +103,7 @@ import { Route as DashboardOrganizationMembersRouteImport } from './routes/dashb
 import { Route as DashboardOrganizationTeamsRouteImport } from './routes/dashboard.organization.teams'
 import { Route as DashboardProjectsIdRouteImport } from './routes/dashboard.projects_.$id'
 import { Route as DashboardSettingsNotificationsRouteImport } from './routes/dashboard.settings_.notifications'
+import { Route as PortalJobsIndexRouteImport } from './routes/portal.jobs.index'
 import { Route as ResourcesCategorySlugRouteImport } from './routes/resources.category.$slug'
 import { Route as ApiDepartmentsIdInviteRouteImport } from './routes/api/departments.$id.invite'
 import { Route as ApiDepartmentsIdMembersRouteImport } from './routes/api/departments.$id.members'
@@ -125,6 +132,8 @@ import { Route as ApiProjectsIdProgressRouteImport } from './routes/api/projects
 import { Route as ApiSegmentsIdCommentsRouteImport } from './routes/api/segments.$id.comments'
 import { Route as ApiSegmentsIdIssuesRouteImport } from './routes/api/segments.$id.issues'
 import { Route as ApiTmIdImportRouteImport } from './routes/api/tm.$id.import'
+import { Route as PortalJobsIdIndexRouteImport } from './routes/portal.jobs.$id.index'
+import { Route as PortalJobsIdEditRouteImport } from './routes/portal_.jobs.$id.edit'
 import { Route as ApiDepartmentsIdMembersUserIdRouteImport } from './routes/api/departments.$id.members.$userId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -351,6 +360,36 @@ const DashboardWizardRoute = DashboardWizardRouteImport.update({
   id: '/wizard',
   path: '/wizard',
   getParentRoute: () => DashboardRoute,
+} as any)
+const PortalIndexRoute = PortalIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalAssignmentsRoute = PortalAssignmentsRouteImport.update({
+  id: '/assignments',
+  path: '/assignments',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalEarningsRoute = PortalEarningsRouteImport.update({
+  id: '/earnings',
+  path: '/earnings',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalNotificationsRoute = PortalNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalProfileRoute = PortalProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalStudioRoute = PortalStudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => PortalRoute,
 } as any)
 const ProductAgencyRoute = ProductAgencyRouteImport.update({
   id: '/product/agency',
@@ -580,6 +619,11 @@ const DashboardSettingsNotificationsRoute =
     path: '/settings/notifications',
     getParentRoute: () => DashboardRoute,
   } as any)
+const PortalJobsIndexRoute = PortalJobsIndexRouteImport.update({
+  id: '/jobs/',
+  path: '/jobs/',
+  getParentRoute: () => PortalRoute,
+} as any)
 const ResourcesCategorySlugRoute = ResourcesCategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
@@ -722,6 +766,16 @@ const ApiTmIdImportRoute = ApiTmIdImportRouteImport.update({
   path: '/import',
   getParentRoute: () => ApiTmIdRoute,
 } as any)
+const PortalJobsIdIndexRoute = PortalJobsIdIndexRouteImport.update({
+  id: '/jobs/$id/',
+  path: '/jobs/$id/',
+  getParentRoute: () => PortalRoute,
+} as any)
+const PortalJobsIdEditRoute = PortalJobsIdEditRouteImport.update({
+  id: '/portal_/jobs/$id/edit',
+  path: '/portal/jobs/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiDepartmentsIdMembersUserIdRoute =
   ApiDepartmentsIdMembersUserIdRouteImport.update({
     id: '/$userId',
@@ -739,7 +793,7 @@ export interface FileRoutesByFullPath {
   '/linguist-login': typeof LinguistLoginRoute
   '/linguist-register': typeof LinguistRegisterRoute
   '/login': typeof LoginRoute
-  '/portal': typeof PortalRoute
+  '/portal': typeof PortalRouteWithChildren
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -772,6 +826,11 @@ export interface FileRoutesByFullPath {
   '/dashboard/style-guides': typeof DashboardStyleGuidesRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/wizard': typeof DashboardWizardRoute
+  '/portal/assignments': typeof PortalAssignmentsRoute
+  '/portal/earnings': typeof PortalEarningsRoute
+  '/portal/notifications': typeof PortalNotificationsRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/studio': typeof PortalStudioRoute
   '/product/agency': typeof ProductAgencyRoute
   '/product/customer': typeof ProductCustomerRoute
   '/product/linguist': typeof ProductLinguistRoute
@@ -783,6 +842,7 @@ export interface FileRoutesByFullPath {
   '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/portal/': typeof PortalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/api/api-config/$id': typeof ApiApiConfigIdRoute
   '/api/auth/check-org': typeof ApiAuthCheckOrgRoute
@@ -819,6 +879,7 @@ export interface FileRoutesByFullPath {
   '/api/notifications/': typeof ApiNotificationsIndexRoute
   '/dashboard/ocr-requests/': typeof DashboardOcrRequestsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
+  '/portal/jobs/': typeof PortalJobsIndexRoute
   '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
   '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
   '/api/developer/keys/$id': typeof ApiDeveloperKeysIdRoute
@@ -846,6 +907,8 @@ export interface FileRoutesByFullPath {
   '/api/segments/$id/comments': typeof ApiSegmentsIdCommentsRoute
   '/api/segments/$id/issues': typeof ApiSegmentsIdIssuesRoute
   '/api/tm/$id/import': typeof ApiTmIdImportRoute
+  '/portal/jobs/$id/edit': typeof PortalJobsIdEditRoute
+  '/portal/jobs/$id/': typeof PortalJobsIdIndexRoute
   '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
 export interface FileRoutesByTo {
@@ -856,7 +919,6 @@ export interface FileRoutesByTo {
   '/linguist-login': typeof LinguistLoginRoute
   '/linguist-register': typeof LinguistRegisterRoute
   '/login': typeof LoginRoute
-  '/portal': typeof PortalRoute
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -888,6 +950,11 @@ export interface FileRoutesByTo {
   '/dashboard/style-guides': typeof DashboardStyleGuidesRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/wizard': typeof DashboardWizardRoute
+  '/portal/assignments': typeof PortalAssignmentsRoute
+  '/portal/earnings': typeof PortalEarningsRoute
+  '/portal/notifications': typeof PortalNotificationsRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/studio': typeof PortalStudioRoute
   '/product/agency': typeof ProductAgencyRoute
   '/product/customer': typeof ProductCustomerRoute
   '/product/linguist': typeof ProductLinguistRoute
@@ -899,6 +966,7 @@ export interface FileRoutesByTo {
   '/$locale': typeof LocaleIndexRoute
   '/admin': typeof AdminIndexRoute
   '/dashboard': typeof DashboardIndexRoute
+  '/portal': typeof PortalIndexRoute
   '/resources': typeof ResourcesIndexRoute
   '/api/api-config/$id': typeof ApiApiConfigIdRoute
   '/api/auth/check-org': typeof ApiAuthCheckOrgRoute
@@ -935,6 +1003,7 @@ export interface FileRoutesByTo {
   '/api/notifications': typeof ApiNotificationsIndexRoute
   '/dashboard/ocr-requests': typeof DashboardOcrRequestsIndexRoute
   '/dashboard/organization': typeof DashboardOrganizationIndexRoute
+  '/portal/jobs': typeof PortalJobsIndexRoute
   '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
   '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
   '/api/developer/keys/$id': typeof ApiDeveloperKeysIdRoute
@@ -962,6 +1031,8 @@ export interface FileRoutesByTo {
   '/api/segments/$id/comments': typeof ApiSegmentsIdCommentsRoute
   '/api/segments/$id/issues': typeof ApiSegmentsIdIssuesRoute
   '/api/tm/$id/import': typeof ApiTmIdImportRoute
+  '/portal/jobs/$id/edit': typeof PortalJobsIdEditRoute
+  '/portal/jobs/$id': typeof PortalJobsIdIndexRoute
   '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
 export interface FileRoutesById {
@@ -975,7 +1046,7 @@ export interface FileRoutesById {
   '/linguist-login': typeof LinguistLoginRoute
   '/linguist-register': typeof LinguistRegisterRoute
   '/login': typeof LoginRoute
-  '/portal': typeof PortalRoute
+  '/portal': typeof PortalRouteWithChildren
   '/pricing': typeof PricingRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -1008,6 +1079,11 @@ export interface FileRoutesById {
   '/dashboard/style-guides': typeof DashboardStyleGuidesRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/wizard': typeof DashboardWizardRoute
+  '/portal/assignments': typeof PortalAssignmentsRoute
+  '/portal/earnings': typeof PortalEarningsRoute
+  '/portal/notifications': typeof PortalNotificationsRoute
+  '/portal/profile': typeof PortalProfileRoute
+  '/portal/studio': typeof PortalStudioRoute
   '/product/agency': typeof ProductAgencyRoute
   '/product/customer': typeof ProductCustomerRoute
   '/product/linguist': typeof ProductLinguistRoute
@@ -1019,6 +1095,7 @@ export interface FileRoutesById {
   '/$locale/': typeof LocaleIndexRoute
   '/admin/': typeof AdminIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
+  '/portal/': typeof PortalIndexRoute
   '/resources/': typeof ResourcesIndexRoute
   '/api/api-config/$id': typeof ApiApiConfigIdRoute
   '/api/auth/check-org': typeof ApiAuthCheckOrgRoute
@@ -1055,6 +1132,7 @@ export interface FileRoutesById {
   '/api/notifications/': typeof ApiNotificationsIndexRoute
   '/dashboard/ocr-requests/': typeof DashboardOcrRequestsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
+  '/portal/jobs/': typeof PortalJobsIndexRoute
   '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
   '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
   '/api/developer/keys/$id': typeof ApiDeveloperKeysIdRoute
@@ -1082,6 +1160,8 @@ export interface FileRoutesById {
   '/api/segments/$id/comments': typeof ApiSegmentsIdCommentsRoute
   '/api/segments/$id/issues': typeof ApiSegmentsIdIssuesRoute
   '/api/tm/$id/import': typeof ApiTmIdImportRoute
+  '/portal_/jobs/$id/edit': typeof PortalJobsIdEditRoute
+  '/portal/jobs/$id/': typeof PortalJobsIdIndexRoute
   '/api/departments/$id/members/$userId': typeof ApiDepartmentsIdMembersUserIdRoute
 }
 export interface FileRouteTypes {
@@ -1129,6 +1209,11 @@ export interface FileRouteTypes {
     | '/dashboard/style-guides'
     | '/dashboard/team'
     | '/dashboard/wizard'
+    | '/portal/assignments'
+    | '/portal/earnings'
+    | '/portal/notifications'
+    | '/portal/profile'
+    | '/portal/studio'
     | '/product/agency'
     | '/product/customer'
     | '/product/linguist'
@@ -1140,6 +1225,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/admin/'
     | '/dashboard/'
+    | '/portal/'
     | '/resources/'
     | '/api/api-config/$id'
     | '/api/auth/check-org'
@@ -1176,6 +1262,7 @@ export interface FileRouteTypes {
     | '/api/notifications/'
     | '/dashboard/ocr-requests/'
     | '/dashboard/organization/'
+    | '/portal/jobs/'
     | '/api/departments/$id/invite'
     | '/api/departments/$id/members'
     | '/api/developer/keys/$id'
@@ -1203,6 +1290,8 @@ export interface FileRouteTypes {
     | '/api/segments/$id/comments'
     | '/api/segments/$id/issues'
     | '/api/tm/$id/import'
+    | '/portal/jobs/$id/edit'
+    | '/portal/jobs/$id/'
     | '/api/departments/$id/members/$userId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -1213,7 +1302,6 @@ export interface FileRouteTypes {
     | '/linguist-login'
     | '/linguist-register'
     | '/login'
-    | '/portal'
     | '/pricing'
     | '/register'
     | '/reset-password'
@@ -1245,6 +1333,11 @@ export interface FileRouteTypes {
     | '/dashboard/style-guides'
     | '/dashboard/team'
     | '/dashboard/wizard'
+    | '/portal/assignments'
+    | '/portal/earnings'
+    | '/portal/notifications'
+    | '/portal/profile'
+    | '/portal/studio'
     | '/product/agency'
     | '/product/customer'
     | '/product/linguist'
@@ -1256,6 +1349,7 @@ export interface FileRouteTypes {
     | '/$locale'
     | '/admin'
     | '/dashboard'
+    | '/portal'
     | '/resources'
     | '/api/api-config/$id'
     | '/api/auth/check-org'
@@ -1292,6 +1386,7 @@ export interface FileRouteTypes {
     | '/api/notifications'
     | '/dashboard/ocr-requests'
     | '/dashboard/organization'
+    | '/portal/jobs'
     | '/api/departments/$id/invite'
     | '/api/departments/$id/members'
     | '/api/developer/keys/$id'
@@ -1319,6 +1414,8 @@ export interface FileRouteTypes {
     | '/api/segments/$id/comments'
     | '/api/segments/$id/issues'
     | '/api/tm/$id/import'
+    | '/portal/jobs/$id/edit'
+    | '/portal/jobs/$id'
     | '/api/departments/$id/members/$userId'
   id:
     | '__root__'
@@ -1364,6 +1461,11 @@ export interface FileRouteTypes {
     | '/dashboard/style-guides'
     | '/dashboard/team'
     | '/dashboard/wizard'
+    | '/portal/assignments'
+    | '/portal/earnings'
+    | '/portal/notifications'
+    | '/portal/profile'
+    | '/portal/studio'
     | '/product/agency'
     | '/product/customer'
     | '/product/linguist'
@@ -1375,6 +1477,7 @@ export interface FileRouteTypes {
     | '/$locale/'
     | '/admin/'
     | '/dashboard/'
+    | '/portal/'
     | '/resources/'
     | '/api/api-config/$id'
     | '/api/auth/check-org'
@@ -1411,6 +1514,7 @@ export interface FileRouteTypes {
     | '/api/notifications/'
     | '/dashboard/ocr-requests/'
     | '/dashboard/organization/'
+    | '/portal/jobs/'
     | '/api/departments/$id/invite'
     | '/api/departments/$id/members'
     | '/api/developer/keys/$id'
@@ -1438,6 +1542,8 @@ export interface FileRouteTypes {
     | '/api/segments/$id/comments'
     | '/api/segments/$id/issues'
     | '/api/tm/$id/import'
+    | '/portal_/jobs/$id/edit'
+    | '/portal/jobs/$id/'
     | '/api/departments/$id/members/$userId'
   fileRoutesById: FileRoutesById
 }
@@ -1451,7 +1557,7 @@ export interface RootRouteChildren {
   LinguistLoginRoute: typeof LinguistLoginRoute
   LinguistRegisterRoute: typeof LinguistRegisterRoute
   LoginRoute: typeof LoginRoute
-  PortalRoute: typeof PortalRoute
+  PortalRoute: typeof PortalRouteWithChildren
   PricingRoute: typeof PricingRoute
   RegisterRoute: typeof RegisterRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
@@ -1493,6 +1599,7 @@ export interface RootRouteChildren {
   ApiLinguistsIdBlacklistRoute: typeof ApiLinguistsIdBlacklistRoute
   ApiLinguistsIdFavoriteRoute: typeof ApiLinguistsIdFavoriteRoute
   ApiNotificationsIdReadRoute: typeof ApiNotificationsIdReadRoute
+  PortalJobsIdEditRoute: typeof PortalJobsIdEditRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1812,6 +1919,48 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardWizardRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/portal/': {
+      id: '/portal/'
+      path: '/'
+      fullPath: '/portal/'
+      preLoaderRoute: typeof PortalIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/assignments': {
+      id: '/portal/assignments'
+      path: '/assignments'
+      fullPath: '/portal/assignments'
+      preLoaderRoute: typeof PortalAssignmentsRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/earnings': {
+      id: '/portal/earnings'
+      path: '/earnings'
+      fullPath: '/portal/earnings'
+      preLoaderRoute: typeof PortalEarningsRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/notifications': {
+      id: '/portal/notifications'
+      path: '/notifications'
+      fullPath: '/portal/notifications'
+      preLoaderRoute: typeof PortalNotificationsRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/profile': {
+      id: '/portal/profile'
+      path: '/profile'
+      fullPath: '/portal/profile'
+      preLoaderRoute: typeof PortalProfileRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal/studio': {
+      id: '/portal/studio'
+      path: '/studio'
+      fullPath: '/portal/studio'
+      preLoaderRoute: typeof PortalStudioRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/product/agency': {
       id: '/product/agency'
       path: '/product/agency'
@@ -2113,6 +2262,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardSettingsNotificationsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/portal/jobs/': {
+      id: '/portal/jobs/'
+      path: '/jobs'
+      fullPath: '/portal/jobs/'
+      preLoaderRoute: typeof PortalJobsIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
     '/resources/category/$slug': {
       id: '/resources/category/$slug'
       path: '/category/$slug'
@@ -2309,6 +2465,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiTmIdImportRouteImport
       parentRoute: typeof ApiTmIdRoute
     }
+    '/portal/jobs/$id/': {
+      id: '/portal/jobs/$id/'
+      path: '/jobs/$id'
+      fullPath: '/portal/jobs/$id/'
+      preLoaderRoute: typeof PortalJobsIdIndexRouteImport
+      parentRoute: typeof PortalRoute
+    }
+    '/portal_/jobs/$id/edit': {
+      id: '/portal_/jobs/$id/edit'
+      path: '/portal/jobs/$id/edit'
+      fullPath: '/portal/jobs/$id/edit'
+      preLoaderRoute: typeof PortalJobsIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/departments/$id/members/$userId': {
       id: '/api/departments/$id/members/$userId'
       path: '/$userId'
@@ -2393,6 +2563,31 @@ const DashboardRouteChildren: DashboardRouteChildren = {
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
   DashboardRouteChildren,
 )
+
+interface PortalRouteChildren {
+  PortalAssignmentsRoute: typeof PortalAssignmentsRoute
+  PortalEarningsRoute: typeof PortalEarningsRoute
+  PortalNotificationsRoute: typeof PortalNotificationsRoute
+  PortalProfileRoute: typeof PortalProfileRoute
+  PortalStudioRoute: typeof PortalStudioRoute
+  PortalIndexRoute: typeof PortalIndexRoute
+  PortalJobsIndexRoute: typeof PortalJobsIndexRoute
+  PortalJobsIdIndexRoute: typeof PortalJobsIdIndexRoute
+}
+
+const PortalRouteChildren: PortalRouteChildren = {
+  PortalAssignmentsRoute: PortalAssignmentsRoute,
+  PortalEarningsRoute: PortalEarningsRoute,
+  PortalNotificationsRoute: PortalNotificationsRoute,
+  PortalProfileRoute: PortalProfileRoute,
+  PortalStudioRoute: PortalStudioRoute,
+  PortalIndexRoute: PortalIndexRoute,
+  PortalJobsIndexRoute: PortalJobsIndexRoute,
+  PortalJobsIdIndexRoute: PortalJobsIdIndexRoute,
+}
+
+const PortalRouteWithChildren =
+  PortalRoute._addFileChildren(PortalRouteChildren)
 
 interface ResourcesRouteChildren {
   ResourcesSlugRoute: typeof ResourcesSlugRoute
@@ -2667,7 +2862,7 @@ const rootRouteChildren: RootRouteChildren = {
   LinguistLoginRoute: LinguistLoginRoute,
   LinguistRegisterRoute: LinguistRegisterRoute,
   LoginRoute: LoginRoute,
-  PortalRoute: PortalRoute,
+  PortalRoute: PortalRouteWithChildren,
   PricingRoute: PricingRoute,
   RegisterRoute: RegisterRoute,
   ResetPasswordRoute: ResetPasswordRoute,
@@ -2709,6 +2904,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiLinguistsIdBlacklistRoute: ApiLinguistsIdBlacklistRoute,
   ApiLinguistsIdFavoriteRoute: ApiLinguistsIdFavoriteRoute,
   ApiNotificationsIdReadRoute: ApiNotificationsIdReadRoute,
+  PortalJobsIdEditRoute: PortalJobsIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
