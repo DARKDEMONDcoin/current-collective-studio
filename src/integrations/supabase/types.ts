@@ -1412,6 +1412,27 @@ export type Database = {
         }
         Relationships: []
       }
+      ct_test_entitlements: {
+        Row: {
+          active: boolean
+          created_at: string
+          note: string | null
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          note?: string | null
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          note?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       ct_user_roles: {
         Row: {
           created_at: string
@@ -2366,6 +2387,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      ct_is_test_user: { Args: { _user: string }; Returns: boolean }
       ct_refund_project: {
         Args: { _project: string; _reason: string }
         Returns: number
