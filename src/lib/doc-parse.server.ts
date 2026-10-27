@@ -81,3 +81,18 @@ export function detectLanguage(text: string): string {
   const top = latin.sort((a, b) => b[1] - a[1])[0];
   return top[1] > 0 ? top[0] : "English";
 }
+
+// PowerPoint: one segment per text paragraph, slides in order (matches doc-export translatePptx).
+export async function parsePptx(buf: Uint8Array): Promise<Segment[]> {
+  const { slideNames, PPTX_PARA, pptxParaText } = await import("@/lib/doc-export.server");
+  const files = unzipSync(buf, { filter: (f) => /^ppt\/slides\/slide\d+\.xml$/.test(f.name) });
+  const out: Segment[] = [];
+  for (const name of slideNames(files)) {
+    const xml = strFromU8(files[name]);
+    for (const m of xml.matchAll(PPTX_PARA)) {
+      const text = pptxParaText(m[0]).replace(/\s+/g, " ").trim();
+      if (text) out.push({ text, formatHint: /type="(title|ctrTitle)"/.test(xml.slice(Math.max(0, m.index! - 600), m.index)) ? "h2" : "p" });
+    }
+  }
+  return out;
+}
