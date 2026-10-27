@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useSession } from "@/compat/next-auth";
 import { Settings, User, Bell, Lock, Key, Plus, Trash2, Eye, EyeOff, Loader2, Check, AlertCircle, Crown, Copy, Shield, Calendar, Clock, Pencil, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
