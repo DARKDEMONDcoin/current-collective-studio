@@ -66,6 +66,7 @@ import { Route as DashboardOrganizationIndexRouteImport } from './routes/dashboa
 import { Route as DashboardOrganizationMembersRouteImport } from './routes/dashboard.organization.members'
 import { Route as DashboardProjectsIdRouteImport } from './routes/dashboard.projects_.$id'
 import { Route as ResourcesCategorySlugRouteImport } from './routes/resources.category.$slug'
+import { Route as ApiJobsIdDeliverRouteImport } from './routes/api/jobs.$id.deliver'
 import { Route as ApiNotificationsIdReadRouteImport } from './routes/api/notifications/$id.read'
 
 const IndexRoute = IndexRouteImport.update({
@@ -358,6 +359,11 @@ const ResourcesCategorySlugRoute = ResourcesCategorySlugRouteImport.update({
   path: '/category/$slug',
   getParentRoute: () => ResourcesRoute,
 } as any)
+const ApiJobsIdDeliverRoute = ApiJobsIdDeliverRouteImport.update({
+  id: '/api/jobs/$id/deliver',
+  path: '/api/jobs/$id/deliver',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiNotificationsIdReadRoute = ApiNotificationsIdReadRouteImport.update({
   id: '/api/notifications/$id/read',
   path: '/api/notifications/$id/read',
@@ -422,6 +428,7 @@ export interface FileRoutesByFullPath {
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
+  '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
 }
 export interface FileRoutesByTo {
@@ -479,6 +486,7 @@ export interface FileRoutesByTo {
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications': typeof ApiNotificationsIndexRoute
   '/dashboard/organization': typeof DashboardOrganizationIndexRoute
+  '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
 }
 export interface FileRoutesById {
@@ -540,6 +548,7 @@ export interface FileRoutesById {
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
+  '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
 }
 export interface FileRouteTypes {
@@ -602,6 +611,7 @@ export interface FileRouteTypes {
     | '/resources/category/$slug'
     | '/api/notifications/'
     | '/dashboard/organization/'
+    | '/api/jobs/$id/deliver'
     | '/api/notifications/$id/read'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -659,6 +669,7 @@ export interface FileRouteTypes {
     | '/resources/category/$slug'
     | '/api/notifications'
     | '/dashboard/organization'
+    | '/api/jobs/$id/deliver'
     | '/api/notifications/$id/read'
   id:
     | '__root__'
@@ -719,6 +730,7 @@ export interface FileRouteTypes {
     | '/resources/category/$slug'
     | '/api/notifications/'
     | '/dashboard/organization/'
+    | '/api/jobs/$id/deliver'
     | '/api/notifications/$id/read'
   fileRoutesById: FileRoutesById
 }
@@ -763,6 +775,7 @@ export interface RootRouteChildren {
   ApiNotificationsUnreadCountRoute: typeof ApiNotificationsUnreadCountRoute
   ApiUploadAnalyzeRoute: typeof ApiUploadAnalyzeRoute
   ApiNotificationsIndexRoute: typeof ApiNotificationsIndexRoute
+  ApiJobsIdDeliverRoute: typeof ApiJobsIdDeliverRoute
   ApiNotificationsIdReadRoute: typeof ApiNotificationsIdReadRoute
 }
 
@@ -1167,6 +1180,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResourcesCategorySlugRouteImport
       parentRoute: typeof ResourcesRoute
     }
+    '/api/jobs/$id/deliver': {
+      id: '/api/jobs/$id/deliver'
+      path: '/api/jobs/$id/deliver'
+      fullPath: '/api/jobs/$id/deliver'
+      preLoaderRoute: typeof ApiJobsIdDeliverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/notifications/$id/read': {
       id: '/api/notifications/$id/read'
       path: '/api/notifications/$id/read'
@@ -1291,6 +1311,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiNotificationsUnreadCountRoute: ApiNotificationsUnreadCountRoute,
   ApiUploadAnalyzeRoute: ApiUploadAnalyzeRoute,
   ApiNotificationsIndexRoute: ApiNotificationsIndexRoute,
+  ApiJobsIdDeliverRoute: ApiJobsIdDeliverRoute,
   ApiNotificationsIdReadRoute: ApiNotificationsIdReadRoute,
 }
 export const routeTree = rootRouteImport
