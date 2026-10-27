@@ -300,6 +300,8 @@ export default function WizardPage() {
   const [isDragging, setIsDragging] = useState(false);
   const [projectName, setProjectName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // One key per order attempt: a double-click/resend creates one project and charges once.
+  const orderKeyRef = useRef<string>(crypto.randomUUID());
   const [existingConfigs, setExistingConfigs] = useState<ApiConfig[]>([]);
   const [selectedExistingConfig, setSelectedExistingConfig] = useState<string | null>(null);
   const [orgInfo, setOrgInfo] = useState<OrgInfo | null>(null);
@@ -1019,6 +1021,7 @@ export default function WizardPage() {
           // persist the linkage and the confidence warning on the project.
           ...(attachedOcrRequestId ? { attachedOcrRequestId } : {}),
           ocrConfidenceWarning: !!analysis?.ocrContinueAnyway,
+          idempotencyKey: orderKeyRef.current,
         }),
       });
 
@@ -1038,6 +1041,7 @@ export default function WizardPage() {
         );
         setTimeout(() => router.push(`/dashboard/projects/${project.id}`), 3000);
       } else {
+        orderKeyRef.current = crypto.randomUUID();
         let errMsg = "There was an issue creating your project. Please try again.";
         let isCreditsError = false;
         try {
@@ -1205,7 +1209,7 @@ export default function WizardPage() {
                       ref={fileInputRef}
                       type="file"
                       className="hidden"
-                      accept=".pdf,.docx,.doc,.pptx,.ppt,.xliff,.html,.json,.txt"
+                      accept=".pdf,.docx,.txt,.md,.csv,.jpg,.jpeg,.png,.webp"
                       onChange={(e) => e.target.files?.[0] && handleFileUpload(e.target.files[0])}
                     />
                     <div className="w-12 h-12 mx-auto rounded-full bg-white border border-[#CBD6E2] flex items-center justify-center mb-3 shadow-sm">
