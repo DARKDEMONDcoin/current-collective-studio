@@ -37,8 +37,8 @@ function makeMatcher(pairs: Pair[]) {
 const PPR_AFTER_BIDI = ["adjustRightInd", "snapToGrid", "spacing", "ind", "contextualSpacing", "mirrorIndents", "suppressOverlap", "jc", "textDirection", "textAlignment", "textboxTightWrap", "outlineLvl", "divId", "cnfStyle", "rPr", "sectPr", "pPrChange"];
 const RPR_AFTER_RTL = ["cs", "em", "lang", "eastAsianLayout", "specVanish", "oMath", "rPrChange"];
 const TBL_AFTER_BIDI = ["tblStyleRowBandSize", "tblStyleColBandSize", "tblW", "jc", "tblCellSpacing", "tblInd", "tblBorders", "shd", "tblLayout", "tblCellMar", "tblLook", "tblCaption", "tblDescription", "tblPrChange"];
-// Left/right alignment flips with the reading direction; start/end/center/both stay.
-const mirrorJc = (x: string) => x.replace(/<w:jc w:val="(left|right)"\/>/g, (_m, v) => `<w:jc w:val="${v === "left" ? "right" : "left"}"/>`);
+// Word treats jc left/right as logical (start/end) in bidi paragraphs and tables, so alignment needs no change.
+const mirrorJc = (x: string) => x;
 function insertBefore(inner: string, after: string[], el: string): string {
   let at = -1;
   for (const name of after) {
