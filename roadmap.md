@@ -9,3 +9,9 @@
 - [x] Stage 5a: AI translation per target language, scanned PDF/image OCR, order execution + automatic refund on failure, DOCX download (tested against the live DB with a temporary account)
 - [ ] Stage 5b: Stripe credit purchases + webhooks, transactional emails, BYOK keys, OCR per-page charge, background processing for very large documents, WordPress/Contentful, cron
 - [ ] Existing data: original Postgres records (users, projects, content) not yet imported — waiting on CSV export from user
+- [x] QA account abdallamohamed55xx@gmail.com: free orders via ct_test_entitlements (server-enforced; `testBilling: true` in order body uses real billing on its own balance)
+- [ ] Client pages: Clients, Teams, Linguists, TM, Glossaries, Style Guides, OCR Requests, Integrations, Developer, Notifications, Settings
+- [ ] Linguist ratings/favourites/blocking; OCR per-page billing; original-format downloads (DOCX/PDF/PPTX); background processing + progress
+- [ ] AI+Human end-to-end: linguist assignment, review/approval, never Completed before human work
+- [ ] Emails (needs sender domain) + Stripe credit purchases (needs paid plan or own Stripe key)
+- [ ] Full UI test pass with QA account (blocked: sandbox can't sign in to this external Supabase)
