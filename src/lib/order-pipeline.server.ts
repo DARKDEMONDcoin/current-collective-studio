@@ -11,6 +11,7 @@
 // segments are upserted per batch so retries never redo/double work; transient failures
 // retry with backoff up to MAX_ATTEMPTS, then the project is refunded once (ct_refund_project).
 import { translateBatch } from "@/lib/ai.server";
+import { loadTranslationContext, tmLookup, relevantTerms, checkSegment } from "@/lib/translation-context.server";
 
 const BATCH = 40;
 const LEASE_MS = 90_000;
@@ -33,7 +34,7 @@ export async function processProject(projectId: string, budgetMs = 20_000): Prom
   const { supabaseAdmin: db } = await import("@/integrations/supabase/client.server");
   const { data: project } = await db
     .from("ct_projects")
-    .select("id,name,client_id,organization_id,workflow_type,source_language,status,attempts,progress_done,progress_total,next_attempt_at")
+    .select("id,name,client_id,organization_id,workflow_type,source_language,status,attempts,progress_done,progress_total,next_attempt_at,notes,attached_glossary_ids,attached_tm_ids,attached_style_guide_ids")
     .eq("id", projectId)
     .single();
   if (!project) return { status: "MISSING", done: 0, total: 0 };
@@ -86,10 +87,11 @@ export async function processProject(projectId: string, budgetMs = 20_000): Prom
       }
       done += finished.size;
       const todo = segments.filter((s) => !finished.has(s.id));
+      const tctx = todo.length ? await loadTranslationContext(db, project as any, job.target_language) : null;
       for (let i = 0; i < todo.length; i += BATCH) {
         if (Date.now() - started > budgetMs) { outOfTime = true; break; }
         const chunk = todo.slice(i, i + BATCH);
-        const out = await translateBatch(chunk.map((s) => s.source_text), project.source_language, job.target_language, {
+        const out = await translateChunk(chunk.map((s) => s.source_text), project.source_language, job.target_language, tctx!, {
           industry: org?.industry,
           companyBio: org?.company_bio,
         });
@@ -174,3 +176,37 @@ export async function processQueue(maxProjects = 3, budgetMs = 45_000) {
 
 // Back-compat name used by older imports.
 export const runOrderPipeline = (id: string) => processProject(id);
+
+const LATIN = /^(english|french|german|spanish|italian|portuguese|dutch|swedish|norwegian|danish|polish|romanian|turkish|indonesian|malay)/i;
+
+/** TM exact matches are reused verbatim; the rest goes to AI with glossary/style
+ *  context, then each output is validated and failing segments get one corrective pass. */
+async function translateChunk(texts: string[], source: string, target: string, ctx: Awaited<ReturnType<typeof loadTranslationContext>>, org: { industry?: string | null; companyBio?: string | null }) {
+  const out: string[] = texts.map((t) => tmLookup(ctx, t) ?? "");
+  const idx = texts.map((_, i) => i).filter((i) => !out[i]);
+  if (!idx.length) return out;
+  const sub = idx.map((i) => texts[i]);
+  const terms = relevantTerms(ctx, sub);
+  const base = { ...org, glossary: terms, style: ctx.style, notes: ctx.notes };
+  const first = await translateBatch(sub, source, target, base);
+  const sameScript = LATIN.test(source) && LATIN.test(target);
+  const fb = sub.map((t, k) => {
+    const issues = checkSegment(t, first[k], terms, sameScript);
+    return issues.length ? issues.join("; ") : null;
+  });
+  const bad = fb.map((f, k) => (f ? k : -1)).filter((k) => k >= 0);
+  if (bad.length) {
+    try {
+      const fixed = await translateBatch(bad.map((k) => sub[k]), source, target, { ...base, feedback: bad.map((k) => fb[k]) });
+      bad.forEach((k, j) => {
+        const before = checkSegment(sub[k], first[k], terms, sameScript).length;
+        const after = checkSegment(sub[k], fixed[j], terms, sameScript).length;
+        if (fixed[j]?.trim() && after <= before) first[k] = fixed[j];
+      });
+    } catch (e) {
+      console.warn("[pipeline] corrective pass failed", e instanceof Error ? e.message : e);
+    }
+  }
+  idx.forEach((i, k) => (out[i] = first[k]));
+  return out;
+}
