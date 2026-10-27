@@ -9,7 +9,7 @@ export const Route = createFileRoute("/api/departments/$id")({
         const ctx = await orgCtx(request);
         if (ctx instanceof Response) return ctx;
         const b = (await request.json().catch(() => ({}))) as Record<string, unknown>;
-        const d: Record<string, string | null> = {};
+        const d: Record<string, any> = {};
         if (b.name !== undefined) { const n = short(b.name, 100); if (!n) return jerr("Invalid input"); d.name = n; }
         if (b.description !== undefined) d.description = short(b.description, 500);
         const { data } = await ctx.supabase.from("ct_departments").update(d).eq("id", params.id).select().maybeSingle();

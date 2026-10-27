@@ -9,7 +9,7 @@ export const Route = createFileRoute("/api/client-accounts/$id")({
         const ctx = await orgCtx(request);
         if (ctx instanceof Response) return ctx;
         const b = (await request.json().catch(() => ({}))) as Record<string, unknown>;
-        const d: Record<string, string | null> = {};
+        const d: Record<string, any> = {};
         if (short(b.name, 200)) d.name = short(b.name, 200);
         if (b.notes !== undefined) d.notes = short(b.notes, 500);
         if (b.websiteUrl !== undefined) d.website_url = short(b.websiteUrl, 300);

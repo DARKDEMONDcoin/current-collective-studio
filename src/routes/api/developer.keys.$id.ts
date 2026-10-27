@@ -13,7 +13,7 @@ export const Route = createFileRoute("/api/developer/keys/$id")({
         const { data: own } = await ctx.supabase.from("ct_api_keys").select("id").eq("id", params.id).maybeSingle();
         if (!own) return jerr("Not found", 404);
         const b = (await request.json().catch(() => ({}))) as Record<string, unknown>;
-        const d: Record<string, unknown> = {};
+        const d: Record<string, any> = {};
         if (b.name !== undefined) d.name = short(b.name, 100);
         if (typeof b.isActive === "boolean") d.is_active = b.isActive;
         if (b.expiresAt !== undefined) {
