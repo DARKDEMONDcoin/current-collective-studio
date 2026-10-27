@@ -37,6 +37,8 @@ function makeMatcher(pairs: Pair[]) {
 const PPR_AFTER_BIDI = ["adjustRightInd", "snapToGrid", "spacing", "ind", "contextualSpacing", "mirrorIndents", "suppressOverlap", "jc", "textDirection", "textAlignment", "textboxTightWrap", "outlineLvl", "divId", "cnfStyle", "rPr", "sectPr", "pPrChange"];
 const RPR_AFTER_RTL = ["cs", "em", "lang", "eastAsianLayout", "specVanish", "oMath", "rPrChange"];
 const TBL_AFTER_BIDI = ["tblStyleRowBandSize", "tblStyleColBandSize", "tblW", "jc", "tblCellSpacing", "tblInd", "tblBorders", "shd", "tblLayout", "tblCellMar", "tblLook", "tblCaption", "tblDescription", "tblPrChange"];
+// Left/right alignment flips with the reading direction; start/end/center/both stay.
+const mirrorJc = (x: string) => x.replace(/<w:jc w:val="(left|right)"\/>/g, (_m, v) => `<w:jc w:val="${v === "left" ? "right" : "left"}"/>`);
 function insertBefore(inner: string, after: string[], el: string): string {
   let at = -1;
   for (const name of after) {
@@ -57,8 +59,12 @@ function docxParagraph(p: string, target: string, rtl: boolean): string {
   out = out.replace(/<w:tab\/>/g, "");
   if (rtl) {
     // Insert in schema order so Word never reports the file as damaged.
-    out = out.replace(/<w:pPr>([\s\S]*?)<\/w:pPr>/, (m, inner) =>
-      inner.includes("<w:bidi") ? m : `<w:pPr>${insertBefore(inner, PPR_AFTER_BIDI, "<w:bidi/>")}</w:pPr>`);
+    out = out.replace(/<w:pPr>([\s\S]*?)<\/w:pPr>/, (_m, inner) => {
+      // An explicit LTR flag (w:bidi w:val="0") must be overridden, not kept.
+      inner = inner.replace(/<w:bidi(?: [^>]*)?\/>/g, "");
+      inner = mirrorJc(inner.replace(/<w:rPr>[\s\S]*$/, "")) + (inner.match(/<w:rPr>[\s\S]*$/)?.[0] ?? "");
+      return `<w:pPr>${insertBefore(inner, PPR_AFTER_BIDI, "<w:bidi/>")}</w:pPr>`;
+    });
     out = out.replace(/<w:pPr\/>/, "<w:pPr><w:bidi/></w:pPr>");
     if (!/<w:pPr>/.test(out)) out = out.replace(/^<w:p( [^>]*)?>/, (m) => `${m}<w:pPr><w:bidi/></w:pPr>`);
     out = out.replace(/(<w:r(?: [^>]*)?>)<w:rPr>([\s\S]*?)<\/w:rPr>/g, (m, r, inner) =>
@@ -89,7 +95,7 @@ export function translateDocx(original: Uint8Array, pairs: Pair[], rtl: boolean)
     // Tables read right-to-left (column order flips like in Word's RTL table option).
     files["word/document.xml"] = strToU8(
       strFromU8(files["word/document.xml"]).replace(/<w:tblPr>([\s\S]*?)<\/w:tblPr>/g, (m, inner) =>
-        inner.includes("<w:bidiVisual") ? m : `<w:tblPr>${insertBefore(inner, TBL_AFTER_BIDI, "<w:bidiVisual/>")}</w:tblPr>`,
+        inner.includes("<w:bidiVisual") ? m : `<w:tblPr>${insertBefore(mirrorJc(inner), TBL_AFTER_BIDI, "<w:bidiVisual/>")}</w:tblPr>`,
       ),
     );
   }
