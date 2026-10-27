@@ -35,6 +35,7 @@ import { Route as ApiClientAccountsRouteImport } from './routes/api/client-accou
 import { Route as ApiCreditPackagesRouteImport } from './routes/api/credit-packages'
 import { Route as ApiDepartmentsRouteImport } from './routes/api/departments'
 import { Route as ApiGlossaryRouteImport } from './routes/api/glossary'
+import { Route as ApiOcrRequestsRouteImport } from './routes/api/ocr-requests'
 import { Route as ApiOrgMembersRouteImport } from './routes/api/org-members'
 import { Route as ApiOrganizationRouteImport } from './routes/api/organization'
 import { Route as ApiProjectsRouteImport } from './routes/api/projects'
@@ -42,7 +43,15 @@ import { Route as ApiStyleGuidesRouteImport } from './routes/api/style-guides'
 import { Route as ApiTmRouteImport } from './routes/api/tm'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
+import { Route as DashboardClientsRouteImport } from './routes/dashboard.clients'
+import { Route as DashboardDeveloperRouteImport } from './routes/dashboard.developer'
+import { Route as DashboardGlossaryRouteImport } from './routes/dashboard.glossary'
+import { Route as DashboardIntegrationsRouteImport } from './routes/dashboard.integrations'
+import { Route as DashboardMemoryRouteImport } from './routes/dashboard.memory'
+import { Route as DashboardNotificationsRouteImport } from './routes/dashboard.notifications'
 import { Route as DashboardProjectsRouteImport } from './routes/dashboard.projects'
+import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
+import { Route as DashboardStyleGuidesRouteImport } from './routes/dashboard.style-guides'
 import { Route as DashboardTeamRouteImport } from './routes/dashboard.team'
 import { Route as DashboardWizardRouteImport } from './routes/dashboard.wizard'
 import { Route as ProductAgencyRouteImport } from './routes/product.agency'
@@ -67,6 +76,7 @@ import { Route as ApiIntegrationsCloudStatusRouteImport } from './routes/api/int
 import { Route as ApiNotificationsIndexRouteImport } from './routes/api/notifications/index'
 import { Route as ApiNotificationsReadAllRouteImport } from './routes/api/notifications/read-all'
 import { Route as ApiNotificationsUnreadCountRouteImport } from './routes/api/notifications/unread-count'
+import { Route as ApiOcrRequestsIdRouteImport } from './routes/api/ocr-requests.$id'
 import { Route as ApiOrganizationJoinRequestsRouteImport } from './routes/api/organization.join-requests'
 import { Route as ApiOrganizationLinguistsRouteImport } from './routes/api/organization.linguists'
 import { Route as ApiStyleGuidesIdRouteImport } from './routes/api/style-guides.$id'
@@ -74,9 +84,16 @@ import { Route as ApiStyleGuidesGenerateRouteImport } from './routes/api/style-g
 import { Route as ApiTmIdRouteImport } from './routes/api/tm.$id'
 import { Route as ApiUploadAnalyzeRouteImport } from './routes/api/upload/analyze'
 import { Route as DashboardBillingSuccessRouteImport } from './routes/dashboard.billing_.success'
+import { Route as DashboardIntegrationsContentfulRouteImport } from './routes/dashboard.integrations_.contentful'
+import { Route as DashboardIntegrationsWordpressRouteImport } from './routes/dashboard.integrations_.wordpress'
+import { Route as DashboardOcrRequestsIndexRouteImport } from './routes/dashboard.ocr-requests.index'
+import { Route as DashboardOcrRequestsIdRouteImport } from './routes/dashboard.ocr-requests.$id'
 import { Route as DashboardOrganizationIndexRouteImport } from './routes/dashboard.organization.index'
+import { Route as DashboardOrganizationLinguistsRouteImport } from './routes/dashboard.organization.linguists'
 import { Route as DashboardOrganizationMembersRouteImport } from './routes/dashboard.organization.members'
+import { Route as DashboardOrganizationTeamsRouteImport } from './routes/dashboard.organization.teams'
 import { Route as DashboardProjectsIdRouteImport } from './routes/dashboard.projects_.$id'
+import { Route as DashboardSettingsNotificationsRouteImport } from './routes/dashboard.settings_.notifications'
 import { Route as ResourcesCategorySlugRouteImport } from './routes/resources.category.$slug'
 import { Route as ApiDepartmentsIdInviteRouteImport } from './routes/api/departments.$id.invite'
 import { Route as ApiDepartmentsIdMembersRouteImport } from './routes/api/departments.$id.members'
@@ -85,6 +102,7 @@ import { Route as ApiDeveloperWebhooksIdRouteImport } from './routes/api/develop
 import { Route as ApiGlossaryIdImportRouteImport } from './routes/api/glossary.$id.import'
 import { Route as ApiGlossaryIdTermsRouteImport } from './routes/api/glossary.$id.terms'
 import { Route as ApiJobsIdDeliverRouteImport } from './routes/api/jobs.$id.deliver'
+import { Route as ApiJobsIdReviewRouteImport } from './routes/api/jobs.$id.review'
 import { Route as ApiLinguistsIdBlacklistRouteImport } from './routes/api/linguists.$id.blacklist'
 import { Route as ApiLinguistsIdFavoriteRouteImport } from './routes/api/linguists.$id.favorite'
 import { Route as ApiNotificationsIdReadRouteImport } from './routes/api/notifications/$id.read'
@@ -223,6 +241,11 @@ const ApiGlossaryRoute = ApiGlossaryRouteImport.update({
   path: '/api/glossary',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiOcrRequestsRoute = ApiOcrRequestsRouteImport.update({
+  id: '/api/ocr-requests',
+  path: '/api/ocr-requests',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiOrgMembersRoute = ApiOrgMembersRouteImport.update({
   id: '/api/org-members',
   path: '/api/org-members',
@@ -258,9 +281,49 @@ const DashboardBillingRoute = DashboardBillingRouteImport.update({
   path: '/billing',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardClientsRoute = DashboardClientsRouteImport.update({
+  id: '/clients',
+  path: '/clients',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardDeveloperRoute = DashboardDeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardGlossaryRoute = DashboardGlossaryRouteImport.update({
+  id: '/glossary',
+  path: '/glossary',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardIntegrationsRoute = DashboardIntegrationsRouteImport.update({
+  id: '/integrations',
+  path: '/integrations',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardMemoryRoute = DashboardMemoryRouteImport.update({
+  id: '/memory',
+  path: '/memory',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardNotificationsRoute = DashboardNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardProjectsRoute = DashboardProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardStyleGuidesRoute = DashboardStyleGuidesRouteImport.update({
+  id: '/style-guides',
+  path: '/style-guides',
   getParentRoute: () => DashboardRoute,
 } as any)
 const DashboardTeamRoute = DashboardTeamRouteImport.update({
@@ -386,6 +449,11 @@ const ApiNotificationsUnreadCountRoute =
     path: '/api/notifications/unread-count',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiOcrRequestsIdRoute = ApiOcrRequestsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiOcrRequestsRoute,
+} as any)
 const ApiOrganizationJoinRequestsRoute =
   ApiOrganizationJoinRequestsRouteImport.update({
     id: '/join-requests',
@@ -423,10 +491,39 @@ const DashboardBillingSuccessRoute = DashboardBillingSuccessRouteImport.update({
   path: '/billing/success',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardIntegrationsContentfulRoute =
+  DashboardIntegrationsContentfulRouteImport.update({
+    id: '/integrations_/contentful',
+    path: '/integrations/contentful',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardIntegrationsWordpressRoute =
+  DashboardIntegrationsWordpressRouteImport.update({
+    id: '/integrations_/wordpress',
+    path: '/integrations/wordpress',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardOcrRequestsIndexRoute =
+  DashboardOcrRequestsIndexRouteImport.update({
+    id: '/ocr-requests/',
+    path: '/ocr-requests/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardOcrRequestsIdRoute = DashboardOcrRequestsIdRouteImport.update({
+  id: '/ocr-requests/$id',
+  path: '/ocr-requests/$id',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const DashboardOrganizationIndexRoute =
   DashboardOrganizationIndexRouteImport.update({
     id: '/organization/',
     path: '/organization/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardOrganizationLinguistsRoute =
+  DashboardOrganizationLinguistsRouteImport.update({
+    id: '/organization/linguists',
+    path: '/organization/linguists',
     getParentRoute: () => DashboardRoute,
   } as any)
 const DashboardOrganizationMembersRoute =
@@ -435,11 +532,23 @@ const DashboardOrganizationMembersRoute =
     path: '/organization/members',
     getParentRoute: () => DashboardRoute,
   } as any)
+const DashboardOrganizationTeamsRoute =
+  DashboardOrganizationTeamsRouteImport.update({
+    id: '/organization/teams',
+    path: '/organization/teams',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const DashboardProjectsIdRoute = DashboardProjectsIdRouteImport.update({
   id: '/projects_/$id',
   path: '/projects/$id',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardSettingsNotificationsRoute =
+  DashboardSettingsNotificationsRouteImport.update({
+    id: '/settings_/notifications',
+    path: '/settings/notifications',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const ResourcesCategorySlugRoute = ResourcesCategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
@@ -478,6 +587,11 @@ const ApiGlossaryIdTermsRoute = ApiGlossaryIdTermsRouteImport.update({
 const ApiJobsIdDeliverRoute = ApiJobsIdDeliverRouteImport.update({
   id: '/api/jobs/$id/deliver',
   path: '/api/jobs/$id/deliver',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiJobsIdReviewRoute = ApiJobsIdReviewRouteImport.update({
+  id: '/api/jobs/$id/review',
+  path: '/api/jobs/$id/review',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiLinguistsIdBlacklistRoute = ApiLinguistsIdBlacklistRouteImport.update({
@@ -544,13 +658,22 @@ export interface FileRoutesByFullPath {
   '/api/credit-packages': typeof ApiCreditPackagesRoute
   '/api/departments': typeof ApiDepartmentsRouteWithChildren
   '/api/glossary': typeof ApiGlossaryRouteWithChildren
+  '/api/ocr-requests': typeof ApiOcrRequestsRouteWithChildren
   '/api/org-members': typeof ApiOrgMembersRoute
   '/api/organization': typeof ApiOrganizationRouteWithChildren
   '/api/projects': typeof ApiProjectsRoute
   '/api/style-guides': typeof ApiStyleGuidesRouteWithChildren
   '/api/tm': typeof ApiTmRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/clients': typeof DashboardClientsRoute
+  '/dashboard/developer': typeof DashboardDeveloperRoute
+  '/dashboard/glossary': typeof DashboardGlossaryRoute
+  '/dashboard/integrations': typeof DashboardIntegrationsRoute
+  '/dashboard/memory': typeof DashboardMemoryRoute
+  '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/style-guides': typeof DashboardStyleGuidesRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/wizard': typeof DashboardWizardRoute
   '/product/agency': typeof ProductAgencyRoute
@@ -577,6 +700,7 @@ export interface FileRoutesByFullPath {
   '/api/integrations/cloud-status': typeof ApiIntegrationsCloudStatusRoute
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
+  '/api/ocr-requests/$id': typeof ApiOcrRequestsIdRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
   '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
@@ -584,10 +708,17 @@ export interface FileRoutesByFullPath {
   '/api/tm/$id': typeof ApiTmIdRouteWithChildren
   '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
+  '/dashboard/integrations/contentful': typeof DashboardIntegrationsContentfulRoute
+  '/dashboard/integrations/wordpress': typeof DashboardIntegrationsWordpressRoute
+  '/dashboard/ocr-requests/$id': typeof DashboardOcrRequestsIdRoute
+  '/dashboard/organization/linguists': typeof DashboardOrganizationLinguistsRoute
   '/dashboard/organization/members': typeof DashboardOrganizationMembersRoute
+  '/dashboard/organization/teams': typeof DashboardOrganizationTeamsRoute
   '/dashboard/projects/$id': typeof DashboardProjectsIdRoute
+  '/dashboard/settings/notifications': typeof DashboardSettingsNotificationsRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
+  '/dashboard/ocr-requests/': typeof DashboardOcrRequestsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
   '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
   '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
@@ -596,6 +727,7 @@ export interface FileRoutesByFullPath {
   '/api/glossary/$id/import': typeof ApiGlossaryIdImportRoute
   '/api/glossary/$id/terms': typeof ApiGlossaryIdTermsRoute
   '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
+  '/api/jobs/$id/review': typeof ApiJobsIdReviewRoute
   '/api/linguists/$id/blacklist': typeof ApiLinguistsIdBlacklistRoute
   '/api/linguists/$id/favorite': typeof ApiLinguistsIdFavoriteRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
@@ -626,13 +758,22 @@ export interface FileRoutesByTo {
   '/api/credit-packages': typeof ApiCreditPackagesRoute
   '/api/departments': typeof ApiDepartmentsRouteWithChildren
   '/api/glossary': typeof ApiGlossaryRouteWithChildren
+  '/api/ocr-requests': typeof ApiOcrRequestsRouteWithChildren
   '/api/org-members': typeof ApiOrgMembersRoute
   '/api/organization': typeof ApiOrganizationRouteWithChildren
   '/api/projects': typeof ApiProjectsRoute
   '/api/style-guides': typeof ApiStyleGuidesRouteWithChildren
   '/api/tm': typeof ApiTmRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/clients': typeof DashboardClientsRoute
+  '/dashboard/developer': typeof DashboardDeveloperRoute
+  '/dashboard/glossary': typeof DashboardGlossaryRoute
+  '/dashboard/integrations': typeof DashboardIntegrationsRoute
+  '/dashboard/memory': typeof DashboardMemoryRoute
+  '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/style-guides': typeof DashboardStyleGuidesRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/wizard': typeof DashboardWizardRoute
   '/product/agency': typeof ProductAgencyRoute
@@ -659,6 +800,7 @@ export interface FileRoutesByTo {
   '/api/integrations/cloud-status': typeof ApiIntegrationsCloudStatusRoute
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
+  '/api/ocr-requests/$id': typeof ApiOcrRequestsIdRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
   '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
@@ -666,10 +808,17 @@ export interface FileRoutesByTo {
   '/api/tm/$id': typeof ApiTmIdRouteWithChildren
   '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
+  '/dashboard/integrations/contentful': typeof DashboardIntegrationsContentfulRoute
+  '/dashboard/integrations/wordpress': typeof DashboardIntegrationsWordpressRoute
+  '/dashboard/ocr-requests/$id': typeof DashboardOcrRequestsIdRoute
+  '/dashboard/organization/linguists': typeof DashboardOrganizationLinguistsRoute
   '/dashboard/organization/members': typeof DashboardOrganizationMembersRoute
+  '/dashboard/organization/teams': typeof DashboardOrganizationTeamsRoute
   '/dashboard/projects/$id': typeof DashboardProjectsIdRoute
+  '/dashboard/settings/notifications': typeof DashboardSettingsNotificationsRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications': typeof ApiNotificationsIndexRoute
+  '/dashboard/ocr-requests': typeof DashboardOcrRequestsIndexRoute
   '/dashboard/organization': typeof DashboardOrganizationIndexRoute
   '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
   '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
@@ -678,6 +827,7 @@ export interface FileRoutesByTo {
   '/api/glossary/$id/import': typeof ApiGlossaryIdImportRoute
   '/api/glossary/$id/terms': typeof ApiGlossaryIdTermsRoute
   '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
+  '/api/jobs/$id/review': typeof ApiJobsIdReviewRoute
   '/api/linguists/$id/blacklist': typeof ApiLinguistsIdBlacklistRoute
   '/api/linguists/$id/favorite': typeof ApiLinguistsIdFavoriteRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
@@ -712,13 +862,22 @@ export interface FileRoutesById {
   '/api/credit-packages': typeof ApiCreditPackagesRoute
   '/api/departments': typeof ApiDepartmentsRouteWithChildren
   '/api/glossary': typeof ApiGlossaryRouteWithChildren
+  '/api/ocr-requests': typeof ApiOcrRequestsRouteWithChildren
   '/api/org-members': typeof ApiOrgMembersRoute
   '/api/organization': typeof ApiOrganizationRouteWithChildren
   '/api/projects': typeof ApiProjectsRoute
   '/api/style-guides': typeof ApiStyleGuidesRouteWithChildren
   '/api/tm': typeof ApiTmRouteWithChildren
   '/dashboard/billing': typeof DashboardBillingRoute
+  '/dashboard/clients': typeof DashboardClientsRoute
+  '/dashboard/developer': typeof DashboardDeveloperRoute
+  '/dashboard/glossary': typeof DashboardGlossaryRoute
+  '/dashboard/integrations': typeof DashboardIntegrationsRoute
+  '/dashboard/memory': typeof DashboardMemoryRoute
+  '/dashboard/notifications': typeof DashboardNotificationsRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
+  '/dashboard/settings': typeof DashboardSettingsRoute
+  '/dashboard/style-guides': typeof DashboardStyleGuidesRoute
   '/dashboard/team': typeof DashboardTeamRoute
   '/dashboard/wizard': typeof DashboardWizardRoute
   '/product/agency': typeof ProductAgencyRoute
@@ -745,6 +904,7 @@ export interface FileRoutesById {
   '/api/integrations/cloud-status': typeof ApiIntegrationsCloudStatusRoute
   '/api/notifications/read-all': typeof ApiNotificationsReadAllRoute
   '/api/notifications/unread-count': typeof ApiNotificationsUnreadCountRoute
+  '/api/ocr-requests/$id': typeof ApiOcrRequestsIdRoute
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/organization/linguists': typeof ApiOrganizationLinguistsRouteWithChildren
   '/api/style-guides/$id': typeof ApiStyleGuidesIdRoute
@@ -752,10 +912,17 @@ export interface FileRoutesById {
   '/api/tm/$id': typeof ApiTmIdRouteWithChildren
   '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing_/success': typeof DashboardBillingSuccessRoute
+  '/dashboard/integrations_/contentful': typeof DashboardIntegrationsContentfulRoute
+  '/dashboard/integrations_/wordpress': typeof DashboardIntegrationsWordpressRoute
+  '/dashboard/ocr-requests/$id': typeof DashboardOcrRequestsIdRoute
+  '/dashboard/organization/linguists': typeof DashboardOrganizationLinguistsRoute
   '/dashboard/organization/members': typeof DashboardOrganizationMembersRoute
+  '/dashboard/organization/teams': typeof DashboardOrganizationTeamsRoute
   '/dashboard/projects_/$id': typeof DashboardProjectsIdRoute
+  '/dashboard/settings_/notifications': typeof DashboardSettingsNotificationsRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
+  '/dashboard/ocr-requests/': typeof DashboardOcrRequestsIndexRoute
   '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
   '/api/departments/$id/invite': typeof ApiDepartmentsIdInviteRoute
   '/api/departments/$id/members': typeof ApiDepartmentsIdMembersRouteWithChildren
@@ -764,6 +931,7 @@ export interface FileRoutesById {
   '/api/glossary/$id/import': typeof ApiGlossaryIdImportRoute
   '/api/glossary/$id/terms': typeof ApiGlossaryIdTermsRoute
   '/api/jobs/$id/deliver': typeof ApiJobsIdDeliverRoute
+  '/api/jobs/$id/review': typeof ApiJobsIdReviewRoute
   '/api/linguists/$id/blacklist': typeof ApiLinguistsIdBlacklistRoute
   '/api/linguists/$id/favorite': typeof ApiLinguistsIdFavoriteRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
@@ -799,13 +967,22 @@ export interface FileRouteTypes {
     | '/api/credit-packages'
     | '/api/departments'
     | '/api/glossary'
+    | '/api/ocr-requests'
     | '/api/org-members'
     | '/api/organization'
     | '/api/projects'
     | '/api/style-guides'
     | '/api/tm'
     | '/dashboard/billing'
+    | '/dashboard/clients'
+    | '/dashboard/developer'
+    | '/dashboard/glossary'
+    | '/dashboard/integrations'
+    | '/dashboard/memory'
+    | '/dashboard/notifications'
     | '/dashboard/projects'
+    | '/dashboard/settings'
+    | '/dashboard/style-guides'
     | '/dashboard/team'
     | '/dashboard/wizard'
     | '/product/agency'
@@ -832,6 +1009,7 @@ export interface FileRouteTypes {
     | '/api/integrations/cloud-status'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
+    | '/api/ocr-requests/$id'
     | '/api/organization/join-requests'
     | '/api/organization/linguists'
     | '/api/style-guides/$id'
@@ -839,10 +1017,17 @@ export interface FileRouteTypes {
     | '/api/tm/$id'
     | '/api/upload/analyze'
     | '/dashboard/billing/success'
+    | '/dashboard/integrations/contentful'
+    | '/dashboard/integrations/wordpress'
+    | '/dashboard/ocr-requests/$id'
+    | '/dashboard/organization/linguists'
     | '/dashboard/organization/members'
+    | '/dashboard/organization/teams'
     | '/dashboard/projects/$id'
+    | '/dashboard/settings/notifications'
     | '/resources/category/$slug'
     | '/api/notifications/'
+    | '/dashboard/ocr-requests/'
     | '/dashboard/organization/'
     | '/api/departments/$id/invite'
     | '/api/departments/$id/members'
@@ -851,6 +1036,7 @@ export interface FileRouteTypes {
     | '/api/glossary/$id/import'
     | '/api/glossary/$id/terms'
     | '/api/jobs/$id/deliver'
+    | '/api/jobs/$id/review'
     | '/api/linguists/$id/blacklist'
     | '/api/linguists/$id/favorite'
     | '/api/notifications/$id/read'
@@ -881,13 +1067,22 @@ export interface FileRouteTypes {
     | '/api/credit-packages'
     | '/api/departments'
     | '/api/glossary'
+    | '/api/ocr-requests'
     | '/api/org-members'
     | '/api/organization'
     | '/api/projects'
     | '/api/style-guides'
     | '/api/tm'
     | '/dashboard/billing'
+    | '/dashboard/clients'
+    | '/dashboard/developer'
+    | '/dashboard/glossary'
+    | '/dashboard/integrations'
+    | '/dashboard/memory'
+    | '/dashboard/notifications'
     | '/dashboard/projects'
+    | '/dashboard/settings'
+    | '/dashboard/style-guides'
     | '/dashboard/team'
     | '/dashboard/wizard'
     | '/product/agency'
@@ -914,6 +1109,7 @@ export interface FileRouteTypes {
     | '/api/integrations/cloud-status'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
+    | '/api/ocr-requests/$id'
     | '/api/organization/join-requests'
     | '/api/organization/linguists'
     | '/api/style-guides/$id'
@@ -921,10 +1117,17 @@ export interface FileRouteTypes {
     | '/api/tm/$id'
     | '/api/upload/analyze'
     | '/dashboard/billing/success'
+    | '/dashboard/integrations/contentful'
+    | '/dashboard/integrations/wordpress'
+    | '/dashboard/ocr-requests/$id'
+    | '/dashboard/organization/linguists'
     | '/dashboard/organization/members'
+    | '/dashboard/organization/teams'
     | '/dashboard/projects/$id'
+    | '/dashboard/settings/notifications'
     | '/resources/category/$slug'
     | '/api/notifications'
+    | '/dashboard/ocr-requests'
     | '/dashboard/organization'
     | '/api/departments/$id/invite'
     | '/api/departments/$id/members'
@@ -933,6 +1136,7 @@ export interface FileRouteTypes {
     | '/api/glossary/$id/import'
     | '/api/glossary/$id/terms'
     | '/api/jobs/$id/deliver'
+    | '/api/jobs/$id/review'
     | '/api/linguists/$id/blacklist'
     | '/api/linguists/$id/favorite'
     | '/api/notifications/$id/read'
@@ -966,13 +1170,22 @@ export interface FileRouteTypes {
     | '/api/credit-packages'
     | '/api/departments'
     | '/api/glossary'
+    | '/api/ocr-requests'
     | '/api/org-members'
     | '/api/organization'
     | '/api/projects'
     | '/api/style-guides'
     | '/api/tm'
     | '/dashboard/billing'
+    | '/dashboard/clients'
+    | '/dashboard/developer'
+    | '/dashboard/glossary'
+    | '/dashboard/integrations'
+    | '/dashboard/memory'
+    | '/dashboard/notifications'
     | '/dashboard/projects'
+    | '/dashboard/settings'
+    | '/dashboard/style-guides'
     | '/dashboard/team'
     | '/dashboard/wizard'
     | '/product/agency'
@@ -999,6 +1212,7 @@ export interface FileRouteTypes {
     | '/api/integrations/cloud-status'
     | '/api/notifications/read-all'
     | '/api/notifications/unread-count'
+    | '/api/ocr-requests/$id'
     | '/api/organization/join-requests'
     | '/api/organization/linguists'
     | '/api/style-guides/$id'
@@ -1006,10 +1220,17 @@ export interface FileRouteTypes {
     | '/api/tm/$id'
     | '/api/upload/analyze'
     | '/dashboard/billing_/success'
+    | '/dashboard/integrations_/contentful'
+    | '/dashboard/integrations_/wordpress'
+    | '/dashboard/ocr-requests/$id'
+    | '/dashboard/organization/linguists'
     | '/dashboard/organization/members'
+    | '/dashboard/organization/teams'
     | '/dashboard/projects_/$id'
+    | '/dashboard/settings_/notifications'
     | '/resources/category/$slug'
     | '/api/notifications/'
+    | '/dashboard/ocr-requests/'
     | '/dashboard/organization/'
     | '/api/departments/$id/invite'
     | '/api/departments/$id/members'
@@ -1018,6 +1239,7 @@ export interface FileRouteTypes {
     | '/api/glossary/$id/import'
     | '/api/glossary/$id/terms'
     | '/api/jobs/$id/deliver'
+    | '/api/jobs/$id/review'
     | '/api/linguists/$id/blacklist'
     | '/api/linguists/$id/favorite'
     | '/api/notifications/$id/read'
@@ -1049,6 +1271,7 @@ export interface RootRouteChildren {
   ApiCreditPackagesRoute: typeof ApiCreditPackagesRoute
   ApiDepartmentsRoute: typeof ApiDepartmentsRouteWithChildren
   ApiGlossaryRoute: typeof ApiGlossaryRouteWithChildren
+  ApiOcrRequestsRoute: typeof ApiOcrRequestsRouteWithChildren
   ApiOrgMembersRoute: typeof ApiOrgMembersRoute
   ApiOrganizationRoute: typeof ApiOrganizationRouteWithChildren
   ApiProjectsRoute: typeof ApiProjectsRoute
@@ -1073,6 +1296,7 @@ export interface RootRouteChildren {
   ApiUploadAnalyzeRoute: typeof ApiUploadAnalyzeRoute
   ApiNotificationsIndexRoute: typeof ApiNotificationsIndexRoute
   ApiJobsIdDeliverRoute: typeof ApiJobsIdDeliverRoute
+  ApiJobsIdReviewRoute: typeof ApiJobsIdReviewRoute
   ApiLinguistsIdBlacklistRoute: typeof ApiLinguistsIdBlacklistRoute
   ApiLinguistsIdFavoriteRoute: typeof ApiLinguistsIdFavoriteRoute
   ApiNotificationsIdReadRoute: typeof ApiNotificationsIdReadRoute
@@ -1262,6 +1486,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGlossaryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/ocr-requests': {
+      id: '/api/ocr-requests'
+      path: '/api/ocr-requests'
+      fullPath: '/api/ocr-requests'
+      preLoaderRoute: typeof ApiOcrRequestsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/org-members': {
       id: '/api/org-members'
       path: '/api/org-members'
@@ -1311,11 +1542,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBillingRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/clients': {
+      id: '/dashboard/clients'
+      path: '/clients'
+      fullPath: '/dashboard/clients'
+      preLoaderRoute: typeof DashboardClientsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/developer': {
+      id: '/dashboard/developer'
+      path: '/developer'
+      fullPath: '/dashboard/developer'
+      preLoaderRoute: typeof DashboardDeveloperRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/glossary': {
+      id: '/dashboard/glossary'
+      path: '/glossary'
+      fullPath: '/dashboard/glossary'
+      preLoaderRoute: typeof DashboardGlossaryRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/integrations': {
+      id: '/dashboard/integrations'
+      path: '/integrations'
+      fullPath: '/dashboard/integrations'
+      preLoaderRoute: typeof DashboardIntegrationsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/memory': {
+      id: '/dashboard/memory'
+      path: '/memory'
+      fullPath: '/dashboard/memory'
+      preLoaderRoute: typeof DashboardMemoryRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/notifications': {
+      id: '/dashboard/notifications'
+      path: '/notifications'
+      fullPath: '/dashboard/notifications'
+      preLoaderRoute: typeof DashboardNotificationsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/projects': {
       id: '/dashboard/projects'
       path: '/projects'
       fullPath: '/dashboard/projects'
       preLoaderRoute: typeof DashboardProjectsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings': {
+      id: '/dashboard/settings'
+      path: '/settings'
+      fullPath: '/dashboard/settings'
+      preLoaderRoute: typeof DashboardSettingsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/style-guides': {
+      id: '/dashboard/style-guides'
+      path: '/style-guides'
+      fullPath: '/dashboard/style-guides'
+      preLoaderRoute: typeof DashboardStyleGuidesRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/team': {
@@ -1486,6 +1773,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiNotificationsUnreadCountRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/ocr-requests/$id': {
+      id: '/api/ocr-requests/$id'
+      path: '/$id'
+      fullPath: '/api/ocr-requests/$id'
+      preLoaderRoute: typeof ApiOcrRequestsIdRouteImport
+      parentRoute: typeof ApiOcrRequestsRoute
+    }
     '/api/organization/join-requests': {
       id: '/api/organization/join-requests'
       path: '/join-requests'
@@ -1535,11 +1829,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBillingSuccessRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/integrations_/contentful': {
+      id: '/dashboard/integrations_/contentful'
+      path: '/integrations/contentful'
+      fullPath: '/dashboard/integrations/contentful'
+      preLoaderRoute: typeof DashboardIntegrationsContentfulRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/integrations_/wordpress': {
+      id: '/dashboard/integrations_/wordpress'
+      path: '/integrations/wordpress'
+      fullPath: '/dashboard/integrations/wordpress'
+      preLoaderRoute: typeof DashboardIntegrationsWordpressRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/ocr-requests/': {
+      id: '/dashboard/ocr-requests/'
+      path: '/ocr-requests'
+      fullPath: '/dashboard/ocr-requests/'
+      preLoaderRoute: typeof DashboardOcrRequestsIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/ocr-requests/$id': {
+      id: '/dashboard/ocr-requests/$id'
+      path: '/ocr-requests/$id'
+      fullPath: '/dashboard/ocr-requests/$id'
+      preLoaderRoute: typeof DashboardOcrRequestsIdRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/organization/': {
       id: '/dashboard/organization/'
       path: '/organization'
       fullPath: '/dashboard/organization/'
       preLoaderRoute: typeof DashboardOrganizationIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/organization/linguists': {
+      id: '/dashboard/organization/linguists'
+      path: '/organization/linguists'
+      fullPath: '/dashboard/organization/linguists'
+      preLoaderRoute: typeof DashboardOrganizationLinguistsRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/dashboard/organization/members': {
@@ -1549,11 +1878,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardOrganizationMembersRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/organization/teams': {
+      id: '/dashboard/organization/teams'
+      path: '/organization/teams'
+      fullPath: '/dashboard/organization/teams'
+      preLoaderRoute: typeof DashboardOrganizationTeamsRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/dashboard/projects_/$id': {
       id: '/dashboard/projects_/$id'
       path: '/projects/$id'
       fullPath: '/dashboard/projects/$id'
       preLoaderRoute: typeof DashboardProjectsIdRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/settings_/notifications': {
+      id: '/dashboard/settings_/notifications'
+      path: '/settings/notifications'
+      fullPath: '/dashboard/settings/notifications'
+      preLoaderRoute: typeof DashboardSettingsNotificationsRouteImport
       parentRoute: typeof DashboardRoute
     }
     '/resources/category/$slug': {
@@ -1610,6 +1953,13 @@ declare module '@tanstack/react-router' {
       path: '/api/jobs/$id/deliver'
       fullPath: '/api/jobs/$id/deliver'
       preLoaderRoute: typeof ApiJobsIdDeliverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/jobs/$id/review': {
+      id: '/api/jobs/$id/review'
+      path: '/api/jobs/$id/review'
+      fullPath: '/api/jobs/$id/review'
+      preLoaderRoute: typeof ApiJobsIdReviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/linguists/$id/blacklist': {
@@ -1683,25 +2033,55 @@ const LocaleRouteWithChildren =
 
 interface DashboardRouteChildren {
   DashboardBillingRoute: typeof DashboardBillingRoute
+  DashboardClientsRoute: typeof DashboardClientsRoute
+  DashboardDeveloperRoute: typeof DashboardDeveloperRoute
+  DashboardGlossaryRoute: typeof DashboardGlossaryRoute
+  DashboardIntegrationsRoute: typeof DashboardIntegrationsRoute
+  DashboardMemoryRoute: typeof DashboardMemoryRoute
+  DashboardNotificationsRoute: typeof DashboardNotificationsRoute
   DashboardProjectsRoute: typeof DashboardProjectsRoute
+  DashboardSettingsRoute: typeof DashboardSettingsRoute
+  DashboardStyleGuidesRoute: typeof DashboardStyleGuidesRoute
   DashboardTeamRoute: typeof DashboardTeamRoute
   DashboardWizardRoute: typeof DashboardWizardRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardBillingSuccessRoute: typeof DashboardBillingSuccessRoute
+  DashboardIntegrationsContentfulRoute: typeof DashboardIntegrationsContentfulRoute
+  DashboardIntegrationsWordpressRoute: typeof DashboardIntegrationsWordpressRoute
+  DashboardOcrRequestsIdRoute: typeof DashboardOcrRequestsIdRoute
+  DashboardOrganizationLinguistsRoute: typeof DashboardOrganizationLinguistsRoute
   DashboardOrganizationMembersRoute: typeof DashboardOrganizationMembersRoute
+  DashboardOrganizationTeamsRoute: typeof DashboardOrganizationTeamsRoute
   DashboardProjectsIdRoute: typeof DashboardProjectsIdRoute
+  DashboardSettingsNotificationsRoute: typeof DashboardSettingsNotificationsRoute
+  DashboardOcrRequestsIndexRoute: typeof DashboardOcrRequestsIndexRoute
   DashboardOrganizationIndexRoute: typeof DashboardOrganizationIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardBillingRoute: DashboardBillingRoute,
+  DashboardClientsRoute: DashboardClientsRoute,
+  DashboardDeveloperRoute: DashboardDeveloperRoute,
+  DashboardGlossaryRoute: DashboardGlossaryRoute,
+  DashboardIntegrationsRoute: DashboardIntegrationsRoute,
+  DashboardMemoryRoute: DashboardMemoryRoute,
+  DashboardNotificationsRoute: DashboardNotificationsRoute,
   DashboardProjectsRoute: DashboardProjectsRoute,
+  DashboardSettingsRoute: DashboardSettingsRoute,
+  DashboardStyleGuidesRoute: DashboardStyleGuidesRoute,
   DashboardTeamRoute: DashboardTeamRoute,
   DashboardWizardRoute: DashboardWizardRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardBillingSuccessRoute: DashboardBillingSuccessRoute,
+  DashboardIntegrationsContentfulRoute: DashboardIntegrationsContentfulRoute,
+  DashboardIntegrationsWordpressRoute: DashboardIntegrationsWordpressRoute,
+  DashboardOcrRequestsIdRoute: DashboardOcrRequestsIdRoute,
+  DashboardOrganizationLinguistsRoute: DashboardOrganizationLinguistsRoute,
   DashboardOrganizationMembersRoute: DashboardOrganizationMembersRoute,
+  DashboardOrganizationTeamsRoute: DashboardOrganizationTeamsRoute,
   DashboardProjectsIdRoute: DashboardProjectsIdRoute,
+  DashboardSettingsNotificationsRoute: DashboardSettingsNotificationsRoute,
+  DashboardOcrRequestsIndexRoute: DashboardOcrRequestsIndexRoute,
   DashboardOrganizationIndexRoute: DashboardOrganizationIndexRoute,
 }
 
@@ -1813,6 +2193,18 @@ const ApiGlossaryRouteWithChildren = ApiGlossaryRoute._addFileChildren(
   ApiGlossaryRouteChildren,
 )
 
+interface ApiOcrRequestsRouteChildren {
+  ApiOcrRequestsIdRoute: typeof ApiOcrRequestsIdRoute
+}
+
+const ApiOcrRequestsRouteChildren: ApiOcrRequestsRouteChildren = {
+  ApiOcrRequestsIdRoute: ApiOcrRequestsIdRoute,
+}
+
+const ApiOcrRequestsRouteWithChildren = ApiOcrRequestsRoute._addFileChildren(
+  ApiOcrRequestsRouteChildren,
+)
+
 interface ApiOrganizationLinguistsRouteChildren {
   ApiOrganizationLinguistsIdRoute: typeof ApiOrganizationLinguistsIdRoute
   ApiOrganizationLinguistsInviteRoute: typeof ApiOrganizationLinguistsInviteRoute
@@ -1922,6 +2314,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiCreditPackagesRoute: ApiCreditPackagesRoute,
   ApiDepartmentsRoute: ApiDepartmentsRouteWithChildren,
   ApiGlossaryRoute: ApiGlossaryRouteWithChildren,
+  ApiOcrRequestsRoute: ApiOcrRequestsRouteWithChildren,
   ApiOrgMembersRoute: ApiOrgMembersRoute,
   ApiOrganizationRoute: ApiOrganizationRouteWithChildren,
   ApiProjectsRoute: ApiProjectsRoute,
@@ -1946,6 +2339,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiUploadAnalyzeRoute: ApiUploadAnalyzeRoute,
   ApiNotificationsIndexRoute: ApiNotificationsIndexRoute,
   ApiJobsIdDeliverRoute: ApiJobsIdDeliverRoute,
+  ApiJobsIdReviewRoute: ApiJobsIdReviewRoute,
   ApiLinguistsIdBlacklistRoute: ApiLinguistsIdBlacklistRoute,
   ApiLinguistsIdFavoriteRoute: ApiLinguistsIdFavoriteRoute,
   ApiNotificationsIdReadRoute: ApiNotificationsIdReadRoute,

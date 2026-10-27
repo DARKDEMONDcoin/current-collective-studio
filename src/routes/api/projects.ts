@@ -44,7 +44,16 @@ export const Route = createFileRoute("/api/projects")({
             : [],
           workflowType: allowedWf.includes(body.workflowType) ? body.workflowType : "AI_HUMAN",
           linguistSource: allowedSrc.includes(body.linguistSource) ? body.linguistSource : "SYSTEM_POOL",
-          wordCount: Math.max(0, Math.floor(Number(body.wordCount) || 0)),
+          // Never charge for fewer words than the segments that will actually be translated.
+          wordCount: Math.max(
+            Math.floor(Number(body.wordCount) || 0),
+            (Array.isArray(body.segments) ? body.segments.slice(0, 20000) : []).reduce(
+              (n: number, sg: any) =>
+                n + String(typeof sg === "string" ? sg : sg?.text ?? "").trim().split(/\s+/).filter(Boolean).length,
+              0,
+            ),
+            0,
+          ),
           dueDate: body.dueDate ?? null,
           notes: body.notes ?? null,
           segments: Array.isArray(body.segments) ? body.segments.slice(0, 20000) : [],

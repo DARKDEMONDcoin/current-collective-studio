@@ -22,3 +22,6 @@
 - AI calls go through `@lovable.dev/ai-gateway` in `src/lib/ai.server.ts` (translation + scanned PDF/image OCR). Why: Worker-safe, no provider keys in code.
 - Document text extraction lives in `src/lib/doc-parse.server.ts` (fflate for DOCX, unpdf for PDF). Why: the original Python parsers cannot run on the Worker runtime.
 - Free QA access is a row in `ct_test_entitlements` (service-role writes only), checked inside `ct_create_project`; orders still log a zero-amount TEST_USAGE transaction. Why: entitlement must be server-enforced and unforgeable, separate from admin roles.
+- Org-scoped /api/* routes use `orgCtx` (src/lib/org-api.ts) and the caller's own Supabase client; ct_* portal tables use the "org members manage" policy via `ct_my_org()`. Why: organization isolation is enforced by the database, not by route code.
+- Any AI OCR scan runs through `analyzeFile` (src/lib/analyze.server.ts), which bills per page via `ct_charge_ocr` and logs a ct_ocr_requests row. Why: scanning must never be free or billed from client-supplied page counts.
+- Run `bun scripts/e2e-client-portal.ts` (needs SUPABASE_PUBLISHABLE_KEY) to re-test portal APIs with throwaway accounts. Why: sandbox cannot sign in through the UI.
