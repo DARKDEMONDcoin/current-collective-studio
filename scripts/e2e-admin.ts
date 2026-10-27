@@ -63,6 +63,7 @@ try {
   ok("paused orders are refused with the admin message", paused.s === 503 && paused.j?.error === "QA pause", `${paused.s} ${JSON.stringify(paused.j)}`);
   if (prevGeneral) await admin.from("ct_admin_settings" as any).update({ value: (prevGeneral as any).value }).eq("key", "general");
   else await admin.from("ct_admin_settings" as any).delete().eq("key", "general");
+  await new Promise((r) => setTimeout(r, 31_000)); // let the server pick up the restored setting
 
   // Credit adjustment
   const b0 = await balance(orgC);
