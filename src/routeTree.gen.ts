@@ -42,6 +42,8 @@ import { Route as ApiTmRouteImport } from './routes/api/tm'
 import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as DashboardBillingRouteImport } from './routes/dashboard.billing'
 import { Route as DashboardProjectsRouteImport } from './routes/dashboard.projects'
+import { Route as DashboardTeamRouteImport } from './routes/dashboard.team'
+import { Route as DashboardWizardRouteImport } from './routes/dashboard.wizard'
 import { Route as ProductAgencyRouteImport } from './routes/product.agency'
 import { Route as ProductCustomerRouteImport } from './routes/product.customer'
 import { Route as ProductLinguistRouteImport } from './routes/product.linguist'
@@ -60,6 +62,9 @@ import { Route as ApiNotificationsUnreadCountRouteImport } from './routes/api/no
 import { Route as ApiOrganizationJoinRequestsRouteImport } from './routes/api/organization.join-requests'
 import { Route as ApiUploadAnalyzeRouteImport } from './routes/api/upload/analyze'
 import { Route as DashboardBillingSuccessRouteImport } from './routes/dashboard.billing_.success'
+import { Route as DashboardOrganizationIndexRouteImport } from './routes/dashboard.organization.index'
+import { Route as DashboardOrganizationMembersRouteImport } from './routes/dashboard.organization.members'
+import { Route as DashboardProjectsIdRouteImport } from './routes/dashboard.projects_.$id'
 import { Route as ResourcesCategorySlugRouteImport } from './routes/resources.category.$slug'
 import { Route as ApiNotificationsIdReadRouteImport } from './routes/api/notifications/$id.read'
 
@@ -228,6 +233,16 @@ const DashboardProjectsRoute = DashboardProjectsRouteImport.update({
   path: '/projects',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardTeamRoute = DashboardTeamRouteImport.update({
+  id: '/team',
+  path: '/team',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardWizardRoute = DashboardWizardRouteImport.update({
+  id: '/wizard',
+  path: '/wizard',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const ProductAgencyRoute = ProductAgencyRouteImport.update({
   id: '/product/agency',
   path: '/product/agency',
@@ -321,6 +336,23 @@ const DashboardBillingSuccessRoute = DashboardBillingSuccessRouteImport.update({
   path: '/billing/success',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardOrganizationIndexRoute =
+  DashboardOrganizationIndexRouteImport.update({
+    id: '/organization/',
+    path: '/organization/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardOrganizationMembersRoute =
+  DashboardOrganizationMembersRouteImport.update({
+    id: '/organization/members',
+    path: '/organization/members',
+    getParentRoute: () => DashboardRoute,
+  } as any)
+const DashboardProjectsIdRoute = DashboardProjectsIdRouteImport.update({
+  id: '/projects_/$id',
+  path: '/projects/$id',
+  getParentRoute: () => DashboardRoute,
+} as any)
 const ResourcesCategorySlugRoute = ResourcesCategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
@@ -363,6 +395,8 @@ export interface FileRoutesByFullPath {
   '/api/tm': typeof ApiTmRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
+  '/dashboard/team': typeof DashboardTeamRoute
+  '/dashboard/wizard': typeof DashboardWizardRoute
   '/product/agency': typeof ProductAgencyRoute
   '/product/customer': typeof ProductCustomerRoute
   '/product/linguist': typeof ProductLinguistRoute
@@ -383,8 +417,11 @@ export interface FileRoutesByFullPath {
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
+  '/dashboard/organization/members': typeof DashboardOrganizationMembersRoute
+  '/dashboard/projects/$id': typeof DashboardProjectsIdRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
+  '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
 }
 export interface FileRoutesByTo {
@@ -415,6 +452,8 @@ export interface FileRoutesByTo {
   '/api/tm': typeof ApiTmRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
+  '/dashboard/team': typeof DashboardTeamRoute
+  '/dashboard/wizard': typeof DashboardWizardRoute
   '/product/agency': typeof ProductAgencyRoute
   '/product/customer': typeof ProductCustomerRoute
   '/product/linguist': typeof ProductLinguistRoute
@@ -435,8 +474,11 @@ export interface FileRoutesByTo {
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing/success': typeof DashboardBillingSuccessRoute
+  '/dashboard/organization/members': typeof DashboardOrganizationMembersRoute
+  '/dashboard/projects/$id': typeof DashboardProjectsIdRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications': typeof ApiNotificationsIndexRoute
+  '/dashboard/organization': typeof DashboardOrganizationIndexRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
 }
 export interface FileRoutesById {
@@ -471,6 +513,8 @@ export interface FileRoutesById {
   '/api/tm': typeof ApiTmRoute
   '/dashboard/billing': typeof DashboardBillingRoute
   '/dashboard/projects': typeof DashboardProjectsRoute
+  '/dashboard/team': typeof DashboardTeamRoute
+  '/dashboard/wizard': typeof DashboardWizardRoute
   '/product/agency': typeof ProductAgencyRoute
   '/product/customer': typeof ProductCustomerRoute
   '/product/linguist': typeof ProductLinguistRoute
@@ -491,8 +535,11 @@ export interface FileRoutesById {
   '/api/organization/join-requests': typeof ApiOrganizationJoinRequestsRoute
   '/api/upload/analyze': typeof ApiUploadAnalyzeRoute
   '/dashboard/billing_/success': typeof DashboardBillingSuccessRoute
+  '/dashboard/organization/members': typeof DashboardOrganizationMembersRoute
+  '/dashboard/projects_/$id': typeof DashboardProjectsIdRoute
   '/resources/category/$slug': typeof ResourcesCategorySlugRoute
   '/api/notifications/': typeof ApiNotificationsIndexRoute
+  '/dashboard/organization/': typeof DashboardOrganizationIndexRoute
   '/api/notifications/$id/read': typeof ApiNotificationsIdReadRoute
 }
 export interface FileRouteTypes {
@@ -528,6 +575,8 @@ export interface FileRouteTypes {
     | '/api/tm'
     | '/dashboard/billing'
     | '/dashboard/projects'
+    | '/dashboard/team'
+    | '/dashboard/wizard'
     | '/product/agency'
     | '/product/customer'
     | '/product/linguist'
@@ -548,8 +597,11 @@ export interface FileRouteTypes {
     | '/api/organization/join-requests'
     | '/api/upload/analyze'
     | '/dashboard/billing/success'
+    | '/dashboard/organization/members'
+    | '/dashboard/projects/$id'
     | '/resources/category/$slug'
     | '/api/notifications/'
+    | '/dashboard/organization/'
     | '/api/notifications/$id/read'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -580,6 +632,8 @@ export interface FileRouteTypes {
     | '/api/tm'
     | '/dashboard/billing'
     | '/dashboard/projects'
+    | '/dashboard/team'
+    | '/dashboard/wizard'
     | '/product/agency'
     | '/product/customer'
     | '/product/linguist'
@@ -600,8 +654,11 @@ export interface FileRouteTypes {
     | '/api/organization/join-requests'
     | '/api/upload/analyze'
     | '/dashboard/billing/success'
+    | '/dashboard/organization/members'
+    | '/dashboard/projects/$id'
     | '/resources/category/$slug'
     | '/api/notifications'
+    | '/dashboard/organization'
     | '/api/notifications/$id/read'
   id:
     | '__root__'
@@ -635,6 +692,8 @@ export interface FileRouteTypes {
     | '/api/tm'
     | '/dashboard/billing'
     | '/dashboard/projects'
+    | '/dashboard/team'
+    | '/dashboard/wizard'
     | '/product/agency'
     | '/product/customer'
     | '/product/linguist'
@@ -655,8 +714,11 @@ export interface FileRouteTypes {
     | '/api/organization/join-requests'
     | '/api/upload/analyze'
     | '/dashboard/billing_/success'
+    | '/dashboard/organization/members'
+    | '/dashboard/projects_/$id'
     | '/resources/category/$slug'
     | '/api/notifications/'
+    | '/dashboard/organization/'
     | '/api/notifications/$id/read'
   fileRoutesById: FileRoutesById
 }
@@ -937,6 +999,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardProjectsRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/team': {
+      id: '/dashboard/team'
+      path: '/team'
+      fullPath: '/dashboard/team'
+      preLoaderRoute: typeof DashboardTeamRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/wizard': {
+      id: '/dashboard/wizard'
+      path: '/wizard'
+      fullPath: '/dashboard/wizard'
+      preLoaderRoute: typeof DashboardWizardRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/product/agency': {
       id: '/product/agency'
       path: '/product/agency'
@@ -1063,6 +1139,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardBillingSuccessRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/organization/': {
+      id: '/dashboard/organization/'
+      path: '/organization'
+      fullPath: '/dashboard/organization/'
+      preLoaderRoute: typeof DashboardOrganizationIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/organization/members': {
+      id: '/dashboard/organization/members'
+      path: '/organization/members'
+      fullPath: '/dashboard/organization/members'
+      preLoaderRoute: typeof DashboardOrganizationMembersRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/projects_/$id': {
+      id: '/dashboard/projects_/$id'
+      path: '/projects/$id'
+      fullPath: '/dashboard/projects/$id'
+      preLoaderRoute: typeof DashboardProjectsIdRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/resources/category/$slug': {
       id: '/resources/category/$slug'
       path: '/category/$slug'
@@ -1100,15 +1197,25 @@ const LocaleRouteWithChildren =
 interface DashboardRouteChildren {
   DashboardBillingRoute: typeof DashboardBillingRoute
   DashboardProjectsRoute: typeof DashboardProjectsRoute
+  DashboardTeamRoute: typeof DashboardTeamRoute
+  DashboardWizardRoute: typeof DashboardWizardRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardBillingSuccessRoute: typeof DashboardBillingSuccessRoute
+  DashboardOrganizationMembersRoute: typeof DashboardOrganizationMembersRoute
+  DashboardProjectsIdRoute: typeof DashboardProjectsIdRoute
+  DashboardOrganizationIndexRoute: typeof DashboardOrganizationIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardBillingRoute: DashboardBillingRoute,
   DashboardProjectsRoute: DashboardProjectsRoute,
+  DashboardTeamRoute: DashboardTeamRoute,
+  DashboardWizardRoute: DashboardWizardRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardBillingSuccessRoute: DashboardBillingSuccessRoute,
+  DashboardOrganizationMembersRoute: DashboardOrganizationMembersRoute,
+  DashboardProjectsIdRoute: DashboardProjectsIdRoute,
+  DashboardOrganizationIndexRoute: DashboardOrganizationIndexRoute,
 }
 
 const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
