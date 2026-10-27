@@ -3148,6 +3148,7 @@ export type Database = {
         Args: { _org: string; _user: string; p: Json }
         Returns: Json
       }
+      ct_ensure_client_workspace: { Args: { _user: string }; Returns: string }
       ct_has_role: {
         Args: {
           _role: Database["public"]["Enums"]["ct_role"]
