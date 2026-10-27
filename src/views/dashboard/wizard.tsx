@@ -483,15 +483,15 @@ export default function WizardPage() {
     let authUrl = "";
 
     if (provider === "google_drive") {
-      const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+      const clientId = (import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined);
       if (!clientId) throw new Error("not_configured");
       authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.readonly&response_type=token&state=google_drive`;
     } else if (provider === "dropbox") {
-      const appKey = process.env.NEXT_PUBLIC_DROPBOX_APP_KEY;
+      const appKey = (import.meta.env.VITE_DROPBOX_APP_KEY as string | undefined);
       if (!appKey) throw new Error("not_configured");
       authUrl = `https://www.dropbox.com/oauth2/authorize?client_id=${appKey}&response_type=token&redirect_uri=${redirectUri}&state=dropbox&token_access_type=legacy`;
     } else if (provider === "onedrive") {
-      const clientId = process.env.NEXT_PUBLIC_ONEDRIVE_CLIENT_ID;
+      const clientId = (import.meta.env.VITE_ONEDRIVE_CLIENT_ID as string | undefined);
       if (!clientId) throw new Error("not_configured");
       authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=${clientId}&scope=files.read+offline_access&response_type=token&redirect_uri=${redirectUri}&state=onedrive`;
     }
