@@ -257,14 +257,36 @@ export async function buildPdf(pairs: Pair[], rtl: boolean, title: string): Prom
       y -= lead;
       const rs = runs(line, bold);
       const total = rs.reduce((w, r) => w + r.font.widthOfTextAtSize(r.text, size), 0);
-      // RTL paragraphs: right-aligned, runs laid out right-to-left (each run is shaped by fontkit).
+      // RTL paragraphs: right-aligned. Simplified Unicode bidi: Latin letters/digits are LTR,
+      // Arabic/Hebrew are RTL, and spaces/punctuation take LTR only when both neighbours are LTR
+      // (so "Contentech Ltd" and "3,200" stay together while the sentence-final "." ends up on the left).
       let x = rtl ? W - M : M;
       if (rtl) {
-        for (const r of rs) {
-          const t = r.text.trim() ? r.text : r.text;
-          const w = r.font.widthOfTextAtSize(t, size);
-          x -= w;
-          page.drawText(t, { x, y, size, font: r.font, color });
+        const chars = [...line];
+        const dir = chars.map((ch) => (/[\u0590-\u08FF\uFB1D-\uFEFC]/.test(ch) ? "R" : /[A-Za-z0-9\u00C0-\u024F\u0400-\u04FF$€£%]/.test(ch) ? "L" : "N"));
+        const strongAt = (i: number, step: number) => { for (let j = i; j >= 0 && j < dir.length; j += step) if (dir[j] !== "N") return dir[j]; return "R"; };
+        const res = dir.map((d, i) => (d !== "N" ? d : strongAt(i, -1) === "L" && strongAt(i, 1) === "L" ? "L" : "R"));
+        // Level runs: consecutive chars with the same resolved direction.
+        const levels: { d: string; text: string }[] = [];
+        chars.forEach((ch, i) => {
+          const last = levels[levels.length - 1];
+          if (last && last.d === res[i]) last.text += ch; else levels.push({ d: res[i], text: ch });
+        });
+        for (const lv of levels) {
+          const sub = runs(lv.text, bold);
+          const w = sub.reduce((n, r) => n + r.font.widthOfTextAtSize(r.text, size), 0);
+          if (lv.d === "L") {
+            let lx = x - w;
+            for (const r of sub) { page.drawText(r.text, { x: lx, y, size, font: r.font, color }); lx += r.font.widthOfTextAtSize(r.text, size); }
+            x -= w;
+          } else {
+            for (const r of sub) {
+              const rw = r.font.widthOfTextAtSize(r.text, size);
+              x -= rw;
+              // Neutral-only runs in a Latin font are drawn reversed so ", " reads correctly right-to-left.
+              page.drawText(r.rtl ? r.text : [...r.text].reverse().join(""), { x, y, size, font: r.font, color });
+            }
+          }
         }
       } else {
         for (const r of rs) {
